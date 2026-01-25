@@ -112,27 +112,33 @@
     // Create filename
     NSString *baseName = @"Untitled";
     NSString *extension = @"txt";
-    // Create the full file pathname
-    NSURL *fileURL = [targetURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", baseName, extension]];
+    // Create the full file pathname as a NSString instead of NSURL
+    NSString *filePath = [targetURL.path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", baseName, extension]];
     
     // If "Untitled" already exists, add a number to it
     NSFileManager *fm = [NSFileManager defaultManager];
     int counter = 1;
     
-    while ([fm fileExistsAtPath:fileURL.path]) {
-        fileURL = [targetURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@ (%d).%@", baseName, counter, extension]];
+    while ([fm fileExistsAtPath:filePath]) {
+        NSString *fileName = [NSString stringWithFormat:@"%@ (%d).%@", baseName, counter, extension];
+        filePath = [targetURL.path stringByAppendingPathComponent:fileName];
         counter++;
     }
     
-    // Create the empty file
-    NSError *error = nil;
-    BOOL success = [@"" writeToURL:fileURL atomically:YES encoding:NSUTF8StringEncoding error:&error];
+    // Use AppleScript to create a new file and bypass sandboxing permissions
+    NSString *escapedPath = [filePath stringByReplacingOccurrencesOfString:@"'"
+                                                                withString:@"'\\''"];
+    NSString *scriptSource = [NSString stringWithFormat:@"do shell script \"touch '%@'\"", escapedPath];
     
-    if (success) {
-        NSLog(@"Created file: %@", fileURL.path);
-        // Finder will automatically select new files so you can rename immediately
+    // Run AppleScript
+    NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
+    NSDictionary *errorDict = nil;
+    [script executeAndReturnError:&errorDict];
+    
+    if (errorDict) {
+        NSLog(@"Failed: %@", errorDict);
     } else {
-        NSLog(@"Failed to create file: %@", error.localizedDescription);
+        NSLog(@"Created: %@", filePath);
     }
 }
 
