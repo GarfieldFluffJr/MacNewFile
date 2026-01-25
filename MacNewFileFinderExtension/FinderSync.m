@@ -92,7 +92,7 @@
     // Add "New Text File" to menu
     NSMenuItem *newFileItem = [menu addItemWithTitle:@"New Text File" action:@selector(createNewTextFile:) keyEquivalent:@""];
     
-    newFileIten.image = [NSImage imageNamed:NSImageNameAddTemplate];
+    newFileItem.image = [NSImage imageNamed:NSImageNameAddTemplate];
     
 //    [menu addItemWithTitle:@"Example Menu Item" action:@selector(sampleAction:) keyEquivalent:@""];
 
