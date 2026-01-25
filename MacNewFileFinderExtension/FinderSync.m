@@ -19,14 +19,31 @@
     self = [super init];
 
     NSLog(@"%s launched from %@ ; compiled at %s", __PRETTY_FUNCTION__, [[NSBundle mainBundle] bundlePath], __TIME__);
+    
+    // Monitor where users might right-click
+    NSMutableSet *directories = [NSMutableSet set];
+    
+    // Add root volume
+    [directories addObject:[NSURL fileURLWithPath:@"/"]];
+    
+    // Add user's home directory
+    [directories addObject:[NSURL fileURLWithPath:NSHomeDirectory()]];
+    
+    // Add Desktop
+    NSArray *desktopPaths = NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES);
+    if (desktopPaths.count > 0) {
+        [directories addObject:[NSURL fileURLWithPath:desktopPaths[0]]];
+    }
+    
+    [FIFinderSyncController defaultController].directoryURLs = directories;
 
-    // Set up the directory we are syncing.
-    self.myFolderURL = [NSURL fileURLWithPath:@"/Users/Shared/MySyncExtension Documents"];
-    [FIFinderSyncController defaultController].directoryURLs = [NSSet setWithObject:self.myFolderURL];
-
-    // Set up images for our badge identifiers. For demonstration purposes, this uses off-the-shelf images.
-    [[FIFinderSyncController defaultController] setBadgeImage:[NSImage imageNamed: NSImageNameColorPanel] label:@"Status One" forBadgeIdentifier:@"One"];
-    [[FIFinderSyncController defaultController] setBadgeImage:[NSImage imageNamed: NSImageNameCaution] label:@"Status Two" forBadgeIdentifier:@"Two"];
+//    // Set up the directory we are syncing.
+//    self.myFolderURL = [NSURL fileURLWithPath:@"/Users/Shared/MySyncExtension Documents"];
+//    [FIFinderSyncController defaultController].directoryURLs = [NSSet setWithObject:self.myFolderURL];
+//
+//    // Set up images for our badge identifiers. For demonstration purposes, this uses off-the-shelf images.
+//    [[FIFinderSyncController defaultController] setBadgeImage:[NSImage imageNamed: NSImageNameColorPanel] label:@"Status One" forBadgeIdentifier:@"One"];
+//    [[FIFinderSyncController defaultController] setBadgeImage:[NSImage imageNamed: NSImageNameCaution] label:@"Status Two" forBadgeIdentifier:@"Two"];
     
     return self;
 }
@@ -71,9 +88,52 @@
 - (NSMenu *)menuForMenuKind:(FIMenuKind)whichMenu {
     // Produce a menu for the extension.
     NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
-    [menu addItemWithTitle:@"Example Menu Item" action:@selector(sampleAction:) keyEquivalent:@""];
+    
+    // Add "New Text File" to menu
+    NSMenuItem *newFileItem = [menu addItemWithTitle:@"New Text File" action:@selector(createNewTextFile:) keyEquivalent:@""];
+    
+    newFileIten.image = [NSImage imageNamed:NSImageNameAddTemplate];
+    
+//    [menu addItemWithTitle:@"Example Menu Item" action:@selector(sampleAction:) keyEquivalent:@""];
 
     return menu;
+}
+
+// Function to create new text file
+- (void)createNewTextFile:(id)sender {
+    // Get the folder where the user right clicked in
+    NSURL *targetURL = [[FIFinderSyncController defaultController] targetedURL];
+    
+    if (!targetURL) {
+        NSLog(@"No target URL");
+        return;
+    }
+    
+    // Create filename
+    NSString *baseName = @"Untitled";
+    NSString *extension = @"txt";
+    // Create the full file pathname
+    NSURL *fileURL = [targetURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", baseName, extension]];
+    
+    // If "Untitled" already exists, add a number to it
+    NSFileManager *fm = [NSFileManager defaultManager];
+    int counter = 1;
+    
+    while ([fm fileExistsAtPath:fileURL.path]) {
+        fileURL = [targetURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@ (%d).%@", baseName, counter, extension]];
+        counter++;
+    }
+    
+    // Create the empty file
+    NSError *error = nil;
+    BOOL success = [@"" writeToURL:fileURL atomically:YES encoding:NSUTF8StringEncoding error:&error];
+    
+    if (success) {
+        NSLog(@"Created file: %@", fileURL.path);
+        // Finder will automatically select new files so you can rename immediately
+    } else {
+        NSLog(@"Failed to create file: %@", error.localizedDescription);
+    }
 }
 
 - (IBAction)sampleAction:(id)sender {
