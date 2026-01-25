@@ -6,9 +6,48 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		DE67E28D2F26C23200BFE7DF /* MacNewFileFinderExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DE67E2852F26C23200BFE7DF /* MacNewFileFinderExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DE67E28B2F26C23200BFE7DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DE67E2642F26C1FD00BFE7DF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DE67E2842F26C23200BFE7DF;
+			remoteInfo = MacNewFileFinderExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DE67E2922F26C23200BFE7DF /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				DE67E28D2F26C23200BFE7DF /* MacNewFileFinderExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		DE67E26C2F26C1FD00BFE7DF /* MacNewFile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacNewFile.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE67E2852F26C23200BFE7DF /* MacNewFileFinderExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MacNewFileFinderExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		DE67E28E2F26C23200BFE7DF /* Exceptions for "MacNewFileFinderExtension" folder in "MacNewFileFinderExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = DE67E2842F26C23200BFE7DF /* MacNewFileFinderExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		DE67E26E2F26C1FD00BFE7DF /* MacNewFile */ = {
@@ -16,10 +55,25 @@
 			path = MacNewFile;
 			sourceTree = "<group>";
 		};
+		DE67E2862F26C23200BFE7DF /* MacNewFileFinderExtension */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DE67E28E2F26C23200BFE7DF /* Exceptions for "MacNewFileFinderExtension" folder in "MacNewFileFinderExtension" target */,
+			);
+			path = MacNewFileFinderExtension;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		DE67E2692F26C1FD00BFE7DF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DE67E2822F26C23200BFE7DF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				DE67E26E2F26C1FD00BFE7DF /* MacNewFile */,
+				DE67E2862F26C23200BFE7DF /* MacNewFileFinderExtension */,
 				DE67E26D2F26C1FD00BFE7DF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				DE67E26C2F26C1FD00BFE7DF /* MacNewFile.app */,
+				DE67E2852F26C23200BFE7DF /* MacNewFileFinderExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -55,10 +111,12 @@
 				DE67E2682F26C1FD00BFE7DF /* Sources */,
 				DE67E2692F26C1FD00BFE7DF /* Frameworks */,
 				DE67E26A2F26C1FD00BFE7DF /* Resources */,
+				DE67E2922F26C23200BFE7DF /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				DE67E28C2F26C23200BFE7DF /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				DE67E26E2F26C1FD00BFE7DF /* MacNewFile */,
@@ -70,6 +128,28 @@
 			productReference = DE67E26C2F26C1FD00BFE7DF /* MacNewFile.app */;
 			productType = "com.apple.product-type.application";
 		};
+		DE67E2842F26C23200BFE7DF /* MacNewFileFinderExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DE67E28F2F26C23200BFE7DF /* Build configuration list for PBXNativeTarget "MacNewFileFinderExtension" */;
+			buildPhases = (
+				DE67E2812F26C23200BFE7DF /* Sources */,
+				DE67E2822F26C23200BFE7DF /* Frameworks */,
+				DE67E2832F26C23200BFE7DF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				DE67E2862F26C23200BFE7DF /* MacNewFileFinderExtension */,
+			);
+			name = MacNewFileFinderExtension;
+			packageProductDependencies = (
+			);
+			productName = MacNewFileFinderExtension;
+			productReference = DE67E2852F26C23200BFE7DF /* MacNewFileFinderExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -80,6 +160,9 @@
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					DE67E26B2F26C1FD00BFE7DF = {
+						CreatedOnToolsVersion = 26.2;
+					};
+					DE67E2842F26C23200BFE7DF = {
 						CreatedOnToolsVersion = 26.2;
 					};
 				};
@@ -99,12 +182,20 @@
 			projectRoot = "";
 			targets = (
 				DE67E26B2F26C1FD00BFE7DF /* MacNewFile */,
+				DE67E2842F26C23200BFE7DF /* MacNewFileFinderExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		DE67E26A2F26C1FD00BFE7DF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DE67E2832F26C23200BFE7DF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -121,7 +212,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DE67E2812F26C23200BFE7DF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DE67E28C2F26C23200BFE7DF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DE67E2842F26C23200BFE7DF /* MacNewFileFinderExtension */;
+			targetProxy = DE67E28B2F26C23200BFE7DF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		DE67E27C2F26C1FE00BFE7DF /* Debug */ = {
@@ -293,6 +399,58 @@
 			};
 			name = Release;
 		};
+		DE67E2902F26C23200BFE7DF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MacNewFileFinderExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MacNewFileFinderExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.louieyin.MacNewFile.MacNewFileFinderExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Debug;
+		};
+		DE67E2912F26C23200BFE7DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MacNewFileFinderExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MacNewFileFinderExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.louieyin.MacNewFile.MacNewFileFinderExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -310,6 +468,15 @@
 			buildConfigurations = (
 				DE67E27F2F26C1FE00BFE7DF /* Debug */,
 				DE67E2802F26C1FE00BFE7DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DE67E28F2F26C23200BFE7DF /* Build configuration list for PBXNativeTarget "MacNewFileFinderExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DE67E2902F26C23200BFE7DF /* Debug */,
+				DE67E2912F26C23200BFE7DF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
