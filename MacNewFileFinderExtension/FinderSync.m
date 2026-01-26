@@ -105,7 +105,8 @@
 
     // Add "New Pages Document" to menu
     NSMenuItem *newPagesItem = [menu addItemWithTitle:@"New Pages Document" action:@selector(createNewPagesDocument:) keyEquivalent:@""];
-    NSImage *pagesIcon = [NSImage imageWithSystemSymbolName:@"doc.richtext" accessibilityDescription:@"Pages Document"];
+    NSImage *pagesIcon = [NSImage imageNamed:@"pages"];
+    pagesIcon.template = YES;
     newPagesItem.image = pagesIcon;
 
     return menu;
