@@ -1,0 +1,12 @@
+# macOS                                                                                                                
+  .DS_Store                                                                                                              
+                                                                                                                         
+# Xcode                                                                                                                
+build/                                                                                                                 
+DerivedData/                                                                                                           
+*.xcuserstate                                                                                                          
+xcuserdata/                                                                                                            
+                                                                                                                         
+# Documents                                                                                                            
+*.docx                                                                                                                 
+*.pdf         
