@@ -106,9 +106,55 @@
     return menu;
 }
 
-// Function to create new word file
+// Function to create new Word document
 - (void)createNewWordDocument:(id)sender {
-    
+    NSURL *targetURL = [[FIFinderSyncController defaultController] targetedURL];
+
+    if (!targetURL) {
+        NSLog(@"No target URL");
+        return;
+    }
+
+    // Build unique filename
+    NSString *baseName = @"Untitled";
+    NSString *extension = @"docx";
+    NSString *filePath = [targetURL.path stringByAppendingPathComponent:
+                          [NSString stringWithFormat:@"%@.%@", baseName, extension]];
+
+    NSFileManager *fm = [NSFileManager defaultManager];
+    int counter = 1;
+    while ([fm fileExistsAtPath:filePath]) {
+        NSString *fileName = [NSString stringWithFormat:@"%@ (%d).%@", baseName, counter, extension];
+        filePath = [targetURL.path stringByAppendingPathComponent:fileName];
+        counter++;
+    }
+
+    // Create blank .docx using shell script
+    // .docx is a zip file containing XML files
+    NSString *escapedPath = [filePath stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"];
+
+    NSString *scriptSource = [NSString stringWithFormat:
+        @"do shell script \""
+        "TMPDIR=$(mktemp -d) && "
+        "mkdir -p \\\"$TMPDIR/_rels\\\" \\\"$TMPDIR/word\\\" && "
+        "echo '<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><Types xmlns=\\\"http://schemas.openxmlformats.org/package/2006/content-types\\\"><Default Extension=\\\"rels\\\" ContentType=\\\"application/vnd.openxmlformats-package.relationships+xml\\\"/><Default Extension=\\\"xml\\\" ContentType=\\\"application/xml\\\"/><Override PartName=\\\"/word/document.xml\\\" ContentType=\\\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\\\"/></Types>' > \\\"$TMPDIR/[Content_Types].xml\\\" && "
+        "echo '<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><Relationships xmlns=\\\"http://schemas.openxmlformats.org/package/2006/relationships\\\"><Relationship Id=\\\"rId1\\\" Type=\\\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\\\" Target=\\\"word/document.xml\\\"/></Relationships>' > \\\"$TMPDIR/_rels/.rels\\\" && "
+        "echo '<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><w:document xmlns:w=\\\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\\\"><w:body><w:p><w:r><w:t></w:t></w:r></w:p></w:body></w:document>' > \\\"$TMPDIR/word/document.xml\\\" && "
+        "cd \\\"$TMPDIR\\\" && zip -r '%@' . && "
+        "rm -rf \\\"$TMPDIR\\\""
+        "\"", escapedPath];
+
+    NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
+    NSDictionary *errorDict = nil;
+    [script executeAndReturnError:&errorDict];
+
+    if (errorDict) {
+        NSLog(@"Failed to create Word document: %@", errorDict);
+    } else {
+        NSLog(@"Created: %@", filePath);
+        NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+        [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[fileURL]];
+    }
 }
 
 // Function to create new text file
