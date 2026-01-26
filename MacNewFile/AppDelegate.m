@@ -8,14 +8,24 @@
 #import "AppDelegate.h"
 
 @interface AppDelegate ()
-
+@property (strong) NSStatusItem *statusItem;
 
 @end
 
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    // Insert code here to initialize your application
+    // Create menu bar icon (background top right)
+    self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
+    self.statusItem.button.image = [NSImage imageNamed:NSImageNameAddTemplate];
+    
+    // Create dropdown menu on click
+    NSMenu *menu = [[NSMenu alloc] init];
+    [menu addItemWithTitle:@"MacNewFile is running" action:nil keyEquivalent:@""];
+    [menu addItem:[NSMenuItem separatorItem]];
+    [menu addItemWithTitle:@"Quit" action:@selector(terminate:) keyEquivalent:@"q"];
+    
+    self.statusItem.menu = menu;
 }
 
 
@@ -27,6 +37,5 @@
 - (BOOL)applicationSupportsSecureRestorableState:(NSApplication *)app {
     return YES;
 }
-
 
 @end
