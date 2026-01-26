@@ -35,7 +35,7 @@
     [menu addItemWithTitle:@"Quit" action:@selector(terminate:) keyEquivalent:@"q"];
 
     self.statusItem.menu = menu;
-    
+
     // Register application in Login Items as a background app
     if (@available(macOS 13.0, *)) {
         SMAppService *service = [SMAppService mainAppService];
@@ -51,7 +51,7 @@
 
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // Insert code here to tear down your application
+    // Extension checks if main app is running, so nothing needed here
 }
 
 

@@ -85,19 +85,32 @@
     return [NSImage imageNamed:NSImageNameCaution];
 }
 
+- (BOOL)isMainAppRunning {
+    NSArray *runningApps = [[NSWorkspace sharedWorkspace] runningApplications];
+    for (NSRunningApplication *app in runningApps) {
+        if ([app.bundleIdentifier isEqualToString:@"com.louieyin.MacNewFile"]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 - (NSMenu *)menuForMenuKind:(FIMenuKind)whichMenu {
+    // Only show menu if main app is running
+    if (![self isMainAppRunning]) {
+        return nil;
+    }
+
     // Produce a menu for the extension.
     NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
-    
+
     // Add "New Text File" to menu
     NSMenuItem *newFileItem = [menu addItemWithTitle:@"New Text File" action:@selector(createNewTextFile:) keyEquivalent:@""];
-    
+
     // The icon in the menu to the left of the title
     NSImage *icon = [NSImage imageNamed:@"add"];
     icon.template = YES; // Adapt to light/dark mode
     newFileItem.image = icon;
-    
-//    [menu addItemWithTitle:@"Example Menu Item" action:@selector(sampleAction:) keyEquivalent:@""];
 
     return menu;
 }
