@@ -86,28 +86,42 @@
 }
 
 - (NSMenu *)menuForMenuKind:(FIMenuKind)whichMenu {
-    // Produce a menu for the extension.
+    // Create the main menu
     NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
 
-    // Add "New Text File" to menu
-    NSMenuItem *newFileItem = [menu addItemWithTitle:@"New Text File" action:@selector(createNewTextFile:) keyEquivalent:@""];
+    // Create the main "New File" menu item with submenu
+    NSMenuItem *mainItem = [[NSMenuItem alloc] initWithTitle:@"New File" action:nil keyEquivalent:@""];
+    NSImage *mainIcon = [NSImage imageNamed:@"add"];
+    mainIcon.template = YES;
+    mainItem.image = mainIcon;
 
-    // The icon in the menu to the left of the title
-    NSImage *icon = [NSImage imageNamed:@"add"];
-    icon.template = YES; // Adapt to light/dark mode
-    newFileItem.image = icon;
-    
-    // Add "New Microsoft Word Document" to menu
-    NSMenuItem *newWordItem = [menu addItemWithTitle:@"New Microsoft Word" action:@selector(createNewWordDocument:) keyEquivalent:@""];
+    // Create submenu
+    NSMenu *submenu = [[NSMenu alloc] initWithTitle:@""];
+
+    // Add "New Text File" to submenu
+    NSMenuItem *newTextItem = [[NSMenuItem alloc] initWithTitle:@"Text File" action:@selector(createNewTextFile:) keyEquivalent:@""];
+    NSImage *textIcon = [NSImage imageNamed:@"add"];
+    textIcon.template = YES;
+    newTextItem.image = textIcon;
+    [submenu addItem:newTextItem];
+
+    // Add "New Microsoft Word Document" to submenu
+    NSMenuItem *newWordItem = [[NSMenuItem alloc] initWithTitle:@"Microsoft Word Document" action:@selector(createNewWordDocument:) keyEquivalent:@""];
     NSImage *wordIcon = [NSImage imageNamed:@"word"];
     wordIcon.template = YES;
     newWordItem.image = wordIcon;
+    [submenu addItem:newWordItem];
 
-    // Add "New Pages Document" to menu
-    NSMenuItem *newPagesItem = [menu addItemWithTitle:@"New Pages Document" action:@selector(createNewPagesDocument:) keyEquivalent:@""];
+    // Add "New Pages Document" to submenu
+    NSMenuItem *newPagesItem = [[NSMenuItem alloc] initWithTitle:@"Pages Document" action:@selector(createNewPagesDocument:) keyEquivalent:@""];
     NSImage *pagesIcon = [NSImage imageNamed:@"pages"];
     pagesIcon.template = YES;
     newPagesItem.image = pagesIcon;
+    [submenu addItem:newPagesItem];
+
+    // Attach submenu to main item
+    mainItem.submenu = submenu;
+    [menu addItem:mainItem];
 
     return menu;
 }
