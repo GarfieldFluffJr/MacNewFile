@@ -17,7 +17,10 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Create menu bar icon (background top right)
     self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
-    self.statusItem.button.image = [NSImage imageNamed:NSImageNameAddTemplate];
+    NSImage *icon = [NSImage imageNamed:@"add"];
+    icon.template = YES; // Adapt to light/dark mode
+    icon.size = NSMakeSize(18, 18);
+    self.statusItem.button.image = icon;
     
     // Create dropdown menu on click
     NSMenu *menu = [[NSMenu alloc] init];
