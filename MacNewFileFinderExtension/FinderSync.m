@@ -92,7 +92,10 @@
     // Add "New Text File" to menu
     NSMenuItem *newFileItem = [menu addItemWithTitle:@"New Text File" action:@selector(createNewTextFile:) keyEquivalent:@""];
     
-    newFileItem.image = [NSImage imageNamed:NSImageNameAddTemplate];
+    // The icon in the menu to the left of the title
+    NSImage *icon = [NSImage imageNamed:@"add"];
+    icon.template = YES; // Adapt to light/dark mode
+    newFileItem.image = icon;
     
 //    [menu addItemWithTitle:@"Example Menu Item" action:@selector(sampleAction:) keyEquivalent:@""];
 
