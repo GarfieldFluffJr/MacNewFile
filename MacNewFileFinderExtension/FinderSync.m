@@ -96,8 +96,122 @@
     NSImage *icon = [NSImage imageNamed:@"add"];
     icon.template = YES; // Adapt to light/dark mode
     newFileItem.image = icon;
+    
+    // Add "New Microsoft Word Document" to menu
+    NSMenuItem *newWordItem = [menu addItemWithTitle:@"New Microsoft Word" action:@selector(createNewWordDocument:) keyEquivalent:@""];
+    NSImage *wordIcon = [NSImage imageNamed:@"word"];
+    wordIcon.template = YES;
+    newWordItem.image = wordIcon;
+
+    // Add "New Pages Document" to menu
+    NSMenuItem *newPagesItem = [menu addItemWithTitle:@"New Pages Document" action:@selector(createNewPagesDocument:) keyEquivalent:@""];
+    NSImage *pagesIcon = [NSImage imageWithSystemSymbolName:@"doc.richtext" accessibilityDescription:@"Pages Document"];
+    newPagesItem.image = pagesIcon;
 
     return menu;
+}
+
+// Function to create new Word document
+- (void)createNewWordDocument:(id)sender {
+    NSURL *targetURL = [[FIFinderSyncController defaultController] targetedURL];
+
+    if (!targetURL) {
+        NSLog(@"No target URL");
+        return;
+    }
+
+    // Build unique filename
+    NSString *baseName = @"Untitled";
+    NSString *extension = @"docx";
+    NSString *filePath = [targetURL.path stringByAppendingPathComponent:
+                          [NSString stringWithFormat:@"%@.%@", baseName, extension]];
+
+    NSFileManager *fm = [NSFileManager defaultManager];
+    int counter = 1;
+    while ([fm fileExistsAtPath:filePath]) {
+        NSString *fileName = [NSString stringWithFormat:@"%@ (%d).%@", baseName, counter, extension];
+        filePath = [targetURL.path stringByAppendingPathComponent:fileName];
+        counter++;
+    }
+
+    // Create blank .docx using shell script
+    // .docx is a zip file containing XML files
+    NSString *escapedPath = [filePath stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"];
+
+    NSString *scriptSource = [NSString stringWithFormat:
+        @"do shell script \""
+        "TMPDIR=$(mktemp -d) && "
+        "mkdir -p \\\"$TMPDIR/_rels\\\" \\\"$TMPDIR/word\\\" && "
+        "echo '<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><Types xmlns=\\\"http://schemas.openxmlformats.org/package/2006/content-types\\\"><Default Extension=\\\"rels\\\" ContentType=\\\"application/vnd.openxmlformats-package.relationships+xml\\\"/><Default Extension=\\\"xml\\\" ContentType=\\\"application/xml\\\"/><Override PartName=\\\"/word/document.xml\\\" ContentType=\\\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\\\"/></Types>' > \\\"$TMPDIR/[Content_Types].xml\\\" && "
+        "echo '<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><Relationships xmlns=\\\"http://schemas.openxmlformats.org/package/2006/relationships\\\"><Relationship Id=\\\"rId1\\\" Type=\\\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\\\" Target=\\\"word/document.xml\\\"/></Relationships>' > \\\"$TMPDIR/_rels/.rels\\\" && "
+        "echo '<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><w:document xmlns:w=\\\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\\\"><w:body><w:p><w:r><w:t></w:t></w:r></w:p></w:body></w:document>' > \\\"$TMPDIR/word/document.xml\\\" && "
+        "cd \\\"$TMPDIR\\\" && zip -r '%@' . && "
+        "rm -rf \\\"$TMPDIR\\\""
+        "\"", escapedPath];
+
+    NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
+    NSDictionary *errorDict = nil;
+    [script executeAndReturnError:&errorDict];
+
+    if (errorDict) {
+        NSLog(@"Failed to create Word document: %@", errorDict);
+    } else {
+        NSLog(@"Created: %@", filePath);
+        NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+        [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[fileURL]];
+    }
+}
+
+// Function to create new Pages document
+- (void)createNewPagesDocument:(id)sender {
+    NSURL *targetURL = [[FIFinderSyncController defaultController] targetedURL];
+
+    if (!targetURL) {
+        NSLog(@"No target URL");
+        return;
+    }
+
+    // Build unique filename
+    NSString *baseName = @"Untitled";
+    NSString *extension = @"pages";
+    NSString *filePath = [targetURL.path stringByAppendingPathComponent:
+                          [NSString stringWithFormat:@"%@.%@", baseName, extension]];
+
+    NSFileManager *fm = [NSFileManager defaultManager];
+    int counter = 1;
+    while ([fm fileExistsAtPath:filePath]) {
+        NSString *fileName = [NSString stringWithFormat:@"%@ (%d).%@", baseName, counter, extension];
+        filePath = [targetURL.path stringByAppendingPathComponent:fileName];
+        counter++;
+    }
+
+    // Get the blank template from the bundle
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *templatePath = [bundle pathForResource:@"Blank" ofType:@"pages"];
+
+    if (!templatePath) {
+        NSLog(@"Failed to find Blank.pages template in bundle");
+        return;
+    }
+
+    // Copy template to destination using AppleScript (to bypass sandbox)
+    NSString *escapedTemplate = [templatePath stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"];
+    NSString *escapedDest = [filePath stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"];
+
+    NSString *scriptSource = [NSString stringWithFormat:
+        @"do shell script \"cp -R '%@' '%@'\"", escapedTemplate, escapedDest];
+
+    NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
+    NSDictionary *errorDict = nil;
+    [script executeAndReturnError:&errorDict];
+
+    if (errorDict) {
+        NSLog(@"Failed to create Pages document: %@", errorDict);
+    } else {
+        NSLog(@"Created: %@", filePath);
+        NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+        [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[fileURL]];
+    }
 }
 
 // Function to create new text file
