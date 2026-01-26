@@ -6,6 +6,7 @@
 //
 
 #import "AppDelegate.h"
+#import <ServiceManagement/ServiceManagement.h>
 
 @interface AppDelegate ()
 @property (strong) NSStatusItem *statusItem;
@@ -34,6 +35,18 @@
     [menu addItemWithTitle:@"Quit" action:@selector(terminate:) keyEquivalent:@"q"];
 
     self.statusItem.menu = menu;
+    
+    // Register application in Login Items as a background app
+    if (@available(macOS 13.0, *)) {
+        SMAppService *service = [SMAppService mainAppService];
+        if (service.status != SMAppServiceStatusEnabled) {
+            NSError *error = nil;
+            [service registerAndReturnError:&error];
+            if (error) {
+                NSLog(@"Failed to add to login items: %@", error);
+            }
+        }
+    }
 }
 
 
