@@ -100,7 +100,7 @@
 
     // Add "New Text File" to submenu
     NSMenuItem *newTextItem = [[NSMenuItem alloc] initWithTitle:@"Text File" action:@selector(createNewTextFile:) keyEquivalent:@""];
-    NSImage *textIcon = [NSImage imageNamed:@"add"];
+    NSImage *textIcon = [NSImage imageNamed:@"edit"];
     textIcon.template = YES;
     newTextItem.image = textIcon;
     [submenu addItem:newTextItem];
