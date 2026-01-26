@@ -139,6 +139,27 @@
         NSLog(@"Failed: %@", errorDict);
     } else {
         NSLog(@"Created: %@", filePath);
+        
+        // Select the file and allow the user to rename it
+        NSString *selectScript = [NSString stringWithFormat:
+            @"tell application \"Finder\"\n"
+            @"    set theFile to POSIX file \"%@\" as alias\n"
+            @"    select theFile\n"
+            @"    activate\n"
+            @"end tell\n"
+            @"delay 0.1\n"
+            @"tell application \"System Events\"\n"
+            @"    keystroke return\n"
+            @"end tell",
+            filePath];
+        
+        NSAppleScript *selectAppleScript = [[NSAppleScript alloc] initWithSource:selectScript];
+        NSDictionary *selectError = nil;
+        [selectAppleScript executeAndReturnError:&selectError];
+        
+        if (selectError) {
+            NSLog(@"Select script error: %@", selectError);
+        }
     }
 }
 
