@@ -85,22 +85,7 @@
     return [NSImage imageNamed:NSImageNameCaution];
 }
 
-- (BOOL)isMainAppRunning {
-    NSArray *runningApps = [[NSWorkspace sharedWorkspace] runningApplications];
-    for (NSRunningApplication *app in runningApps) {
-        if ([app.bundleIdentifier isEqualToString:@"com.louieyin.MacNewFile"]) {
-            return YES;
-        }
-    }
-    return NO;
-}
-
 - (NSMenu *)menuForMenuKind:(FIMenuKind)whichMenu {
-    // Only show menu if main app is running
-    if (![self isMainAppRunning]) {
-        return nil;
-    }
-
     // Produce a menu for the extension.
     NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
 

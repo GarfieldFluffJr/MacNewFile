@@ -16,6 +16,9 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    // Enable the Finder extension
+    [self setExtensionEnabled:YES];
+
     // Create menu bar icon
     self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
 
@@ -51,9 +54,22 @@
 
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // Extension checks if main app is running, so nothing needed here
+    // Disable the Finder extension when app quits
+    [self setExtensionEnabled:NO];
 }
 
+- (void)setExtensionEnabled:(BOOL)enabled {
+    NSTask *task = [[NSTask alloc] init];
+    task.launchPath = @"/usr/bin/pluginkit";
+    task.arguments = @[
+        @"-e",
+        enabled ? @"use" : @"ignore",
+        @"-i",
+        @"com.louieyin.MacNewFile.MacNewFileFinderExtension"
+    ];
+    [task launch];
+    [task waitUntilExit];
+}
 
 - (BOOL)applicationSupportsSecureRestorableState:(NSApplication *)app {
     return YES;
