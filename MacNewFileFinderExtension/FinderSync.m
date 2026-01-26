@@ -96,8 +96,19 @@
     NSImage *icon = [NSImage imageNamed:@"add"];
     icon.template = YES; // Adapt to light/dark mode
     newFileItem.image = icon;
+    
+    // Add "New Microsoft Word Document" to menu
+    NSMenuItem *newWordItem = [menu addItemWithTitle:@"New Microsoft Word" action:@selector(createNewWordDocument:) keyEquivalent:@""];
+    NSImage *wordIcon = [NSImage imageNamed:@"word"];
+    icon.template = YES;
+    newWordItem.image = wordIcon;
 
     return menu;
+}
+
+// Function to create new word file
+- (void)createNewWordDocument:(id)sender {
+    
 }
 
 // Function to create new text file
