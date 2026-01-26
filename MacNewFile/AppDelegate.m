@@ -15,19 +15,24 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    // Create menu bar icon (background top right)
+    // Create menu bar icon
     self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
+
     NSImage *icon = [NSImage imageNamed:@"add"];
-    icon.template = YES; // Adapt to light/dark mode
-    icon.size = NSMakeSize(18, 18);
-    self.statusItem.button.image = icon;
-    
+    if (icon) {
+        icon.size = NSMakeSize(18, 18);
+        icon.template = YES;
+        self.statusItem.button.image = icon;
+    } else {
+        self.statusItem.button.title = @"NF";  // Fallback to text
+    }
+
     // Create dropdown menu on click
     NSMenu *menu = [[NSMenu alloc] init];
     [menu addItemWithTitle:@"MacNewFile is running" action:nil keyEquivalent:@""];
     [menu addItem:[NSMenuItem separatorItem]];
     [menu addItemWithTitle:@"Quit" action:@selector(terminate:) keyEquivalent:@"q"];
-    
+
     self.statusItem.menu = menu;
 }
 
