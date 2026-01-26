@@ -100,8 +100,13 @@
     // Add "New Microsoft Word Document" to menu
     NSMenuItem *newWordItem = [menu addItemWithTitle:@"New Microsoft Word" action:@selector(createNewWordDocument:) keyEquivalent:@""];
     NSImage *wordIcon = [NSImage imageNamed:@"word"];
-    icon.template = YES;
+    wordIcon.template = YES;
     newWordItem.image = wordIcon;
+
+    // Add "New Pages Document" to menu
+    NSMenuItem *newPagesItem = [menu addItemWithTitle:@"New Pages Document" action:@selector(createNewPagesDocument:) keyEquivalent:@""];
+    NSImage *pagesIcon = [NSImage imageWithSystemSymbolName:@"doc.richtext" accessibilityDescription:@"Pages Document"];
+    newPagesItem.image = pagesIcon;
 
     return menu;
 }
@@ -150,6 +155,58 @@
 
     if (errorDict) {
         NSLog(@"Failed to create Word document: %@", errorDict);
+    } else {
+        NSLog(@"Created: %@", filePath);
+        NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+        [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[fileURL]];
+    }
+}
+
+// Function to create new Pages document
+- (void)createNewPagesDocument:(id)sender {
+    NSURL *targetURL = [[FIFinderSyncController defaultController] targetedURL];
+
+    if (!targetURL) {
+        NSLog(@"No target URL");
+        return;
+    }
+
+    // Build unique filename
+    NSString *baseName = @"Untitled";
+    NSString *extension = @"pages";
+    NSString *filePath = [targetURL.path stringByAppendingPathComponent:
+                          [NSString stringWithFormat:@"%@.%@", baseName, extension]];
+
+    NSFileManager *fm = [NSFileManager defaultManager];
+    int counter = 1;
+    while ([fm fileExistsAtPath:filePath]) {
+        NSString *fileName = [NSString stringWithFormat:@"%@ (%d).%@", baseName, counter, extension];
+        filePath = [targetURL.path stringByAppendingPathComponent:fileName];
+        counter++;
+    }
+
+    // Get the blank template from the bundle
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *templatePath = [bundle pathForResource:@"Blank" ofType:@"pages"];
+
+    if (!templatePath) {
+        NSLog(@"Failed to find Blank.pages template in bundle");
+        return;
+    }
+
+    // Copy template to destination using AppleScript (to bypass sandbox)
+    NSString *escapedTemplate = [templatePath stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"];
+    NSString *escapedDest = [filePath stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"];
+
+    NSString *scriptSource = [NSString stringWithFormat:
+        @"do shell script \"cp -R '%@' '%@'\"", escapedTemplate, escapedDest];
+
+    NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
+    NSDictionary *errorDict = nil;
+    [script executeAndReturnError:&errorDict];
+
+    if (errorDict) {
+        NSLog(@"Failed to create Pages document: %@", errorDict);
     } else {
         NSLog(@"Created: %@", filePath);
         NSURL *fileURL = [NSURL fileURLWithPath:filePath];
