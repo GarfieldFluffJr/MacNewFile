@@ -14,12 +14,12 @@ MacNewFile is very lightweight and simple. You right click anywhere in Finder (o
 2. Download `MacNewFile.zip`
 3. Unzip the folder, delete the zip folder, and move `MacNewFile.app` to the `Applications` folder
 4. Run `MacNewFile.app`
-    - If prompted with Apple Security, open system settings, open Privacy and Security, scroll all the way to the bottom and click "open anyways"
+    - If prompted with Apple Security, open system settings, open `Privacy and Security`, scroll all the way to the bottom and click "open anyways"
 5. Run `MacNewFile.app` again from the `Applications` folder
 6. To disable the app (fully stop running in the background), click the MacNewFile app icon in the top menu bar (plus sign) and click "Quit"
-    - Or you can go to System Settings -> General -> Login & Extensions -> File Providers / File System Extensions and find MacNewFile and turn it off
+    - Or you can go to `System Settings -> General -> Login & Extensions -> File Providers / File System Extensions` and find MacNewFile and turn it off
 
-The reason for the many security concerns is because Apple is very strict on what apps may do, so I made exceptions that allow MacNewFile to create new apps in arbitrary locations.
+The reason for the many security concerns is because Apple is very strict on what apps may do, so I made exceptions that allows MacNewFile to create new apps in arbitrary locations.
 
 ## My Promise as a Developer
 
@@ -27,6 +27,6 @@ The reason for the many security concerns is because Apple is very strict on wha
 - This is a lightweight app, I optimized it as much as I could to not eat up your memory
 - It is **very easy to install and delete**. To delete **completely** off your laptop, just delete the `MacNewFile.app` file in the `Applications` folder.
 - This app does not hide in the background, I tested this with my own MacBook, Activity Monitor shows no activity once the application is quit
-- You can view if it is running in System Settings -> General -> Login Items & Extensions -> File Providers / File System Extensions
+- You can view if it is running in `System Settings -> General -> Login Items & Extensions -> File Providers / File System Extensions`
 
 If you have any concerns, please don't hesitate to reach me at louieyin6@gmail.com!
