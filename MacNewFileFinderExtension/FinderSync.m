@@ -70,6 +70,13 @@
     newTextItem.image = textIcon;
     [submenu addItem:newTextItem];
 
+    // Add "New Markdown File" to submenu
+    NSMenuItem *newMarkdownItem = [[NSMenuItem alloc] initWithTitle:@"Markdown File" action:@selector(createNewMarkdownFile:) keyEquivalent:@""];
+    NSImage *markdownIcon = [NSImage imageNamed:@"document"];
+    markdownIcon.template = YES;
+    newMarkdownItem.image = markdownIcon;
+    [submenu addItem:newMarkdownItem];
+
     // Add "New Microsoft Word Document" to submenu
     NSMenuItem *newWordItem = [[NSMenuItem alloc] initWithTitle:@"Microsoft Word Document" action:@selector(createNewWordDocument:) keyEquivalent:@""];
     NSImage *wordIcon = [NSImage imageNamed:@"word"];
@@ -196,47 +203,50 @@
 
 // Function to create new text file
 - (void)createNewTextFile:(id)sender {
-    // Get the folder where the user right clicked in
+    [self createFileWithExtension:@"txt"];
+}
+
+// Function to create new Markdown file
+- (void)createNewMarkdownFile:(id)sender {
+    [self createFileWithExtension:@"md"];
+}
+
+// Helper function to create empty files
+- (void)createFileWithExtension:(NSString *)extension {
     NSURL *targetURL = [[FIFinderSyncController defaultController] targetedURL];
-    
+
     if (!targetURL) {
         NSLog(@"No target URL");
         return;
     }
-    
+
     // Create filename
     NSString *baseName = @"Untitled";
-    NSString *extension = @"txt";
-    // Create the full file pathname as a NSString instead of NSURL
     NSString *filePath = [targetURL.path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", baseName, extension]];
-    
+
     // If "Untitled" already exists, add a number to it
     NSFileManager *fm = [NSFileManager defaultManager];
     int counter = 1;
-    
+
     while ([fm fileExistsAtPath:filePath]) {
         NSString *fileName = [NSString stringWithFormat:@"%@ (%d).%@", baseName, counter, extension];
         filePath = [targetURL.path stringByAppendingPathComponent:fileName];
         counter++;
     }
-    
+
     // Use AppleScript to create a new file and bypass sandboxing permissions
-    NSString *escapedPath = [filePath stringByReplacingOccurrencesOfString:@"'"
-                                                                withString:@"'\\''"];
+    NSString *escapedPath = [filePath stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"];
     NSString *scriptSource = [NSString stringWithFormat:@"do shell script \"touch '%@'\"", escapedPath];
-    
+
     // Run AppleScript
     NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
     NSDictionary *errorDict = nil;
     [script executeAndReturnError:&errorDict];
-    
+
     if (errorDict) {
         NSLog(@"Failed: %@", errorDict);
     } else {
         NSLog(@"Created: %@", filePath);
-        
-        // Select the file in Finder using NSWorkspace (which doesn't need Apple Events)
-        // Sandbox heavily restricts apple events
         NSURL *fileURL = [NSURL fileURLWithPath:filePath];
         [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[fileURL]];
     }
