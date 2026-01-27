@@ -18,13 +18,16 @@ MacNewFile is very lightweight and simple. You right click anywhere in Finder (o
 4. Run `MacNewFile.app`
     - If prompted with Apple Security, open system settings, open `Privacy and Security`, scroll all the way to the bottom and click "open anyways"
 5. Run `MacNewFile.app` again from the `Applications` folder
-6. To disable the app (fully stop running in the background), click the MacNewFile app icon in the top menu bar (plus sign) and click "Quit"
+6. Restart Finder. Open terminal and type `killall Finder`
+7. To disable the app (fully stop running in the background), click the MacNewFile app icon in the top menu bar (plus sign) and click "Quit"
     - Or you can go to `System Settings -> General -> Login & Extensions -> File Providers / File System Extensions` and find MacNewFile and turn it off
 
 The reason for the many security concerns is because Apple is very strict on what apps may do, so I made exceptions that allows MacNewFile to create new apps in arbitrary locations.
 
 **Please note:** If you download and run the app and the icon shows in the top menu bar, but it's not showing in the Finder right-click menu, open terminal and run this command:
 `xattr -dr com.apple.quarantine /Applications/MacNewFile.app`
+
+Then restart Finder: `killall Finder`
 
 MacOS puts the app in quarantine, even after approving it several times, so you have to manually say you trust the app. Sorry for the inconvenience.
 
