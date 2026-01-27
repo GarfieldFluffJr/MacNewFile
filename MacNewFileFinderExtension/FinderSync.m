@@ -8,9 +8,6 @@
 #import "FinderSync.h"
 
 @interface FinderSync ()
-
-@property NSURL *myFolderURL;
-
 @end
 
 @implementation FinderSync
@@ -18,88 +15,26 @@
 - (instancetype)init {
     self = [super init];
 
-    NSLog(@"%s launched from %@ ; compiled at %s", __PRETTY_FUNCTION__, [[NSBundle mainBundle] bundlePath], __TIME__);
+    // Monitor root filesystem - covers all local directories
+    // Note: iCloud Drive is not supported due to macOS Sonoma+ limitations
+    [FIFinderSyncController defaultController].directoryURLs = [NSSet setWithObject:[NSURL fileURLWithPath:@"/"]];
 
-    // Monitor where users might right-click
-    NSMutableSet *directories = [NSMutableSet set];
-
-    // Add root volume - covers most locations
-    [directories addObject:[NSURL fileURLWithPath:@"/"]];
-
-    // Add all mounted volumes
-    [directories addObject:[NSURL fileURLWithPath:@"/Volumes"]];
-
-    // Add user's home directory
-    [directories addObject:[NSURL fileURLWithPath:NSHomeDirectory()]];
-
-    // Add Desktop (local)
-    NSArray *desktopPaths = NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES);
-    if (desktopPaths.count > 0) {
-        NSString *desktopPath = desktopPaths[0];
-        [directories addObject:[NSURL fileURLWithPath:desktopPath]];
-        NSLog(@"Monitoring local Desktop: %@", desktopPath);
-    }
-
-    // Add iCloud Desktop & Documents (if iCloud is enabled, Desktop might be here)
-    NSString *iCloudDesktop = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Mobile Documents/com~apple~CloudDocs/Desktop"];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:iCloudDesktop]) {
-        [directories addObject:[NSURL fileURLWithPath:iCloudDesktop]];
-        NSLog(@"Monitoring iCloud Desktop: %@", iCloudDesktop);
-    }
-
-    // Also add the iCloud root
-    NSString *iCloudRoot = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Mobile Documents/com~apple~CloudDocs"];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:iCloudRoot]) {
-        [directories addObject:[NSURL fileURLWithPath:iCloudRoot]];
-    }
-
-    // Add Documents folder
-    NSArray *docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    if (docPaths.count > 0) {
-        [directories addObject:[NSURL fileURLWithPath:docPaths[0]]];
-    }
-
-    // Add Downloads folder
-    NSArray *downloadPaths = NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSUserDomainMask, YES);
-    if (downloadPaths.count > 0) {
-        [directories addObject:[NSURL fileURLWithPath:downloadPaths[0]]];
-    }
-
-    NSLog(@"MacNewFile: Monitoring %lu directories", (unsigned long)directories.count);
-    [FIFinderSyncController defaultController].directoryURLs = directories;
-
-//    // Set up the directory we are syncing.
-//    self.myFolderURL = [NSURL fileURLWithPath:@"/Users/Shared/MySyncExtension Documents"];
-//    [FIFinderSyncController defaultController].directoryURLs = [NSSet setWithObject:self.myFolderURL];
-//
-//    // Set up images for our badge identifiers. For demonstration purposes, this uses off-the-shelf images.
-//    [[FIFinderSyncController defaultController] setBadgeImage:[NSImage imageNamed: NSImageNameColorPanel] label:@"Status One" forBadgeIdentifier:@"One"];
-//    [[FIFinderSyncController defaultController] setBadgeImage:[NSImage imageNamed: NSImageNameCaution] label:@"Status Two" forBadgeIdentifier:@"Two"];
-    
     return self;
 }
 
 #pragma mark - Primary Finder Sync protocol methods
 
 - (void)beginObservingDirectoryAtURL:(NSURL *)url {
-    // The user is now seeing the container's contents.
-    // If they see it in more than one view at a time, we're only told once.
-    NSLog(@"beginObservingDirectoryAtURL:%@", url.filePathURL);
+    // Called when user opens a directory in Finder
 }
 
 
 - (void)endObservingDirectoryAtURL:(NSURL *)url {
-    // The user is no longer seeing the container's contents.
-    NSLog(@"endObservingDirectoryAtURL:%@", url.filePathURL);
+    // Called when user closes a directory in Finder
 }
 
 - (void)requestBadgeIdentifierForURL:(NSURL *)url {
-    NSLog(@"requestBadgeIdentifierForURL:%@", url.filePathURL);
-    
-    // For demonstration purposes, this picks one of our two badges, or no badge at all, based on the filename.
-    NSInteger whichBadge = [url.filePathURL hash] % 3;
-    NSString* badgeIdentifier = @[@"", @"One", @"Two"][whichBadge];
-    [[FIFinderSyncController defaultController] setBadgeIdentifier:badgeIdentifier forURL:url];
+    // Not used - no badge icons needed
 }
 
 #pragma mark - Menu and toolbar item support
@@ -117,11 +52,6 @@
 }
 
 - (NSMenu *)menuForMenuKind:(FIMenuKind)whichMenu {
-    // Log menu requests for debugging
-    NSURL *target = [[FIFinderSyncController defaultController] targetedURL];
-    NSLog(@"MacNewFile: menuForMenuKind:%ld targetURL:%@", (long)whichMenu, target);
-
-    // Create the main menu
     NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
 
     // Create the main "New File" menu item with submenu
