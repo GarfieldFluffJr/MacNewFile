@@ -8,6 +8,8 @@ MacNewFile is very lightweight and simple. You right click anywhere in Finder (o
 
 <img src="https://raw.githubusercontent.com/GarfieldFluffJr/MacNewFile/refs/heads/main/MacNewFile%20demo%20image.png" width="600" alt="MacNewFile Demo">
 
+**Please note:** This only doesn't work on directories inside of your iCloud, since Apple fully removed support for FinderSync in 2019.
+
 ## Setup Instructions
 
 1. Click on the latest release of this repository (right column)
