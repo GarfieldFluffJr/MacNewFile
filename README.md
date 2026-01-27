@@ -6,3 +6,5 @@ So I fixed that! Introducing **MacNewFile**!!
 
 MacNewFile is very lightweight and simple. You right click anywhere in Finder (or on your desktop) and you get a menu to create new files!
 
+![MacNewFile Demo](https://github.com/GarfieldFluffJr/MacNewFile/blob/main/MacNewFile%20demo%20image.png?raw=true)
+
