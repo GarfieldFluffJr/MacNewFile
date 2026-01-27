@@ -6,7 +6,11 @@
 	<dict>
 		<key>Resources/Assets.car</key>
 		<data>
-		2P+14CRemffadbHg8287y2OB50A=
+		9PlqaHCoMkbsrp2GL5B0sEnN5wU=
+		</data>
+		<key>Resources/Blank.pages</key>
+		<data>
+		WEbx+5+sMKwTKhaob0s6+O/hO+c=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -15,7 +19,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			B2tQy0hdbplAgrjFntCrIjEllK7V0bfk5FJuIRQopS4=
+			EzaHdTuKCohOR/eAMoKDMgtdwT660UunICbSX2qYiKQ=
+			</data>
+		</dict>
+		<key>Resources/Blank.pages</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			xLrxHaFxkTNfPik1gLZ8WaR+4BYZ7E0BYB6SFTemW9c=
 			</data>
 		</dict>
 	</dict>
