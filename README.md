@@ -25,7 +25,8 @@ The reason for the many security concerns is because Apple is very strict on wha
 
 - This is not malware, everything is pushed to this repo which you can review
 - This is a lightweight app, I optimized it as much as I could to not eat up your memory
-- It is **very easy to install and delete**. To delete **completely** off your laptop, just delete the `MacNewFile.app` file in the `Applications` folder.
+- It is **very easy to install and delete**. To delete off your laptop, just delete the `MacNewFile.app` file in the `Applications` folder.
+  - You can delete with `AppCleaner` which will delete the tiny Finder extension bundles installed (~50KB)
 - This app does not hide in the background, I tested this with my own MacBook, Activity Monitor shows no activity once the application is quit
 - You can view if it is running in `System Settings -> General -> Login Items & Extensions -> File Providers / File System Extensions`
 
