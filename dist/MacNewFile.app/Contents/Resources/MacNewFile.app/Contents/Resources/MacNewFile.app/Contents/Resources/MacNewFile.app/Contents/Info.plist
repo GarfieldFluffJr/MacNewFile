@@ -21,13 +21,13 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.0.1</string>
 	<key>CFBundleSupportedPlatforms</key>
 	<array>
 		<string>MacOSX</string>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>
@@ -45,7 +45,7 @@
 	<key>DTXcodeBuild</key>
 	<string>17C52</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>15.7</string>
+	<string>13.0</string>
 	<key>LSUIElement</key>
 	<true/>
 	<key>NSMainStoryboardFile</key>

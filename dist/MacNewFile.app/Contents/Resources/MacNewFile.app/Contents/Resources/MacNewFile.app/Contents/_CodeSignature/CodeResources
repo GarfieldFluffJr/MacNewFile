@@ -18,15 +18,15 @@
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/MainMenu.nib</key>
 		<data>
-		UPL/GeSCGR9s0X+4U3zITxL60l0=
+		whgcA4JhethZO0nOoHeaRpt6LT8=
 		</data>
 		<key>Resources/MacNewFile.app/Contents/Info.plist</key>
 		<data>
-		OK5/B1TqILBHgcriOwfs6nzZz9s=
+		eEgsIpyYrbs1FCqq/Fnut6DN6io=
 		</data>
 		<key>Resources/MacNewFile.app/Contents/MacOS/MacNewFile</key>
 		<data>
-		EptFIZK3/92F7NTL/6e80Y0dNv8=
+		JrjCPxoKwIY034g+YtISz6WRWn8=
 		</data>
 		<key>Resources/MacNewFile.app/Contents/PkgInfo</key>
 		<data>
@@ -34,19 +34,19 @@
 		</data>
 		<key>Resources/MacNewFile.app/Contents/PlugIns/MacNewFileFinderExtension.appex/Contents/Info.plist</key>
 		<data>
-		lsebQlMjpCvuWYMcjJjXghNftp8=
+		nlkozILX93BwwFjH2VUjcQTUJEQ=
 		</data>
 		<key>Resources/MacNewFile.app/Contents/PlugIns/MacNewFileFinderExtension.appex/Contents/MacOS/MacNewFileFinderExtension</key>
 		<data>
-		CTUG+O8kytpEWJ0EkCpNgbeZNak=
+		bpVpsN66E1+VdJ206mrwOvSWKxc=
 		</data>
 		<key>Resources/MacNewFile.app/Contents/PlugIns/MacNewFileFinderExtension.appex/Contents/Resources/Assets.car</key>
 		<data>
-		SZzXXYIGHiVq/7B8cUf4vtR7EYw=
+		2P+14CRemffadbHg8287y2OB50A=
 		</data>
 		<key>Resources/MacNewFile.app/Contents/PlugIns/MacNewFileFinderExtension.appex/Contents/_CodeSignature/CodeResources</key>
 		<data>
-		Ji2gHFdebJDOLWI+N35LeHRuBlY=
+		Og8+u42aU6na1OPxnEfXTgDS8vA=
 		</data>
 		<key>Resources/MacNewFile.app/Contents/Resources/AppIcon.icns</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Resources/MacNewFile.app/Contents/Resources/Assets.car</key>
 		<data>
-		QQepegfg6388CUGrBvFJXNkwbu4=
+		6c6A2wRJx5bM/MXdiV1Wb6R+BwY=
 		</data>
 		<key>Resources/MacNewFile.app/Contents/Resources/Base.lproj/Main.storyboardc/Info.plist</key>
 		<dict>
@@ -69,18 +69,80 @@
 		<dict>
 			<key>hash</key>
 			<data>
+			UPL/GeSCGR9s0X+4U3zITxL60l0=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/Info.plist</key>
+		<data>
+		OK5/B1TqILBHgcriOwfs6nzZz9s=
+		</data>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/MacOS/MacNewFile</key>
+		<data>
+		EptFIZK3/92F7NTL/6e80Y0dNv8=
+		</data>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/PkgInfo</key>
+		<data>
+		n57qDP4tZfLD1rCS43W0B4LQjzE=
+		</data>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/PlugIns/MacNewFileFinderExtension.appex/Contents/Info.plist</key>
+		<data>
+		lsebQlMjpCvuWYMcjJjXghNftp8=
+		</data>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/PlugIns/MacNewFileFinderExtension.appex/Contents/MacOS/MacNewFileFinderExtension</key>
+		<data>
+		CTUG+O8kytpEWJ0EkCpNgbeZNak=
+		</data>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/PlugIns/MacNewFileFinderExtension.appex/Contents/Resources/Assets.car</key>
+		<data>
+		SZzXXYIGHiVq/7B8cUf4vtR7EYw=
+		</data>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/PlugIns/MacNewFileFinderExtension.appex/Contents/_CodeSignature/CodeResources</key>
+		<data>
+		Ji2gHFdebJDOLWI+N35LeHRuBlY=
+		</data>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/Resources/AppIcon.icns</key>
+		<data>
+		mZ2V5vi38FLiuCrWCG4iiE94SNc=
+		</data>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/Resources/Assets.car</key>
+		<data>
+		QQepegfg6388CUGrBvFJXNkwbu4=
+		</data>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/Resources/Base.lproj/Main.storyboardc/Info.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			M1rS+Tcas1ZdM4/iibTlduTJ22M=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/Resources/Base.lproj/Main.storyboardc/MainMenu.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
 			qxJClPupDoNW5DDIX4KG6+1Re/Q=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
-		<key>Resources/MacNewFile.app/Contents/_CodeSignature/CodeResources</key>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/_CodeSignature/CodeResources</key>
 		<data>
 		wBgJEG2nyQipKXOnMNC3Wz8Ypyo=
 		</data>
-		<key>Resources/MacNewFile.zip</key>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.zip</key>
 		<data>
 		XppSI8TaGyzPw71Wklewm4HTlqY=
+		</data>
+		<key>Resources/MacNewFile.app/Contents/_CodeSignature/CodeResources</key>
+		<data>
+		aLWvOrt9Sp/Cd3XiPgsWp7/06ac=
+		</data>
+		<key>Resources/MacNewFile.zip</key>
+		<data>
+		yBSzz9GIt4m3zBt9MwP8xzMzqXM=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -89,10 +151,10 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			E5EpuH7XWvbJkws+tt94PawjPfA=
+			NMd1uQ6D77D2D5AqPXeGNZJzLRc=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"139129b87ed75af6c9930b3eb6df783dac233df0"</string>
+			<string>cdhash H"34c775b90e83efb0f60f902a3d77863592732d17"</string>
 		</dict>
 		<key>Resources/AppIcon.icns</key>
 		<dict>
@@ -119,21 +181,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			fMoyZ+mBhfn68rBaAMkSMidU56OsdfphSMQKxVnMwQ4=
+			EeAEIYhtv0hikad5y7k9ZYVFpWSaFvHLZeYAK/N1+DU=
 			</data>
 		</dict>
 		<key>Resources/MacNewFile.app/Contents/Info.plist</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			wkmepBtGcnEOPhAtBf43RaacttC5T0I2/ghRW0OnYFg=
+			ho2txSo06Bve/kwDCAbD5jRLJIm3c/0CnZRhFY0H4G8=
 			</data>
 		</dict>
 		<key>Resources/MacNewFile.app/Contents/MacOS/MacNewFile</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			JBoRmqlUJoQRegi1L4jES+95ckR6Hxaio2qEW03Ewvs=
+			HCPbJY6X0P14jhB0AoJ2U5ppAN8Cn4dSY/oLejqvxCM=
 			</data>
 		</dict>
 		<key>Resources/MacNewFile.app/Contents/PkgInfo</key>
@@ -147,28 +209,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			nXXqfhtMFxSgCSYSIvPBshFou0uoLGqGGgRM5IA8LVk=
+			KGYEN4k9r7vlHjsbnlMsr7jIrYyzRFmmj9aXBhYK5ww=
 			</data>
 		</dict>
 		<key>Resources/MacNewFile.app/Contents/PlugIns/MacNewFileFinderExtension.appex/Contents/MacOS/MacNewFileFinderExtension</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			WuTk1CLlCsDszWOK6K83UzgNVNVQNkSQcAy/B4/d2xs=
+			D1wR2Ues1lAhVKyp4H6wAkn1WPcluoj7L9MJincwaEU=
 			</data>
 		</dict>
 		<key>Resources/MacNewFile.app/Contents/PlugIns/MacNewFileFinderExtension.appex/Contents/Resources/Assets.car</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			24ng72whtltN4pehSJHEYBUEiZ0KaKPU/C85uJ95tgQ=
+			B2tQy0hdbplAgrjFntCrIjEllK7V0bfk5FJuIRQopS4=
 			</data>
 		</dict>
 		<key>Resources/MacNewFile.app/Contents/PlugIns/MacNewFileFinderExtension.appex/Contents/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			dYGDvyWvJsMKwU0InGrvxYFKuldGs+OrLsltgQlrGdg=
+			yyJ4V53fsVGwzqvFNE+CLSL2kYUCi9YYRw7TWy5EVI8=
 			</data>
 		</dict>
 		<key>Resources/MacNewFile.app/Contents/Resources/AppIcon.icns</key>
@@ -182,7 +244,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			OjwecNmSuR5gTKFAoDRZzep7FRshcHRDiSprr+kz6CE=
+			WZTl5N1qd6cEC02pwM/+qoI62Q3cDHC18vhA0hkALpQ=
 			</data>
 		</dict>
 		<key>Resources/MacNewFile.app/Contents/Resources/Base.lproj/Main.storyboardc/Info.plist</key>
@@ -198,23 +260,118 @@
 		<dict>
 			<key>hash2</key>
 			<data>
+			fMoyZ+mBhfn68rBaAMkSMidU56OsdfphSMQKxVnMwQ4=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/Info.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			wkmepBtGcnEOPhAtBf43RaacttC5T0I2/ghRW0OnYFg=
+			</data>
+		</dict>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/MacOS/MacNewFile</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			JBoRmqlUJoQRegi1L4jES+95ckR6Hxaio2qEW03Ewvs=
+			</data>
+		</dict>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/PkgInfo</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			glAhkclISwTWhTdPmHmgBmBpxJuKyuegSwHTjQfo7KA=
+			</data>
+		</dict>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/PlugIns/MacNewFileFinderExtension.appex/Contents/Info.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			nXXqfhtMFxSgCSYSIvPBshFou0uoLGqGGgRM5IA8LVk=
+			</data>
+		</dict>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/PlugIns/MacNewFileFinderExtension.appex/Contents/MacOS/MacNewFileFinderExtension</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			WuTk1CLlCsDszWOK6K83UzgNVNVQNkSQcAy/B4/d2xs=
+			</data>
+		</dict>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/PlugIns/MacNewFileFinderExtension.appex/Contents/Resources/Assets.car</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			24ng72whtltN4pehSJHEYBUEiZ0KaKPU/C85uJ95tgQ=
+			</data>
+		</dict>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/PlugIns/MacNewFileFinderExtension.appex/Contents/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			dYGDvyWvJsMKwU0InGrvxYFKuldGs+OrLsltgQlrGdg=
+			</data>
+		</dict>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/Resources/AppIcon.icns</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			zV/ryCm922ipm6C6mUOkFjAarL09BoMx8mSRqg8hBXU=
+			</data>
+		</dict>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/Resources/Assets.car</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			OjwecNmSuR5gTKFAoDRZzep7FRshcHRDiSprr+kz6CE=
+			</data>
+		</dict>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/Resources/Base.lproj/Main.storyboardc/Info.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			6/2HagpKuzGhxFgQU55Lc/bxgR30qm5eqHSV+p9e4/4=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/Resources/Base.lproj/Main.storyboardc/MainMenu.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
 			CFc7JgNFrlv2BZIoqNH6rTa6642oEavXFL0W8kQp9I8=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
-		<key>Resources/MacNewFile.app/Contents/_CodeSignature/CodeResources</key>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.app/Contents/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			Zm3cxd9ZTbzPeExW5EbY2vCNIgR/ocyRgUWv8OMESQs=
 			</data>
 		</dict>
-		<key>Resources/MacNewFile.zip</key>
+		<key>Resources/MacNewFile.app/Contents/Resources/MacNewFile.zip</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			5hd43OqmG3K2AXs4rAIAYgqgPUkAjr+15buj84QGh/Y=
+			</data>
+		</dict>
+		<key>Resources/MacNewFile.app/Contents/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			0BBMyvbWAibZqnf23xqroGbWUp3D5s7EAypZt3RYRgc=
+			</data>
+		</dict>
+		<key>Resources/MacNewFile.zip</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			y8ZtkS7bQQFaIL9WuvzZzHaDwRCLpN/oa/y5xuBlWx8=
 			</data>
 		</dict>
 	</dict>
