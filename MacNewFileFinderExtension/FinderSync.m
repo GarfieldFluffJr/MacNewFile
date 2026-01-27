@@ -84,6 +84,13 @@
     newWordItem.image = wordIcon;
     [submenu addItem:newWordItem];
 
+    // Add "New Microsoft Excel Spreadsheet" to submenu
+    NSMenuItem *newExcelItem = [[NSMenuItem alloc] initWithTitle:@"Microsoft Excel Spreadsheet" action:@selector(createNewExcelDocument:) keyEquivalent:@""];
+    NSImage *excelIcon = [NSImage imageNamed:@"excel"];
+    excelIcon.template = YES;
+    newExcelItem.image = excelIcon;
+    [submenu addItem:newExcelItem];
+
     // Add "New Pages Document" to submenu
     NSMenuItem *newPagesItem = [[NSMenuItem alloc] initWithTitle:@"Pages Document" action:@selector(createNewPagesDocument:) keyEquivalent:@""];
     NSImage *pagesIcon = [NSImage imageNamed:@"pages"];
@@ -142,6 +149,59 @@
 
     if (errorDict) {
         NSLog(@"Failed to create Word document: %@", errorDict);
+    } else {
+        NSLog(@"Created: %@", filePath);
+        NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+        [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[fileURL]];
+    }
+}
+
+// Function to create new Excel document
+- (void)createNewExcelDocument:(id)sender {
+    NSURL *targetURL = [[FIFinderSyncController defaultController] targetedURL];
+
+    if (!targetURL) {
+        NSLog(@"No target URL");
+        return;
+    }
+
+    // Build unique filename
+    NSString *baseName = @"Untitled";
+    NSString *extension = @"xlsx";
+    NSString *filePath = [targetURL.path stringByAppendingPathComponent:
+                          [NSString stringWithFormat:@"%@.%@", baseName, extension]];
+
+    NSFileManager *fm = [NSFileManager defaultManager];
+    int counter = 1;
+    while ([fm fileExistsAtPath:filePath]) {
+        NSString *fileName = [NSString stringWithFormat:@"%@ (%d).%@", baseName, counter, extension];
+        filePath = [targetURL.path stringByAppendingPathComponent:fileName];
+        counter++;
+    }
+
+    // Create blank .xlsx using shell script
+    // .xlsx is a zip file containing XML files
+    NSString *escapedPath = [filePath stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"];
+
+    NSString *scriptSource = [NSString stringWithFormat:
+        @"do shell script \""
+        "TMPDIR=$(mktemp -d) && "
+        "mkdir -p \\\"$TMPDIR/_rels\\\" \\\"$TMPDIR/xl/_rels\\\" \\\"$TMPDIR/xl/worksheets\\\" && "
+        "echo '<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><Types xmlns=\\\"http://schemas.openxmlformats.org/package/2006/content-types\\\"><Default Extension=\\\"rels\\\" ContentType=\\\"application/vnd.openxmlformats-package.relationships+xml\\\"/><Default Extension=\\\"xml\\\" ContentType=\\\"application/xml\\\"/><Override PartName=\\\"/xl/workbook.xml\\\" ContentType=\\\"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml\\\"/><Override PartName=\\\"/xl/worksheets/sheet1.xml\\\" ContentType=\\\"application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml\\\"/></Types>' > \\\"$TMPDIR/[Content_Types].xml\\\" && "
+        "echo '<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><Relationships xmlns=\\\"http://schemas.openxmlformats.org/package/2006/relationships\\\"><Relationship Id=\\\"rId1\\\" Type=\\\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\\\" Target=\\\"xl/workbook.xml\\\"/></Relationships>' > \\\"$TMPDIR/_rels/.rels\\\" && "
+        "echo '<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><workbook xmlns=\\\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\\\" xmlns:r=\\\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\\\"><sheets><sheet name=\\\"Sheet1\\\" sheetId=\\\"1\\\" r:id=\\\"rId1\\\"/></sheets></workbook>' > \\\"$TMPDIR/xl/workbook.xml\\\" && "
+        "echo '<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><Relationships xmlns=\\\"http://schemas.openxmlformats.org/package/2006/relationships\\\"><Relationship Id=\\\"rId1\\\" Type=\\\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet\\\" Target=\\\"worksheets/sheet1.xml\\\"/></Relationships>' > \\\"$TMPDIR/xl/_rels/workbook.xml.rels\\\" && "
+        "echo '<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><worksheet xmlns=\\\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\\\"><sheetData/></worksheet>' > \\\"$TMPDIR/xl/worksheets/sheet1.xml\\\" && "
+        "cd \\\"$TMPDIR\\\" && zip -r '%@' . && "
+        "rm -rf \\\"$TMPDIR\\\""
+        "\"", escapedPath];
+
+    NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
+    NSDictionary *errorDict = nil;
+    [script executeAndReturnError:&errorDict];
+
+    if (errorDict) {
+        NSLog(@"Failed to create Excel document: %@", errorDict);
     } else {
         NSLog(@"Created: %@", filePath);
         NSURL *fileURL = [NSURL fileURLWithPath:filePath];
