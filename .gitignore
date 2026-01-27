@@ -10,3 +10,5 @@ xcuserdata/
 # Documents                                                                                                            
 *.docx                                                                                                                 
 *.pdf         
+
+.claude
