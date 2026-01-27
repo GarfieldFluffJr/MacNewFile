@@ -23,6 +23,11 @@ MacNewFile is very lightweight and simple. You right click anywhere in Finder (o
 
 The reason for the many security concerns is because Apple is very strict on what apps may do, so I made exceptions that allows MacNewFile to create new apps in arbitrary locations.
 
+**Please note:** If you download and run the app and the icon shows in the top menu bar, but it's not showing in the Finder right-click menu, open terminal and run this command:
+`xattr -dr com.apple.quarantine /Applications/MacNewFile.app`
+
+MacOS puts the app in quarantine, even after approving it several times, so you have to manually say you trust the app. Sorry for the inconvenience.
+
 ## My Promise as a Developer
 
 - This is not malware, everything is pushed to this repo which you can review
