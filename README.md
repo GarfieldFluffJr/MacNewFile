@@ -1,6 +1,6 @@
 # MacNewFile
 
-![View Counter](https://komarev.com/ghpvc/?username=GarfieldFluffJr&label=Project%20Views&color=blue&style=flat)
+![Project Views](https://hits.sh/github.com/GarfieldFluffJr/MacNewFile.svg?label=Project%20Views&color=007ec6)
 
 One of the many things that pissed me off after switching from Windows to Mac was that I couldn't create a new text file or word document off of a right click in Finder (file explorer).
 
