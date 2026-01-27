@@ -19,22 +19,53 @@
     self = [super init];
 
     NSLog(@"%s launched from %@ ; compiled at %s", __PRETTY_FUNCTION__, [[NSBundle mainBundle] bundlePath], __TIME__);
-    
+
     // Monitor where users might right-click
     NSMutableSet *directories = [NSMutableSet set];
-    
-    // Add root volume
+
+    // Add root volume - covers most locations
     [directories addObject:[NSURL fileURLWithPath:@"/"]];
-    
+
+    // Add all mounted volumes
+    [directories addObject:[NSURL fileURLWithPath:@"/Volumes"]];
+
     // Add user's home directory
     [directories addObject:[NSURL fileURLWithPath:NSHomeDirectory()]];
-    
-    // Add Desktop
+
+    // Add Desktop (local)
     NSArray *desktopPaths = NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES);
     if (desktopPaths.count > 0) {
-        [directories addObject:[NSURL fileURLWithPath:desktopPaths[0]]];
+        NSString *desktopPath = desktopPaths[0];
+        [directories addObject:[NSURL fileURLWithPath:desktopPath]];
+        NSLog(@"Monitoring local Desktop: %@", desktopPath);
     }
-    
+
+    // Add iCloud Desktop & Documents (if iCloud is enabled, Desktop might be here)
+    NSString *iCloudDesktop = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Mobile Documents/com~apple~CloudDocs/Desktop"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:iCloudDesktop]) {
+        [directories addObject:[NSURL fileURLWithPath:iCloudDesktop]];
+        NSLog(@"Monitoring iCloud Desktop: %@", iCloudDesktop);
+    }
+
+    // Also add the iCloud root
+    NSString *iCloudRoot = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Mobile Documents/com~apple~CloudDocs"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:iCloudRoot]) {
+        [directories addObject:[NSURL fileURLWithPath:iCloudRoot]];
+    }
+
+    // Add Documents folder
+    NSArray *docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    if (docPaths.count > 0) {
+        [directories addObject:[NSURL fileURLWithPath:docPaths[0]]];
+    }
+
+    // Add Downloads folder
+    NSArray *downloadPaths = NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSUserDomainMask, YES);
+    if (downloadPaths.count > 0) {
+        [directories addObject:[NSURL fileURLWithPath:downloadPaths[0]]];
+    }
+
+    NSLog(@"MacNewFile: Monitoring %lu directories", (unsigned long)directories.count);
     [FIFinderSyncController defaultController].directoryURLs = directories;
 
 //    // Set up the directory we are syncing.
@@ -86,6 +117,10 @@
 }
 
 - (NSMenu *)menuForMenuKind:(FIMenuKind)whichMenu {
+    // Log menu requests for debugging
+    NSURL *target = [[FIFinderSyncController defaultController] targetedURL];
+    NSLog(@"MacNewFile: menuForMenuKind:%ld targetURL:%@", (long)whichMenu, target);
+
     // Create the main menu
     NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
 
