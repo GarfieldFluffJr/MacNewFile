@@ -33,11 +33,18 @@ MacNewFile is lightweight and simple. You right click anywhere in Finder (or on 
 
 - Settings menu to customize MacNewFile features
 
-- Can copy the filepath of the current directory
+- Can **copy the filepath** of the current directory
 
 - Light/dark mode compatible
 
-## Setup Instructions
+## Installation
+
+- [Homebrew](#homebrew)
+- [Manual Download](#manual-download)
+
+## Homebrew
+
+## Manual Download
 
 1. Click on the latest release of this repository (right column)
 2. Download `MacNewFile.zip`
