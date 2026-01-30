@@ -8,9 +8,23 @@
 #import "AppDelegate.h"
 #import <ServiceManagement/ServiceManagement.h>
 
+static NSString * const kAppGroupIdentifier = @"group.com.louieyin.MacNewFile";
+
+// Feature keys for UserDefaults
+static NSString * const kFeatureCopyPath = @"feature_copy_path";
+static NSString * const kFeatureTextFile = @"feature_text_file";
+static NSString * const kFeatureMarkdownFile = @"feature_markdown_file";
+static NSString * const kFeatureWordDocument = @"feature_word_document";
+static NSString * const kFeatureExcelSpreadsheet = @"feature_excel_spreadsheet";
+static NSString * const kFeaturePowerPointPresentation = @"feature_powerpoint_presentation";
+static NSString * const kFeaturePagesDocument = @"feature_pages_document";
+static NSString * const kFeatureNumbersSpreadsheet = @"feature_numbers_spreadsheet";
+static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presentation";
+
 @interface AppDelegate ()
 @property (strong) NSStatusItem *statusItem;
 @property (strong) NSWindow *settingsWindow;
+@property (strong) NSUserDefaults *sharedDefaults;
 
 @end
 
@@ -80,17 +94,20 @@
     self.settingsWindow.releasedWhenClosed = NO;
     self.settingsWindow.backgroundColor = [NSColor colorWithRed:249/255.0 green:250/255.0 blue:251/255.0 alpha:1.0];
 
-    // Feature names for checkboxes
+    // Initialize shared defaults
+    self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:kAppGroupIdentifier];
+
+    // Feature names and their corresponding keys
     NSArray *features = @[
-        @"Copy Path",
-        @"Text File",
-        @"Markdown File",
-        @"Microsoft Word Document",
-        @"Microsoft Excel Spreadsheet",
-        @"Microsoft PowerPoint Presentation",
-        @"Pages Document",
-        @"Numbers Spreadsheet",
-        @"Keynote Presentation",
+        @{@"name": @"Copy Path", @"key": kFeatureCopyPath},
+        @{@"name": @"Text File", @"key": kFeatureTextFile},
+        @{@"name": @"Markdown File", @"key": kFeatureMarkdownFile},
+        @{@"name": @"Microsoft Word Document", @"key": kFeatureWordDocument},
+        @{@"name": @"Microsoft Excel Spreadsheet", @"key": kFeatureExcelSpreadsheet},
+        @{@"name": @"Microsoft PowerPoint Presentation", @"key": kFeaturePowerPointPresentation},
+        @{@"name": @"Pages Document", @"key": kFeaturePagesDocument},
+        @{@"name": @"Numbers Spreadsheet", @"key": kFeatureNumbersSpreadsheet},
+        @{@"name": @"Keynote Presentation", @"key": kFeatureKeynotePresentation},
     ];
 
     // Create checkboxes in 2 columns
@@ -102,8 +119,12 @@
     CGFloat startY = frame.size.height - 50;
 
     for (NSUInteger i = 0; i < features.count; i++) {
-        NSString *feature = features[i];
-        NSButton *checkbox = [NSButton checkboxWithTitle:feature target:nil action:nil];
+        NSDictionary *feature = features[i];
+        NSString *name = feature[@"name"];
+        NSString *key = feature[@"key"];
+
+        NSButton *checkbox = [NSButton checkboxWithTitle:name target:self action:@selector(checkboxToggled:)];
+        checkbox.identifier = key;
 
         NSUInteger column = i % 2;
         NSUInteger row = i / 2;
@@ -111,9 +132,20 @@
         CGFloat yPos = startY - (row * checkboxHeight);
 
         checkbox.frame = NSMakeRect(xPos, yPos, columnWidth, checkboxHeight);
-        checkbox.state = NSControlStateValueOn;
+
+        // Load saved state (default to ON if not set)
+        id savedValue = [self.sharedDefaults objectForKey:key];
+        if (savedValue == nil) {
+            checkbox.state = NSControlStateValueOn;
+            [self.sharedDefaults setBool:YES forKey:key];
+        } else {
+            checkbox.state = [self.sharedDefaults boolForKey:key] ? NSControlStateValueOn : NSControlStateValueOff;
+        }
+
         [contentView addSubview:checkbox];
     }
+
+    [self.sharedDefaults synchronize];
 
     // Center the window on screen
     [self.settingsWindow center];
@@ -121,6 +153,14 @@
     // Show the window and bring app to front
     [self.settingsWindow makeKeyAndOrderFront:nil];
     [NSApp activateIgnoringOtherApps:YES];
+}
+
+- (void)checkboxToggled:(NSButton *)sender {
+    NSString *key = sender.identifier;
+    BOOL isEnabled = (sender.state == NSControlStateValueOn);
+    [self.sharedDefaults setBool:isEnabled forKey:key];
+    [self.sharedDefaults synchronize];
+    NSLog(@"Feature %@ set to %@", key, isEnabled ? @"ON" : @"OFF");
 }
 
 - (void)setExtensionEnabled:(BOOL)enabled {
