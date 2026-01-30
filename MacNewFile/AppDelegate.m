@@ -83,7 +83,7 @@ static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presenta
     }
 
     // Create the settings window
-    NSRect frame = NSMakeRect(0, 0, 500, 300);
+    NSRect frame = NSMakeRect(0, 0, 500, 330);
     NSWindowStyleMask style = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable;
     self.settingsWindow = [[NSWindow alloc] initWithContentRect:frame
                                                       styleMask:style
@@ -111,15 +111,43 @@ static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presenta
 
     // Add divider line
     NSBox *divider = [[NSBox alloc] initWithFrame:NSMakeRect(20, frame.size.height - 65, frame.size.width - 40, 1)];
-    divider.boxType = NSBoxSeparator;
+    divider.boxType = NSBoxCustom;
+    divider.borderColor = [NSColor colorWithWhite:0.8 alpha:1.0];
+    divider.borderWidth = 1;
     [contentView addSubview:divider];
 
     // Initialize shared defaults
     self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:kAppGroupIdentifier];
 
-    // Feature names and their corresponding keys
-    NSArray *features = @[
-        @{@"name": @"Copy Path", @"key": kFeatureCopyPath},
+    CGFloat checkboxHeight = 30;
+    CGFloat columnWidth = (frame.size.width - 40) / 2;
+    CGFloat leftX = 20;
+    CGFloat rightX = 20 + columnWidth;
+    CGFloat currentY = frame.size.height - 105;
+
+    // Add Copy Path checkbox on its own row
+    NSButton *copyPathCheckbox = [NSButton checkboxWithTitle:@"Copy Path" target:self action:@selector(checkboxToggled:)];
+    copyPathCheckbox.identifier = kFeatureCopyPath;
+    copyPathCheckbox.frame = NSMakeRect(leftX, currentY, frame.size.width - 40, checkboxHeight);
+    id copyPathValue = [self.sharedDefaults objectForKey:kFeatureCopyPath];
+    if (copyPathValue == nil) {
+        copyPathCheckbox.state = NSControlStateValueOn;
+        [self.sharedDefaults setBool:YES forKey:kFeatureCopyPath];
+    } else {
+        copyPathCheckbox.state = [self.sharedDefaults boolForKey:kFeatureCopyPath] ? NSControlStateValueOn : NSControlStateValueOff;
+    }
+    [contentView addSubview:copyPathCheckbox];
+
+    // Add second divider below Copy Path
+    currentY -= 35;
+    NSBox *divider2 = [[NSBox alloc] initWithFrame:NSMakeRect(20, currentY + 25, frame.size.width - 40, 1)];
+    divider2.boxType = NSBoxCustom;
+    divider2.borderColor = [NSColor colorWithWhite:0.8 alpha:1.0];
+    divider2.borderWidth = 1;
+    [contentView addSubview:divider2];
+
+    // File type features (2 columns)
+    NSArray *fileFeatures = @[
         @{@"name": @"Text File", @"key": kFeatureTextFile},
         @{@"name": @"Markdown File", @"key": kFeatureMarkdownFile},
         @{@"name": @"Microsoft Word Document", @"key": kFeatureWordDocument},
@@ -130,15 +158,10 @@ static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presenta
         @{@"name": @"Keynote Presentation", @"key": kFeatureKeynotePresentation},
     ];
 
-    // Create checkboxes in 2 columns
-    CGFloat checkboxHeight = 30;
-    CGFloat columnWidth = (frame.size.width - 40) / 2;
-    CGFloat leftX = 20;
-    CGFloat rightX = 20 + columnWidth;
-    CGFloat startY = frame.size.height - 105;
+    currentY -= 15;
 
-    for (NSUInteger i = 0; i < features.count; i++) {
-        NSDictionary *feature = features[i];
+    for (NSUInteger i = 0; i < fileFeatures.count; i++) {
+        NSDictionary *feature = fileFeatures[i];
         NSString *name = feature[@"name"];
         NSString *key = feature[@"key"];
 
@@ -148,7 +171,7 @@ static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presenta
         NSUInteger column = i % 2;
         NSUInteger row = i / 2;
         CGFloat xPos = (column == 0) ? leftX : rightX;
-        CGFloat yPos = startY - (row * checkboxHeight);
+        CGFloat yPos = currentY - (row * checkboxHeight);
 
         checkbox.frame = NSMakeRect(xPos, yPos, columnWidth, checkboxHeight);
 

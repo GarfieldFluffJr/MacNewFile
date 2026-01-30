@@ -199,7 +199,7 @@ static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presenta
     NSURL *targetURL = [[FIFinderSyncController defaultController] targetedURL];
 
     if (!targetURL) {
-        NSLog(@"No target URL");
+        NSLog(@"No target URL");\
         return;
     }
 
