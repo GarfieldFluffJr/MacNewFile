@@ -37,8 +37,6 @@ MacNewFile is lightweight and simple. You right click anywhere in Finder (or on 
 
 - Light/dark mode compatible
 
-<br />
-
 # Installation
 
 - [Homebrew (Recommended)](#homebrew)
