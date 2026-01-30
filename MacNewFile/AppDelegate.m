@@ -83,7 +83,7 @@ static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presenta
     }
 
     // Create the settings window
-    NSRect frame = NSMakeRect(0, 0, 550, 330);
+    NSRect frame = NSMakeRect(0, 0, 550, 310);
     NSWindowStyleMask style = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable;
     self.settingsWindow = [[NSWindow alloc] initWithContentRect:frame
                                                       styleMask:style
@@ -190,12 +190,23 @@ static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presenta
 
     [self.sharedDefaults synchronize];
 
+    // Add Save button in bottom right corner
+    NSButton *saveButton = [NSButton buttonWithTitle:@"Save" target:self action:@selector(saveSettings:)];
+    saveButton.bezelStyle = NSBezelStyleRounded;
+    saveButton.keyEquivalent = @"\r";
+    saveButton.frame = NSMakeRect(frame.size.width - 100, 20, 80, 30);
+    [contentView addSubview:saveButton];
+
     // Center the window on screen
     [self.settingsWindow center];
 
     // Show the window and bring app to front
     [self.settingsWindow makeKeyAndOrderFront:nil];
     [NSApp activateIgnoringOtherApps:YES];
+}
+
+- (void)saveSettings:(id)sender {
+    [self.settingsWindow close];
 }
 
 - (void)checkboxToggled:(NSButton *)sender {
