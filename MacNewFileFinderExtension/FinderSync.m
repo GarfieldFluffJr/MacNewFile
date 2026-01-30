@@ -98,12 +98,33 @@
     newExcelItem.image = excelIcon;
     [submenu addItem:newExcelItem];
 
+    // Add "New Microsoft PowerPoint Presentation" to submenu
+    NSMenuItem *newPowerPointItem = [[NSMenuItem alloc] initWithTitle:@"Microsoft PowerPoint Presentation" action:@selector(createNewPowerPointDocument:) keyEquivalent:@""];
+    NSImage *powerPointIcon = [NSImage imageNamed:@"powerpoint"];
+    powerPointIcon.template = YES;
+    newPowerPointItem.image = powerPointIcon;
+    [submenu addItem:newPowerPointItem];
+
     // Add "New Pages Document" to submenu
     NSMenuItem *newPagesItem = [[NSMenuItem alloc] initWithTitle:@"Pages Document" action:@selector(createNewPagesDocument:) keyEquivalent:@""];
     NSImage *pagesIcon = [NSImage imageNamed:@"pages"];
     pagesIcon.template = YES;
     newPagesItem.image = pagesIcon;
     [submenu addItem:newPagesItem];
+
+    // Add "New Numbers Spreadsheet" to submenu
+    NSMenuItem *newNumbersItem = [[NSMenuItem alloc] initWithTitle:@"Numbers Spreadsheet" action:@selector(createNewNumbersDocument:) keyEquivalent:@""];
+    NSImage *numbersIcon = [NSImage imageNamed:@"numbers"];
+    numbersIcon.template = YES;
+    newNumbersItem.image = numbersIcon;
+    [submenu addItem:newNumbersItem];
+
+    // Add "New Keynote Presentation" to submenu
+    NSMenuItem *newKeynoteItem = [[NSMenuItem alloc] initWithTitle:@"Keynote Presentation" action:@selector(createNewKeynoteDocument:) keyEquivalent:@""];
+    NSImage *keynoteIcon = [NSImage imageNamed:@"keynote"];
+    keynoteIcon.template = YES;
+    newKeynoteItem.image = keynoteIcon;
+    [submenu addItem:newKeynoteItem];
 
     // Attach submenu to main item
     mainItem.submenu = submenu;
@@ -233,6 +254,59 @@
     }
 }
 
+// Function to create new PowerPoint document
+- (void)createNewPowerPointDocument:(id)sender {
+    NSURL *targetURL = [[FIFinderSyncController defaultController] targetedURL];
+
+    if (!targetURL) {
+        NSLog(@"No target URL");
+        return;
+    }
+
+    // Build unique filename
+    NSString *baseName = @"Untitled";
+    NSString *extension = @"pptx";
+    NSString *filePath = [targetURL.path stringByAppendingPathComponent:
+                          [NSString stringWithFormat:@"%@.%@", baseName, extension]];
+
+    NSFileManager *fm = [NSFileManager defaultManager];
+    int counter = 1;
+    while ([fm fileExistsAtPath:filePath]) {
+        NSString *fileName = [NSString stringWithFormat:@"%@ (%d).%@", baseName, counter, extension];
+        filePath = [targetURL.path stringByAppendingPathComponent:fileName];
+        counter++;
+    }
+
+    // Create blank .pptx using shell script
+    // .pptx is a zip file containing XML files
+    NSString *escapedPath = [filePath stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"];
+
+    NSString *scriptSource = [NSString stringWithFormat:
+        @"do shell script \""
+        "TMPDIR=$(mktemp -d) && "
+        "mkdir -p \\\"$TMPDIR/_rels\\\" \\\"$TMPDIR/ppt/_rels\\\" \\\"$TMPDIR/ppt/slides\\\" \\\"$TMPDIR/ppt/slideLayouts\\\" \\\"$TMPDIR/ppt/slideMasters\\\" && "
+        "echo '<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><Types xmlns=\\\"http://schemas.openxmlformats.org/package/2006/content-types\\\"><Default Extension=\\\"rels\\\" ContentType=\\\"application/vnd.openxmlformats-package.relationships+xml\\\"/><Default Extension=\\\"xml\\\" ContentType=\\\"application/xml\\\"/><Override PartName=\\\"/ppt/presentation.xml\\\" ContentType=\\\"application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml\\\"/><Override PartName=\\\"/ppt/slides/slide1.xml\\\" ContentType=\\\"application/vnd.openxmlformats-officedocument.presentationml.slide+xml\\\"/></Types>' > \\\"$TMPDIR/[Content_Types].xml\\\" && "
+        "echo '<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><Relationships xmlns=\\\"http://schemas.openxmlformats.org/package/2006/relationships\\\"><Relationship Id=\\\"rId1\\\" Type=\\\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\\\" Target=\\\"ppt/presentation.xml\\\"/></Relationships>' > \\\"$TMPDIR/_rels/.rels\\\" && "
+        "echo '<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><p:presentation xmlns:p=\\\"http://schemas.openxmlformats.org/presentationml/2006/main\\\" xmlns:r=\\\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\\\"><p:sldIdLst><p:sldId id=\\\"256\\\" r:id=\\\"rId1\\\"/></p:sldIdLst></p:presentation>' > \\\"$TMPDIR/ppt/presentation.xml\\\" && "
+        "echo '<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><Relationships xmlns=\\\"http://schemas.openxmlformats.org/package/2006/relationships\\\"><Relationship Id=\\\"rId1\\\" Type=\\\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide\\\" Target=\\\"slides/slide1.xml\\\"/></Relationships>' > \\\"$TMPDIR/ppt/_rels/presentation.xml.rels\\\" && "
+        "echo '<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><p:sld xmlns:p=\\\"http://schemas.openxmlformats.org/presentationml/2006/main\\\"><p:cSld><p:spTree><p:nvGrpSpPr><p:cNvPr id=\\\"1\\\" name=\\\"\\\"/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr/></p:spTree></p:cSld></p:sld>' > \\\"$TMPDIR/ppt/slides/slide1.xml\\\" && "
+        "cd \\\"$TMPDIR\\\" && zip -r '%@' . && "
+        "rm -rf \\\"$TMPDIR\\\""
+        "\"", escapedPath];
+
+    NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
+    NSDictionary *errorDict = nil;
+    [script executeAndReturnError:&errorDict];
+
+    if (errorDict) {
+        NSLog(@"Failed to create PowerPoint document: %@", errorDict);
+    } else {
+        NSLog(@"Created: %@", filePath);
+        NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+        [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[fileURL]];
+    }
+}
+
 // Function to create new Pages document
 - (void)createNewPagesDocument:(id)sender {
     NSURL *targetURL = [[FIFinderSyncController defaultController] targetedURL];
@@ -278,6 +352,110 @@
 
     if (errorDict) {
         NSLog(@"Failed to create Pages document: %@", errorDict);
+    } else {
+        NSLog(@"Created: %@", filePath);
+        NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+        [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[fileURL]];
+    }
+}
+
+// Function to create new Numbers document
+- (void)createNewNumbersDocument:(id)sender {
+    NSURL *targetURL = [[FIFinderSyncController defaultController] targetedURL];
+
+    if (!targetURL) {
+        NSLog(@"No target URL");
+        return;
+    }
+
+    // Build unique filename
+    NSString *baseName = @"Untitled";
+    NSString *extension = @"numbers";
+    NSString *filePath = [targetURL.path stringByAppendingPathComponent:
+                          [NSString stringWithFormat:@"%@.%@", baseName, extension]];
+
+    NSFileManager *fm = [NSFileManager defaultManager];
+    int counter = 1;
+    while ([fm fileExistsAtPath:filePath]) {
+        NSString *fileName = [NSString stringWithFormat:@"%@ (%d).%@", baseName, counter, extension];
+        filePath = [targetURL.path stringByAppendingPathComponent:fileName];
+        counter++;
+    }
+
+    // Get the blank template from the bundle
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *templatePath = [bundle pathForResource:@"Blank" ofType:@"numbers"];
+
+    if (!templatePath) {
+        NSLog(@"Failed to find Blank.numbers template in bundle");
+        return;
+    }
+
+    // Copy template to destination using AppleScript (to bypass sandbox)
+    NSString *escapedTemplate = [templatePath stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"];
+    NSString *escapedDest = [filePath stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"];
+
+    NSString *scriptSource = [NSString stringWithFormat:
+        @"do shell script \"cp -R '%@' '%@'\"", escapedTemplate, escapedDest];
+
+    NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
+    NSDictionary *errorDict = nil;
+    [script executeAndReturnError:&errorDict];
+
+    if (errorDict) {
+        NSLog(@"Failed to create Numbers document: %@", errorDict);
+    } else {
+        NSLog(@"Created: %@", filePath);
+        NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+        [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[fileURL]];
+    }
+}
+
+// Function to create new Keynote document
+- (void)createNewKeynoteDocument:(id)sender {
+    NSURL *targetURL = [[FIFinderSyncController defaultController] targetedURL];
+
+    if (!targetURL) {
+        NSLog(@"No target URL");
+        return;
+    }
+
+    // Build unique filename
+    NSString *baseName = @"Untitled";
+    NSString *extension = @"key";
+    NSString *filePath = [targetURL.path stringByAppendingPathComponent:
+                          [NSString stringWithFormat:@"%@.%@", baseName, extension]];
+
+    NSFileManager *fm = [NSFileManager defaultManager];
+    int counter = 1;
+    while ([fm fileExistsAtPath:filePath]) {
+        NSString *fileName = [NSString stringWithFormat:@"%@ (%d).%@", baseName, counter, extension];
+        filePath = [targetURL.path stringByAppendingPathComponent:fileName];
+        counter++;
+    }
+
+    // Get the blank template from the bundle
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *templatePath = [bundle pathForResource:@"Blank" ofType:@"key"];
+
+    if (!templatePath) {
+        NSLog(@"Failed to find Blank.key template in bundle");
+        return;
+    }
+
+    // Copy template to destination using AppleScript (to bypass sandbox)
+    NSString *escapedTemplate = [templatePath stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"];
+    NSString *escapedDest = [filePath stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"];
+
+    NSString *scriptSource = [NSString stringWithFormat:
+        @"do shell script \"cp -R '%@' '%@'\"", escapedTemplate, escapedDest];
+
+    NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
+    NSDictionary *errorDict = nil;
+    [script executeAndReturnError:&errorDict];
+
+    if (errorDict) {
+        NSLog(@"Failed to create Keynote document: %@", errorDict);
     } else {
         NSLog(@"Created: %@", filePath);
         NSURL *fileURL = [NSURL fileURLWithPath:filePath];
