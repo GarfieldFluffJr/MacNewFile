@@ -78,6 +78,7 @@
 
     self.settingsWindow.title = @"MacNewFile Settings";
     self.settingsWindow.releasedWhenClosed = NO;
+    self.settingsWindow.backgroundColor = [NSColor colorWithRed:249/255.0 green:250/255.0 blue:251/255.0 alpha:1.0];
 
     // Feature names for checkboxes
     NSArray *features = @[
@@ -90,7 +91,6 @@
         @"Pages Document",
         @"Numbers Spreadsheet",
         @"Keynote Presentation",
-        @"Enable notifications"
     ];
 
     // Create checkboxes in 2 columns
