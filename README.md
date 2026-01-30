@@ -10,12 +10,15 @@
 
 ![Project Views](https://hits.sh/github.com/GarfieldFluffJr/MacNewFile.svg?label=Project%20Views&color=007ec6)
 
+</div>
+
 One of the many things that pissed me off after switching from Windows to Mac was that I couldn't create a new text file or word document off of a right click in Finder (file explorer).
 
-So I fixed that! Introducing **MacNewFile**!!
+So I made **MacNewFile**!!
 
-MacNewFile is very lightweight and simple. You right click anywhere in Finder (or on your desktop) and you get a menu to create new files!
+MacNewFile is lightweight and simple. You right click anywhere in Finder (or on your desktop) and you get a menu to create new files!
 
+<div align="center">
 <img src="./MacNewFile Demo sped up.gif" width="600" alt="MacNewFile Demo">
 </div>
 
