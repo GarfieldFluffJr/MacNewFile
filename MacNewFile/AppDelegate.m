@@ -83,7 +83,7 @@ static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presenta
     }
 
     // Create the settings window
-    NSRect frame = NSMakeRect(0, 0, 500, 330);
+    NSRect frame = NSMakeRect(0, 0, 550, 330);
     NSWindowStyleMask style = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable;
     self.settingsWindow = [[NSWindow alloc] initWithContentRect:frame
                                                       styleMask:style
@@ -120,9 +120,10 @@ static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presenta
     self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:kAppGroupIdentifier];
 
     CGFloat checkboxHeight = 30;
-    CGFloat columnWidth = (frame.size.width - 40) / 2;
+    CGFloat columnGap = 30;
+    CGFloat columnWidth = (frame.size.width - 40 - columnGap) / 2;
     CGFloat leftX = 20;
-    CGFloat rightX = 20 + columnWidth;
+    CGFloat rightX = 20 + columnWidth + columnGap;
     CGFloat currentY = frame.size.height - 105;
 
     // Add Copy Path checkbox on its own row
