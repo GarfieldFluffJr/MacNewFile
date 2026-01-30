@@ -39,7 +39,7 @@ MacNewFile is lightweight and simple. You right click anywhere in Finder (or on 
 
 ## Installation
 
-- [Homebrew](#homebrew)
+- [Homebrew (Recommended)](#homebrew)
 - [Manual Download](#manual-download)
 
 ## Homebrew
