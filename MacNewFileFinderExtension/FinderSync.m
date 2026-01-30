@@ -168,7 +168,6 @@ static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presenta
     if (submenu.numberOfItems > 0) {
         NSMenuItem *mainItem = [[NSMenuItem alloc] initWithTitle:@"New File" action:nil keyEquivalent:@""];
         NSImage *mainIcon = [NSImage imageNamed:@"add"];
-        mainIcon.template = YES;
         mainItem.image = mainIcon;
         mainItem.submenu = submenu;
         [menu addItem:mainItem];
