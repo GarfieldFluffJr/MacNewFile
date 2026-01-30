@@ -69,7 +69,7 @@
     }
 
     // Create the settings window
-    NSRect frame = NSMakeRect(0, 0, 400, 300);
+    NSRect frame = NSMakeRect(0, 0, 500, 220);
     NSWindowStyleMask style = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable;
     self.settingsWindow = [[NSWindow alloc] initWithContentRect:frame
                                                       styleMask:style
@@ -78,6 +78,42 @@
 
     self.settingsWindow.title = @"MacNewFile Settings";
     self.settingsWindow.releasedWhenClosed = NO;
+
+    // Feature names for checkboxes
+    NSArray *features = @[
+        @"Copy Path",
+        @"Text File",
+        @"Markdown File",
+        @"Microsoft Word Document",
+        @"Microsoft Excel Spreadsheet",
+        @"Microsoft PowerPoint Presentation",
+        @"Pages Document",
+        @"Numbers Spreadsheet",
+        @"Keynote Presentation",
+        @"Enable notifications"
+    ];
+
+    // Create checkboxes in 2 columns
+    NSView *contentView = self.settingsWindow.contentView;
+    CGFloat checkboxHeight = 30;
+    CGFloat columnWidth = (frame.size.width - 40) / 2;
+    CGFloat leftX = 20;
+    CGFloat rightX = 20 + columnWidth;
+    CGFloat startY = frame.size.height - 50;
+
+    for (NSUInteger i = 0; i < features.count; i++) {
+        NSString *feature = features[i];
+        NSButton *checkbox = [NSButton checkboxWithTitle:feature target:nil action:nil];
+
+        NSUInteger column = i % 2;
+        NSUInteger row = i / 2;
+        CGFloat xPos = (column == 0) ? leftX : rightX;
+        CGFloat yPos = startY - (row * checkboxHeight);
+
+        checkbox.frame = NSMakeRect(xPos, yPos, columnWidth, checkboxHeight);
+        checkbox.state = NSControlStateValueOn;
+        [contentView addSubview:checkbox];
+    }
 
     // Center the window on screen
     [self.settingsWindow center];
