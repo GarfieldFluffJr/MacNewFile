@@ -3,10 +3,10 @@
 <img src="./MacNewFile/Assets.xcassets/AppIcon.appiconset/add (1) (1)-modified.png" width="100" height="100">
 
 # MacNewFile
-![License](https://img.shields.io/github/license/GarfieldFluffJr/MacNewFile?color=007ec6)
+[![License](https://img.shields.io/github/license/GarfieldFluffJr/MacNewFile?color=007ec6)](https://github.com/GarfieldFluffJr/MacNewFile/blob/main/LICENSE)
 ![macOS](https://img.shields.io/badge/macOS-13.0+-A2AAAD)
-![Homebrew](https://img.shields.io/badge/Homebrew-supported-F97316)
-![Release](https://img.shields.io/github/v/release/GarfieldFluffJr/MacNewFile?color=2ea44f)
+[![Homebrew](https://img.shields.io/badge/Homebrew-supported-F97316)](https://brew.sh/)
+[![Release](https://img.shields.io/github/v/release/GarfieldFluffJr/MacNewFile?color=2ea44f)](https://github.com/GarfieldFluffJr/MacNewFile/releases)
 
 ![Project Views](https://hits.sh/github.com/GarfieldFluffJr/MacNewFile.svg?label=Project%20Views&color=007ec6)
 
