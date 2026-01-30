@@ -135,7 +135,7 @@ static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presenta
     CGFloat columnWidth = (frame.size.width - 40) / 2;
     CGFloat leftX = 20;
     CGFloat rightX = 20 + columnWidth;
-    CGFloat startY = frame.size.height - 115;
+    CGFloat startY = frame.size.height - 105;
 
     for (NSUInteger i = 0; i < features.count; i++) {
         NSDictionary *feature = features[i];
