@@ -83,7 +83,7 @@ static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presenta
     }
 
     // Create the settings window
-    NSRect frame = NSMakeRect(0, 0, 500, 220);
+    NSRect frame = NSMakeRect(0, 0, 500, 300);
     NSWindowStyleMask style = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable;
     self.settingsWindow = [[NSWindow alloc] initWithContentRect:frame
                                                       styleMask:style
@@ -93,6 +93,26 @@ static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presenta
     self.settingsWindow.title = @"MacNewFile Settings";
     self.settingsWindow.releasedWhenClosed = NO;
     self.settingsWindow.backgroundColor = [NSColor colorWithRed:249/255.0 green:250/255.0 blue:251/255.0 alpha:1.0];
+
+    NSView *contentView = self.settingsWindow.contentView;
+
+    // Add header at the top
+    NSTextField *header = [NSTextField labelWithString:@"Customize your Finder right-click menu."];
+    header.frame = NSMakeRect(20, frame.size.height - 35, frame.size.width - 40, 20);
+    header.font = [NSFont boldSystemFontOfSize:15];
+    [contentView addSubview:header];
+
+    // Add subtitle below header
+    NSTextField *subtitle = [NSTextField labelWithString:@"Toggle any features you wish to add/remove."];
+    subtitle.frame = NSMakeRect(20, frame.size.height - 55, frame.size.width - 40, 20);
+    subtitle.font = [NSFont systemFontOfSize:13];
+    subtitle.textColor = [NSColor secondaryLabelColor];
+    [contentView addSubview:subtitle];
+
+    // Add divider line
+    NSBox *divider = [[NSBox alloc] initWithFrame:NSMakeRect(20, frame.size.height - 65, frame.size.width - 40, 1)];
+    divider.boxType = NSBoxSeparator;
+    [contentView addSubview:divider];
 
     // Initialize shared defaults
     self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:kAppGroupIdentifier];
@@ -111,12 +131,11 @@ static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presenta
     ];
 
     // Create checkboxes in 2 columns
-    NSView *contentView = self.settingsWindow.contentView;
     CGFloat checkboxHeight = 30;
     CGFloat columnWidth = (frame.size.width - 40) / 2;
     CGFloat leftX = 20;
     CGFloat rightX = 20 + columnWidth;
-    CGFloat startY = frame.size.height - 50;
+    CGFloat startY = frame.size.height - 115;
 
     for (NSUInteger i = 0; i < features.count; i++) {
         NSDictionary *feature = features[i];
