@@ -54,6 +54,13 @@
 - (NSMenu *)menuForMenuKind:(FIMenuKind)whichMenu {
     NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
 
+    // Add "Copy Path" menu item
+    NSMenuItem *copyPathItem = [[NSMenuItem alloc] initWithTitle:@"Copy Path" action:@selector(copyPathToClipboard:) keyEquivalent:@""];
+    NSImage *copyIcon = [NSImage imageNamed:@"copy"];
+    copyIcon.template = YES;
+    copyPathItem.image = copyIcon;
+    [menu addItem:copyPathItem];
+
     // Create the main "New File" menu item with submenu
     NSMenuItem *mainItem = [[NSMenuItem alloc] initWithTitle:@"New File" action:nil keyEquivalent:@""];
     NSImage *mainIcon = [NSImage imageNamed:@"add"];
@@ -103,6 +110,23 @@
     [menu addItem:mainItem];
 
     return menu;
+}
+
+// Function to copy current directory path to clipboard
+- (void)copyPathToClipboard:(id)sender {
+    NSURL *targetURL = [[FIFinderSyncController defaultController] targetedURL];
+
+    if (!targetURL) {
+        NSLog(@"No target URL");
+        return;
+    }
+
+    NSString *path = targetURL.path;
+    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+    [pasteboard clearContents];
+    [pasteboard setString:path forType:NSPasteboardTypeString];
+
+    NSLog(@"Copied path to clipboard: %@", path);
 }
 
 // Function to create new Word document
