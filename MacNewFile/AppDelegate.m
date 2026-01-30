@@ -10,6 +10,7 @@
 
 @interface AppDelegate ()
 @property (strong) NSStatusItem *statusItem;
+@property (strong) NSWindow *settingsWindow;
 
 @end
 
@@ -60,8 +61,30 @@
 }
 
 - (void)openSettings:(id)sender {
-    // Placeholder - settings functionality to be implemented
-    NSLog(@"Settings clicked");
+    // If window already exists, just bring it to front
+    if (self.settingsWindow) {
+        [self.settingsWindow makeKeyAndOrderFront:nil];
+        [NSApp activateIgnoringOtherApps:YES];
+        return;
+    }
+
+    // Create the settings window
+    NSRect frame = NSMakeRect(0, 0, 400, 300);
+    NSWindowStyleMask style = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable;
+    self.settingsWindow = [[NSWindow alloc] initWithContentRect:frame
+                                                      styleMask:style
+                                                        backing:NSBackingStoreBuffered
+                                                          defer:NO];
+
+    self.settingsWindow.title = @"MacNewFile Settings";
+    self.settingsWindow.releasedWhenClosed = NO;
+
+    // Center the window on screen
+    [self.settingsWindow center];
+
+    // Show the window and bring app to front
+    [self.settingsWindow makeKeyAndOrderFront:nil];
+    [NSApp activateIgnoringOtherApps:YES];
 }
 
 - (void)setExtensionEnabled:(BOOL)enabled {
