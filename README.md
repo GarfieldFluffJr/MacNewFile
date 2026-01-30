@@ -1,4 +1,12 @@
+<div align="center">
+
+<img src="./MacNewFile/Assets.xcassets/AppIcon.appiconset/add (1) (1)-modified.png" width="100" height="100">
+
 # MacNewFile
+![License](https://img.shields.io/github/license/GarfieldFluffJr/MacNewFile?color=007ec6)
+![macOS](https://img.shields.io/badge/macOS-13.0+-A2AAAD)
+![Homebrew](https://img.shields.io/badge/Homebrew-supported-F97316)
+![Release](https://img.shields.io/github/v/release/GarfieldFluffJr/MacNewFile?color=2ea44f)
 
 ![Project Views](https://hits.sh/github.com/GarfieldFluffJr/MacNewFile.svg?label=Project%20Views&color=007ec6)
 
@@ -9,6 +17,7 @@ So I fixed that! Introducing **MacNewFile**!!
 MacNewFile is very lightweight and simple. You right click anywhere in Finder (or on your desktop) and you get a menu to create new files!
 
 <img src="./MacNewFile Demo sped up.gif" width="600" alt="MacNewFile Demo">
+</div>
 
 **Please note:** This only doesn't work on directories inside of your iCloud, since Apple fully removed support for FinderSync in 2019.
 
