@@ -24,6 +24,19 @@ MacNewFile is lightweight and simple. You right click anywhere in Finder (or on 
 
 **Please note:** This only doesn't work on directories inside of your iCloud, since Apple fully removed support for FinderSync in 2019.
 
+## Features
+- Can create the following apps from the Finder right-click menu:
+    - Text file
+    - Markdown file
+    - Microsoft Word, Excel, and Powerpoint
+    - Apple Pages, Numbers, and Keynote
+
+- Settings menu to customize MacNewFile features
+
+- Can copy the filepath of the current directory
+
+- Light/dark mode compatible
+
 ## Setup Instructions
 
 1. Click on the latest release of this repository (right column)
