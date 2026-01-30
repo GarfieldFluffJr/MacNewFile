@@ -92,7 +92,6 @@ static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presenta
 
     self.settingsWindow.title = @"MacNewFile Settings";
     self.settingsWindow.releasedWhenClosed = NO;
-    self.settingsWindow.backgroundColor = [NSColor colorWithRed:249/255.0 green:250/255.0 blue:251/255.0 alpha:1.0];
 
     NSView *contentView = self.settingsWindow.contentView;
 
@@ -112,7 +111,7 @@ static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presenta
     // Add divider line
     NSBox *divider = [[NSBox alloc] initWithFrame:NSMakeRect(20, frame.size.height - 65, frame.size.width - 40, 1)];
     divider.boxType = NSBoxCustom;
-    divider.borderColor = [NSColor colorWithWhite:0.8 alpha:1.0];
+    divider.borderColor = [NSColor separatorColor];
     divider.borderWidth = 1;
     [contentView addSubview:divider];
 
@@ -143,7 +142,7 @@ static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presenta
     currentY -= 35;
     NSBox *divider2 = [[NSBox alloc] initWithFrame:NSMakeRect(20, currentY + 25, frame.size.width - 40, 1)];
     divider2.boxType = NSBoxCustom;
-    divider2.borderColor = [NSColor colorWithWhite:0.8 alpha:1.0];
+    divider2.borderColor = [NSColor separatorColor];
     divider2.borderWidth = 1;
     [contentView addSubview:divider2];
 
