@@ -35,6 +35,7 @@
     NSMenu *menu = [[NSMenu alloc] init];
     [menu addItemWithTitle:@"MacNewFile is running" action:nil keyEquivalent:@""];
     [menu addItem:[NSMenuItem separatorItem]];
+    [menu addItemWithTitle:@"Settings" action:@selector(openSettings:) keyEquivalent:@""];
     [menu addItemWithTitle:@"Quit" action:@selector(terminate:) keyEquivalent:@"q"];
 
     self.statusItem.menu = menu;
@@ -56,6 +57,11 @@
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Disable the Finder extension when app quits
     [self setExtensionEnabled:NO];
+}
+
+- (void)openSettings:(id)sender {
+    // Placeholder - settings functionality to be implemented
+    NSLog(@"Settings clicked");
 }
 
 - (void)setExtensionEnabled:(BOOL)enabled {
