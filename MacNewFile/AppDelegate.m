@@ -152,10 +152,10 @@ static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presenta
         @{@"name": @"Text File", @"key": kFeatureTextFile},
         @{@"name": @"Markdown File", @"key": kFeatureMarkdownFile},
         @{@"name": @"Microsoft Word Document", @"key": kFeatureWordDocument},
-        @{@"name": @"Microsoft Excel Spreadsheet", @"key": kFeatureExcelSpreadsheet},
-        @{@"name": @"Microsoft PowerPoint Presentation", @"key": kFeaturePowerPointPresentation},
         @{@"name": @"Pages Document", @"key": kFeaturePagesDocument},
+        @{@"name": @"Microsoft Excel Spreadsheet", @"key": kFeatureExcelSpreadsheet},
         @{@"name": @"Numbers Spreadsheet", @"key": kFeatureNumbersSpreadsheet},
+        @{@"name": @"Microsoft PowerPoint Presentation", @"key": kFeaturePowerPointPresentation},
         @{@"name": @"Keynote Presentation", @"key": kFeatureKeynotePresentation},
     ];
 
