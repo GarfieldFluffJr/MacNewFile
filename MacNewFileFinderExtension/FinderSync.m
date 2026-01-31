@@ -19,6 +19,7 @@ static NSString * const kFeaturePowerPointPresentation = @"feature_powerpoint_pr
 static NSString * const kFeaturePagesDocument = @"feature_pages_document";
 static NSString * const kFeatureNumbersSpreadsheet = @"feature_numbers_spreadsheet";
 static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presentation";
+static NSString * const kFeatureOpenTerminal = @"feature_open_terminal";
 
 @interface FinderSync ()
 @property (strong) NSUserDefaults *sharedDefaults;
@@ -87,6 +88,15 @@ static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presenta
         copyIcon.template = YES;
         copyPathItem.image = copyIcon;
         [menu addItem:copyPathItem];
+    }
+
+    // Add "Open Terminal" menu item (if enabled)
+    if ([self isFeatureEnabled:kFeatureOpenTerminal]) {
+        NSMenuItem *openTerminalItem = [[NSMenuItem alloc] initWithTitle:@"Open New Terminal" action:@selector(openTerminalAtPath:) keyEquivalent:@""];
+        NSImage *terminalIcon = [NSImage imageNamed:@"terminal"];
+        terminalIcon.template = YES;
+        openTerminalItem.image = terminalIcon;
+        [menu addItem:openTerminalItem];
     }
 
     // Create submenu for New File options
@@ -191,6 +201,32 @@ static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presenta
     [pasteboard setString:path forType:NSPasteboardTypeString];
 
     NSLog(@"Copied path to clipboard: %@", path);
+}
+
+// Function to open Terminal at current directory
+- (void)openTerminalAtPath:(id)sender {
+    NSURL *targetURL = [[FIFinderSyncController defaultController] targetedURL];
+
+    if (!targetURL) {
+        NSLog(@"No target URL");
+        return;
+    }
+
+    NSString *path = targetURL.path;
+    NSString *escapedPath = [path stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"];
+
+    NSString *scriptSource = [NSString stringWithFormat:
+        @"do shell script \"open -a Terminal '%@'\"", escapedPath];
+
+    NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
+    NSDictionary *errorDict = nil;
+    [script executeAndReturnError:&errorDict];
+
+    if (errorDict) {
+        NSLog(@"Failed to open Terminal: %@", errorDict);
+    } else {
+        NSLog(@"Opened Terminal at: %@", path);
+    }
 }
 
 // Function to create new Word document

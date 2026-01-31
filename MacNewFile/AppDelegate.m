@@ -20,6 +20,7 @@ static NSString * const kFeaturePowerPointPresentation = @"feature_powerpoint_pr
 static NSString * const kFeaturePagesDocument = @"feature_pages_document";
 static NSString * const kFeatureNumbersSpreadsheet = @"feature_numbers_spreadsheet";
 static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presentation";
+static NSString * const kFeatureOpenTerminal = @"feature_open_terminal";
 
 @interface AppDelegate ()
 @property (strong) NSStatusItem *statusItem;
@@ -125,10 +126,10 @@ static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presenta
     CGFloat rightX = 20 + columnWidth + columnGap;
     CGFloat currentY = frame.size.height - 105;
 
-    // Add Copy Path checkbox on its own row
+    // Add Copy Path checkbox (left column)
     NSButton *copyPathCheckbox = [NSButton checkboxWithTitle:@"Copy Path" target:self action:@selector(checkboxToggled:)];
     copyPathCheckbox.identifier = kFeatureCopyPath;
-    copyPathCheckbox.frame = NSMakeRect(leftX, currentY, frame.size.width - 40, checkboxHeight);
+    copyPathCheckbox.frame = NSMakeRect(leftX, currentY, columnWidth, checkboxHeight);
     id copyPathValue = [self.sharedDefaults objectForKey:kFeatureCopyPath];
     if (copyPathValue == nil) {
         copyPathCheckbox.state = NSControlStateValueOn;
@@ -137,6 +138,19 @@ static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presenta
         copyPathCheckbox.state = [self.sharedDefaults boolForKey:kFeatureCopyPath] ? NSControlStateValueOn : NSControlStateValueOff;
     }
     [contentView addSubview:copyPathCheckbox];
+
+    // Add Open Terminal checkbox (right column, same row as Copy Path)
+    NSButton *openTerminalCheckbox = [NSButton checkboxWithTitle:@"Open Terminal" target:self action:@selector(checkboxToggled:)];
+    openTerminalCheckbox.identifier = kFeatureOpenTerminal;
+    openTerminalCheckbox.frame = NSMakeRect(rightX, currentY, columnWidth, checkboxHeight);
+    id openTerminalValue = [self.sharedDefaults objectForKey:kFeatureOpenTerminal];
+    if (openTerminalValue == nil) {
+        openTerminalCheckbox.state = NSControlStateValueOn;
+        [self.sharedDefaults setBool:YES forKey:kFeatureOpenTerminal];
+    } else {
+        openTerminalCheckbox.state = [self.sharedDefaults boolForKey:kFeatureOpenTerminal] ? NSControlStateValueOn : NSControlStateValueOff;
+    }
+    [contentView addSubview:openTerminalCheckbox];
 
     // Add second divider below Copy Path
     currentY -= 35;
