@@ -93,9 +93,9 @@ You can delete with `AppCleaner` which will delete the tiny Finder extension bun
 
 Do you have a new idea you want to implement? Feel free to contribute! 
 
-Fork the repository and make the project your own. Or, if you'd like to contribute to this project, submit a pull request when you're done. See [CONTRIBUTING.md]() for more details.
+Fork the repository and make the project your own. Or, if you'd like to contribute to this project, submit a pull request when you're done. See **[CONTRIBUTING.md](./CONTRIBUTING.md)** for more details.
 
-
+Or if you'd like to **suggest changes**, **[submit a github issue](https://github.com/GarfieldFluffJr/MacNewFile/issues)**.
 
 ## My Promise as a Developer
 
