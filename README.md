@@ -39,8 +39,8 @@ MacNewFile is lightweight and simple. You right click anywhere in Finder (or on 
 
 # Installation
 
-- [Homebrew (Recommended)](#homebrew)
-- [Manual Download](#manual-download)
+- **[Homebrew (Recommended)](#homebrew)**
+- **[Manual Download](#manual-download)**
 
 ## Homebrew
 
@@ -56,7 +56,7 @@ brew uninstall --cask macnewfile
 brew untap GarfieldFluffJr/macnewfile
 ```
 
-[Jump to Contributions and Issues](#contributions-and-issues)
+**[Jump to Contributions and Issues](#contributions-and-issues)**
 
 ## Manual Download
 
