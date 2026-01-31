@@ -37,6 +37,9 @@ MacNewFile is lightweight and simple. You right click anywhere in Finder (or on 
 
 - Light/dark mode compatible
 
+- To disable the app (fully stop running in the background), click the MacNewFile app icon in the top menu bar (plus sign) and click "Quit"
+    - Or you can go to `System Settings -> General -> Login & Extensions -> File Providers / File System Extensions` and find MacNewFile and turn it off
+
 # Installation
 
 - **[Homebrew (Recommended)](#homebrew)**
@@ -60,24 +63,31 @@ brew untap GarfieldFluffJr/macnewfile
 
 ## Manual Download
 
-1. Click on the latest release of this repository (right column)
-2. Download `MacNewFile.zip`
-3. Unzip the folder, delete the zip folder, and move `MacNewFile.app` to the `Applications` folder
-4. Run `MacNewFile.app`
+### Install
+
+1. **[Download `MacNewFile.zip` in the latest release](https://github.com/GarfieldFluffJr/MacNewFile/releases)**
+
+2. Unzip the folder, delete the zip folder, and move `MacNewFile.app` to the `Applications` folder
+
+3. Run `MacNewFile.app`
     - If prompted with Apple Security, open system settings, open `Privacy and Security`, scroll all the way to the bottom and click "open anyways"
-5. Run `MacNewFile.app` again from the `Applications` folder
-6. Restart Finder. Open terminal and type `killall Finder`
-7. To disable the app (fully stop running in the background), click the MacNewFile app icon in the top menu bar (plus sign) and click "Quit"
-    - Or you can go to `System Settings -> General -> Login & Extensions -> File Providers / File System Extensions` and find MacNewFile and turn it off
 
-The reason for the many security concerns is because Apple is very strict on what apps may do, so I made exceptions that allows MacNewFile to create new apps in arbitrary locations.
+4. Run `MacNewFile.app` again from the `Applications` folder
 
-**Please note:** If you download and run the app and the icon shows in the top menu bar, but it's not showing in the Finder right-click menu, open terminal and run this command:
-`xattr -dr com.apple.quarantine /Applications/MacNewFile.app`
+The reason for the many security concerns is because Apple is very strict on what apps may do, so I made exceptions that allows MacNewFile to create new apps in arbitrary locations. I also don't have Apple Developer Notarization.
 
-Then restart Finder: `killall Finder`
+### Debugging
+- Move app out of quarantine: `xattr -dr com.apple.quarantine /Applications/MacNewFile.app`
 
-MacOS puts the app in quarantine, even after approving it several times, so you have to manually say you trust the app. Sorry for the inconvenience.
+- Restart Finder: `killall Finder`
+
+- Go through Settings Privacy and Security
+
+### Uninstall
+
+Delete the `MacNewFile.app` file in the `Applications` folder.
+
+You can delete with `AppCleaner` which will delete the tiny Finder extension bundles installed (~50KB)
 
 ## Contributions and Issues
 
