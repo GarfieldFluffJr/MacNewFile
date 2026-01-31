@@ -35,6 +35,8 @@ MacNewFile is lightweight and simple. You right click anywhere in Finder (or on 
 
 - Can **copy the filepath** of the current directory
 
+- Can **open a new terminal** in the current directory
+
 - Light/dark mode compatible
 
 - To disable the app (fully stop running in the background), click the MacNewFile app icon in the top menu bar (plus sign) and click "Quit"
