@@ -97,13 +97,16 @@ Fork the repository and make the project your own. Or, if you'd like to contribu
 
 Or if you'd like to **suggest changes**, **[submit a github issue](https://github.com/GarfieldFluffJr/MacNewFile/issues)**.
 
+You can also reach me by email if you have any questions: **louieyin6@gmail.com**
+
 ## My Promise as a Developer
 
+- **I don't vibe-code my projects**
 - This is not malware, everything is pushed to this repo which you can review
-- This is a lightweight app, I optimized it as much as I could to not eat up your memory
-- It is **very easy to install and delete**. To delete off your laptop, just delete the `MacNewFile.app` file in the `Applications` folder.
-  - You can delete with `AppCleaner` which will delete the tiny Finder extension bundles installed (~50KB)
+- It is **very easy to install and delete**, I steal no data, or hide anything on your device
 - This app does not hide in the background, I tested this with my own MacBook, Activity Monitor shows no activity once the application is quit
-- You can view if it is running in `System Settings -> General -> Login Items & Extensions -> File Providers / File System Extensions`
+    - You can view if it is running in `System Settings -> General -> Login Items & Extensions -> File Providers / File System Extensions`
 
-If you have any concerns, please don't hesitate to reach me at louieyin6@gmail.com!
+## License
+
+GNU GPL v3 License - see [LICENSE](./LICENSE) for details.
