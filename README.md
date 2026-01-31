@@ -55,6 +55,12 @@ brew tap GarfieldFluffJr/macnewfile
 brew install --cask macnewfile
 ```
 
+### Update
+```zsh
+brew update
+brew upgrade --cask macnewfile
+```
+
 ### Complete uninstall
 ```zsh
 brew uninstall --cask macnewfile
@@ -90,6 +96,10 @@ The reason for the many security concerns is because Apple is very strict on wha
 Delete the `MacNewFile.app` file in the `Applications` folder.
 
 You can delete with `AppCleaner` which will delete the tiny Finder extension bundles installed (~50KB)
+
+### Update
+
+Uninstall the current version and install the new version manually
 
 ## Contributions and Issues
 
