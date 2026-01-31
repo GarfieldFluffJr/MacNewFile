@@ -44,6 +44,20 @@ MacNewFile is lightweight and simple. You right click anywhere in Finder (or on 
 
 ## Homebrew
 
+### Install
+```zsh
+brew tap GarfieldFluffJr/macnewfile
+brew install --cask macnewfile
+```
+
+### Complete uninstall
+```zsh
+brew uninstall --cask macnewfile
+brew untap GarfieldFluffJr/macnewfile
+```
+
+[Jump to Contributions and Issues](#contributions-and-issues)
+
 ## Manual Download
 
 1. Click on the latest release of this repository (right column)
@@ -64,6 +78,8 @@ The reason for the many security concerns is because Apple is very strict on wha
 Then restart Finder: `killall Finder`
 
 MacOS puts the app in quarantine, even after approving it several times, so you have to manually say you trust the app. Sorry for the inconvenience.
+
+## Contributions and Issues
 
 ## My Promise as a Developer
 
