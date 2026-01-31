@@ -119,6 +119,12 @@ You can also reach me by email if you have any questions: **louieyin6@gmail.com*
 - This app does not hide in the background, I tested this with my own MacBook, Activity Monitor shows no activity once the application is quit
     - You can view if it is running in `System Settings -> General -> Login Items & Extensions -> File Providers / File System Extensions`
 
+## Support
+
+Thanks for making it this far in the readme. If you found this tool particularly useful for you, please consider giving me a star on github, it's free and means a lot to me.
+
+You can also choose to [Buy me a Coffee](https://buymeacoffee.com/garfieldfluffjr) if you really think I made a positive impact on you.
+
 ## License
 
 GNU GPL v3 License - see [LICENSE](./LICENSE) for details.
