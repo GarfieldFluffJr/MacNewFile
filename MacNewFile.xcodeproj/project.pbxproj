@@ -40,6 +40,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		DE50822B2F2FBFBB00B05CE3 /* Exceptions for "dist" folder in "MacNewFile" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				MacNewFile.app,
+			);
+			target = DE67E26B2F26C1FD00BFE7DF /* MacNewFile */;
+		};
 		DE67E28E2F26C23200BFE7DF /* Exceptions for "MacNewFileFinderExtension" folder in "MacNewFileFinderExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -65,6 +72,9 @@
 		};
 		DE67E29D2F27DFD800BFE7DF /* dist */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DE50822B2F2FBFBB00B05CE3 /* Exceptions for "dist" folder in "MacNewFile" target */,
+			);
 			path = dist;
 			sourceTree = "<group>";
 		};
