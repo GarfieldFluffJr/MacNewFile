@@ -24,6 +24,8 @@ MacNewFile is lightweight and simple. You right click anywhere in Finder (or on 
 
 **Please note:** This only doesn't work on directories inside of your iCloud, since Apple fully removed support for FinderSync in 2019.
 
+# Temporary - Please install only through releases (right-column) and install version 1.2.1. Apple blocked my new updates so it cannot run and I am actively trying to fix this. Thanks!
+
 ## Features
 - Can create the following apps from the Finder right-click menu:
     - Text file
