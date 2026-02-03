@@ -46,7 +46,7 @@ MacNewFile is lightweight and simple. You right click anywhere in Finder (or on 
 
 - **[Homebrew (Recommended) [v3.0.0]](#homebrew)**
 - **[Manual Download [v3.0.0]](#manual-download)**
-- **[Manual Download All Features](#manual-download-all-features)**
+- **[Manual Download [All Features]](#manual-download-all-features)**
 
 v3.0.0 contains all functionality except for the settings modal which allows you to customize your right-click menu and which features you would like to enable/disable. This is because Apple Security requires notarization so it blocks certain API features (settings modal) unless I pay them. This is also why manual installation prompts so many privacy and security flags.
 
@@ -104,6 +104,13 @@ Uninstall the current version and install the new version manually
 - **[Jump to Contributions and Issues](#contributions-and-issues)**
 
 ## Manual Download All Features
+
+### Install
+
+1. Install Xcode
+    - [App Store (Recommended)](https://apps.apple.com/us/app/xcode/id497799835?mt=12)
+    - [Older versions (Requires Apple ID)](https://developer.apple.com/download/all/?q=xcode) - Open in Incognito tab if it keeps redirecting you back to your account
+    - [Which version of Xcode to install?](https://developer.apple.com/support/xcode/)
 
 ## Debugging
 - Move app out of quarantine: `xattr -dr com.apple.quarantine /Applications/MacNewFile.app`
