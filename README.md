@@ -132,7 +132,25 @@ For all files installed, try to keep them somewhere you remember so it's easy to
 
 6. Change the `Target` to `MacNewFileFinderExtension` and repeat the exact same steps with the same names as step 5 <img src="./assets/install_step6.png" height="150" />
 
+7. In `MacNewFile/AppDelegate.m`, modify lines `11` and `240` to use your name that you used in steps 5 and 6 instead of mine.
 
+8. In `MacNewFileFinderExtension/FinderSync.m`, modify line `10` similarly to step 7.
+
+Now it's time to build the working version locally!
+
+9. `Menu Bar -> Product -> Clean Build Folder` (cmd + shift + K)
+
+10. `Menu Bar -> Product -> Build` (cmd + B)
+
+11. Right click `Products/MacNewFile.app` and select `Show in Finder` 
+
+    <img src="./assets/install_step11.png" height="150" />
+
+12. Move it to the `Applications` folder and open it
+
+    - If it doesn't open or work, **[jump to debugging](#debugging)**
+
+13. Congratulations! You have installed the fully working version of MacNewFile! You can now safely delete Xcode and all other files installed (check your `Recents` folder or where you saved everything upon installation)
 
 ## Debugging
 - Move app out of quarantine: `xattr -dr com.apple.quarantine /Applications/MacNewFile.app`
