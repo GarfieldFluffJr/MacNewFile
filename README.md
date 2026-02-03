@@ -130,9 +130,11 @@ For all files installed, try to keep them somewhere you remember so it's easy to
 
     - Everything will work fine if nothing is highlighted red
 
-    <img src="./assets/install_step5.png" />
+        <img src="./assets/install_step5.png" />
 
-6. Change the `Target` to `MacNewFileFinderExtension` and repeat the exact same steps with the same names as step 5 <img src="./assets/install_step6.png" height="150" />
+6. Change the `Target` to `MacNewFileFinderExtension` and repeat the exact same steps with the same names as step 5 
+
+    <img src="./assets/install_step6.png" height="150" />
 
 7. In `MacNewFile/AppDelegate.m`, modify lines `11` and `240` to use your name that you used in steps 5 and 6 instead of mine.
 
