@@ -44,8 +44,13 @@ MacNewFile is lightweight and simple. You right click anywhere in Finder (or on 
 
 # Installation
 
-- **[Homebrew (Recommended)](#homebrew)**
-- **[Manual Download](#manual-download)**
+- **[Homebrew (Recommended) [v3.0.0]](#homebrew)**
+- **[Manual Download [v3.0.0]](#manual-download)**
+- **[Manual Download All Features](#manual-download-all-features)**
+
+v3.0.0 contains all functionality except for the settings modal which allows you to customize your right-click menu and which features you would like to enable/disable. This is because Apple Security requires notarization so it blocks certain API features (settings modal) unless I pay them. This is also why manual installation prompts so many privacy and security flags.
+
+If you would like the full version of this app, then click the link to manually download all features, which requires a few extra steps but are not difficult and is the only workaround I can think of.
 
 ## Homebrew
 
@@ -67,7 +72,8 @@ brew uninstall --cask macnewfile
 brew untap GarfieldFluffJr/macnewfile
 ```
 
-**[Jump to Contributions and Issues](#contributions-and-issues)**
+- **[Jump to Debugging](#debugging)**
+- **[Jump to Contributions and Issues](#contributions-and-issues)**
 
 ## Manual Download
 
@@ -84,13 +90,6 @@ brew untap GarfieldFluffJr/macnewfile
 
 The reason for the many security concerns is because Apple is very strict on what apps may do, so I made exceptions that allows MacNewFile to create new apps in arbitrary locations. I also don't have Apple Developer Notarization.
 
-### Debugging
-- Move app out of quarantine: `xattr -dr com.apple.quarantine /Applications/MacNewFile.app`
-
-- Restart Finder: `killall Finder`
-
-- Go through Settings Privacy and Security
-
 ### Uninstall
 
 Delete the `MacNewFile.app` file in the `Applications` folder.
@@ -100,6 +99,18 @@ You can delete with `AppCleaner` which will delete the tiny Finder extension bun
 ### Update
 
 Uninstall the current version and install the new version manually
+
+- **[Jump to Debugging](#debugging)**
+- **[Jump to Contributions and Issues](#contributions-and-issues)**
+
+## Manual Download All Features
+
+## Debugging
+- Move app out of quarantine: `xattr -dr com.apple.quarantine /Applications/MacNewFile.app`
+
+- Restart Finder: `killall Finder`
+
+- Go through Settings Privacy and Security
 
 ## Contributions and Issues
 
