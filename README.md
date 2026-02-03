@@ -31,7 +31,7 @@ MacNewFile is lightweight and simple. You right click anywhere in Finder (or on 
     - Microsoft Word, Excel, and Powerpoint
     - Apple Pages, Numbers, and Keynote
 
-- Settings menu to customize MacNewFile features
+- Settings menu to customize MacNewFile features (**ONLY IN XCODE FORK INSTALL** - more info later)
 
 - Can **copy the filepath** of the current directory
 
