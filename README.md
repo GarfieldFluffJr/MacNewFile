@@ -118,7 +118,19 @@ For all files installed, try to keep them somewhere you remember so it's easy to
 
 3. Open Xcode and clone your forked repository
 
-4. 
+4. Click `MacNewFile` -> `Signing  & Capabilities` 
+    <img src="./assets/install_step4.png" height="100" />
+    Ensure MacNewFile is selected under `Targets`
+
+5. Change the `Team` field to your own Apple ID. Change the `Bundle Identifier` from `louieyin` to your own first and last name. Then, under `App Groups`, uncheck mine and add your own in the same format, just replacing `louieyin` to your own name.
+
+    - This is a security feature implemented by Apple,  so they know who is using their services, and since you're building my app locally, you use your own account
+
+    - Everything will work fine if nothing is highlighted red
+
+    <img src="./assets/install_step5.png" height="100" />
+
+6. 
 
 ## Debugging
 - Move app out of quarantine: `xattr -dr com.apple.quarantine /Applications/MacNewFile.app`
