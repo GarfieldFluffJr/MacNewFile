@@ -19,7 +19,7 @@ So I made **MacNewFile**!!
 MacNewFile is lightweight and simple. You right click anywhere in Finder (or on your desktop) and you get a menu to create new files!
 
 <div align="center">
-<img src="./MacNewFile Demo sped up.gif" width="600" alt="MacNewFile Demo">
+<img src="./assets/MacNewFile Demo sped up.gif" width="600" alt="MacNewFile Demo">
 </div>
 
 **Please note:** This only doesn't work on directories inside of your iCloud, since Apple fully removed support for FinderSync in 2019.
@@ -107,10 +107,18 @@ Uninstall the current version and install the new version manually
 
 ### Install
 
+For all files installed, try to keep them somewhere you remember so it's easy to delete when finished (like Downloads folder)
+
 1. Install Xcode
     - [App Store (Recommended)](https://apps.apple.com/us/app/xcode/id497799835?mt=12)
     - [Older versions (Requires Apple ID)](https://developer.apple.com/download/all/?q=xcode) - Open in Incognito tab if it keeps redirecting you back to your account
     - [Which version of Xcode to install?](https://developer.apple.com/support/xcode/)
+
+2. Fork this repository
+
+3. Open Xcode and clone your forked repository
+
+4. 
 
 ## Debugging
 - Move app out of quarantine: `xattr -dr com.apple.quarantine /Applications/MacNewFile.app`
