@@ -604,4 +604,3 @@ static NSString * const kFeatureOpenTerminal = @"feature_open_terminal";
 }
 
 @end
-
