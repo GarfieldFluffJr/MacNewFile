@@ -130,7 +130,9 @@ For all files installed, try to keep them somewhere you remember so it's easy to
 
     <img src="./assets/install_step5.png" height="100" />
 
-6. 
+6. Change the `Target` to `MacNewFileFinderExtension` and repeat the exact same steps with the same names as step 5 <img src="./assets/install_step6.png" height="150" />
+
+
 
 ## Debugging
 - Move app out of quarantine: `xattr -dr com.apple.quarantine /Applications/MacNewFile.app`
