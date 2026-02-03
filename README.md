@@ -152,6 +152,14 @@ Now it's time to build the working version locally!
 
 13. Congratulations! You have installed the fully working version of MacNewFile! You can now safely delete Xcode and all other files installed (check your `Recents` folder or where you saved everything upon installation)
 
+## Update
+
+Uninstall the current app in `Applications` and follow the steps to install the new version again.
+
+## Uninstall
+
+Just delete the app in `Applications`. You may use choose to use`AppCleaner` to delete any bundles installed (~50KB).
+
 ## Debugging
 - Move app out of quarantine: `xattr -dr com.apple.quarantine /Applications/MacNewFile.app`
 
