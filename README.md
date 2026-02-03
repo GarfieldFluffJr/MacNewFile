@@ -119,7 +119,9 @@ For all files installed, try to keep them somewhere you remember so it's easy to
 3. Open Xcode and clone your forked repository
 
 4. Click `MacNewFile` -> `Signing  & Capabilities` 
-    <img src="./assets/install_step4.png" height="100" />
+
+    <img src="./assets/install_step4.png" />
+
     Ensure MacNewFile is selected under `Targets`
 
 5. Change the `Team` field to your own Apple ID. Change the `Bundle Identifier` from `louieyin` to your own first and last name. Then, under `App Groups`, uncheck mine and add your own in the same format, just replacing `louieyin` to your own name.
@@ -128,7 +130,7 @@ For all files installed, try to keep them somewhere you remember so it's easy to
 
     - Everything will work fine if nothing is highlighted red
 
-    <img src="./assets/install_step5.png" height="100" />
+    <img src="./assets/install_step5.png" />
 
 6. Change the `Target` to `MacNewFileFinderExtension` and repeat the exact same steps with the same names as step 5 <img src="./assets/install_step6.png" height="150" />
 
@@ -144,7 +146,7 @@ Now it's time to build the working version locally!
 
 11. Right click `Products/MacNewFile.app` and select `Show in Finder` 
 
-    <img src="./assets/install_step11.png" height="150" />
+    <img src="./assets/install_step11.png" height="150"/>
 
 12. Move it to the `Applications` folder and open it
 
