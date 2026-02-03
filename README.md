@@ -125,10 +125,18 @@ You can also reach me by email if you have any questions: **louieyin6@gmail.com*
 ## My Promise as a Developer
 
 - **I don't vibe-code my projects**
+
 - This is not malware, everything is pushed to this repo which you can review
+
 - It is **very easy to install and delete**, I steal no data, or hide anything on your device
+
 - This app does not hide in the background, I tested this with my own MacBook, Activity Monitor shows no activity once the application is quit
+
     - You can view if it is running in `System Settings -> General -> Login Items & Extensions -> File Providers / File System Extensions`
+
+- I try to be as transparent as possible, and explain why certain security bypasses or unorthodox installation methods are necessary.
+
+- **My projects are fully Open Source**. I don't make my projects cost any money to my users. MacOS and Apple in general lacks an open source community and I hope to make it better. Despite Apple requiring almost every developer to pay $100 USD per year just to develop (which is outrageous), I will do whatever I can to keep developing and distributing for free and bypass these ridiculous Apple security requirements.
 
 ## Support
 
