@@ -9,6 +9,7 @@
 [![Release](https://img.shields.io/github/v/release/GarfieldFluffJr/MacNewFile?color=2ea44f)](https://github.com/GarfieldFluffJr/MacNewFile/releases)
 
 ![Project Views](https://hits.sh/github.com/GarfieldFluffJr/MacNewFile.svg?label=Project%20Views&color=007ec6)
+[![Stars](https://img.shields.io/github/stars/GarfieldFluffJr/MacNewFile?style=flat&color=FFD700)](https://github.com/GarfieldFluffJr/MacNewFile/stargazers)
 
 </div>
 
