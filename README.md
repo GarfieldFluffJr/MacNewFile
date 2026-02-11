@@ -117,7 +117,7 @@ For all files installed, try to keep them somewhere you remember so it's easy to
 
 2. Fork this repository
 
-3. Open Xcode and clone your forked repository
+3. Open Xcode and clone your forked repository and checkout into the `new-version` branch
 
 4. Click `MacNewFile` -> `Signing  & Capabilities` 
 
