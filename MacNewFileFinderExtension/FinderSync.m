@@ -7,46 +7,16 @@
 
 #import "FinderSync.h"
 
-static NSString * const kAppGroupIdentifier = @"group.com.louieyin.MacNewFile";
-
-// Feature keys for UserDefaults
-static NSString * const kFeatureCopyPath = @"feature_copy_path";
-static NSString * const kFeatureTextFile = @"feature_text_file";
-static NSString * const kFeatureMarkdownFile = @"feature_markdown_file";
-static NSString * const kFeatureWordDocument = @"feature_word_document";
-static NSString * const kFeatureExcelSpreadsheet = @"feature_excel_spreadsheet";
-static NSString * const kFeaturePowerPointPresentation = @"feature_powerpoint_presentation";
-static NSString * const kFeaturePagesDocument = @"feature_pages_document";
-static NSString * const kFeatureNumbersSpreadsheet = @"feature_numbers_spreadsheet";
-static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presentation";
-static NSString * const kFeatureOpenTerminal = @"feature_open_terminal";
-
-@interface FinderSync ()
-@property (strong) NSUserDefaults *sharedDefaults;
-@end
-
 @implementation FinderSync
 
 - (instancetype)init {
     self = [super init];
-
-    // Initialize shared defaults
-    self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:kAppGroupIdentifier];
 
     // Monitor root filesystem - covers all local directories
     // Note: iCloud Drive is not supported due to macOS Sonoma+ limitations
     [FIFinderSyncController defaultController].directoryURLs = [NSSet setWithObject:[NSURL fileURLWithPath:@"/"]];
 
     return self;
-}
-
-- (BOOL)isFeatureEnabled:(NSString *)key {
-    // Default to YES if not set
-    id value = [self.sharedDefaults objectForKey:key];
-    if (value == nil) {
-        return YES;
-    }
-    return [self.sharedDefaults boolForKey:key];
 }
 
 #pragma mark - Primary Finder Sync protocol methods
@@ -81,107 +51,85 @@ static NSString * const kFeatureOpenTerminal = @"feature_open_terminal";
 - (NSMenu *)menuForMenuKind:(FIMenuKind)whichMenu {
     NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
 
-    // Add "Copy Path" menu item (if enabled)
-    if ([self isFeatureEnabled:kFeatureCopyPath]) {
-        NSMenuItem *copyPathItem = [[NSMenuItem alloc] initWithTitle:@"Copy Path" action:@selector(copyPathToClipboard:) keyEquivalent:@""];
-        NSImage *copyIcon = [NSImage imageNamed:@"copy"];
-        copyIcon.template = YES;
-        copyPathItem.image = copyIcon;
-        [menu addItem:copyPathItem];
-    }
+    // Add "Copy Path" menu item
+    NSMenuItem *copyPathItem = [[NSMenuItem alloc] initWithTitle:@"Copy Path" action:@selector(copyPathToClipboard:) keyEquivalent:@""];
+    NSImage *copyIcon = [NSImage imageNamed:@"copy"];
+    copyIcon.template = YES;
+    copyPathItem.image = copyIcon;
+    [menu addItem:copyPathItem];
 
-    // Add "Open Terminal" menu item (if enabled)
-    if ([self isFeatureEnabled:kFeatureOpenTerminal]) {
-        NSMenuItem *openTerminalItem = [[NSMenuItem alloc] initWithTitle:@"Open New Terminal" action:@selector(openTerminalAtPath:) keyEquivalent:@""];
-        NSImage *terminalIcon = [NSImage imageNamed:@"terminal"];
-        terminalIcon.template = YES;
-        openTerminalItem.image = terminalIcon;
-        [menu addItem:openTerminalItem];
-    }
+    // Add "Open Terminal" menu item
+    NSMenuItem *openTerminalItem = [[NSMenuItem alloc] initWithTitle:@"Open New Terminal" action:@selector(openTerminalAtPath:) keyEquivalent:@""];
+    NSImage *terminalIcon = [NSImage imageNamed:@"terminal"];
+    terminalIcon.template = YES;
+    openTerminalItem.image = terminalIcon;
+    [menu addItem:openTerminalItem];
 
     // Create submenu for New File options
     NSMenu *submenu = [[NSMenu alloc] initWithTitle:@""];
 
-    // Add "New Text File" to submenu (if enabled)
-    if ([self isFeatureEnabled:kFeatureTextFile]) {
-        NSMenuItem *newTextItem = [[NSMenuItem alloc] initWithTitle:@"Text File" action:@selector(createNewTextFile:) keyEquivalent:@""];
-        NSImage *textIcon = [NSImage imageNamed:@"edit"];
-        textIcon.template = YES;
-        newTextItem.image = textIcon;
-        [submenu addItem:newTextItem];
-    }
+    // Add "New Text File" to submenu
+    NSMenuItem *newTextItem = [[NSMenuItem alloc] initWithTitle:@"Text File" action:@selector(createNewTextFile:) keyEquivalent:@""];
+    NSImage *textIcon = [NSImage imageNamed:@"edit"];
+    textIcon.template = YES;
+    newTextItem.image = textIcon;
+    [submenu addItem:newTextItem];
 
-    // Add "New Markdown File" to submenu (if enabled)
-    if ([self isFeatureEnabled:kFeatureMarkdownFile]) {
-        NSMenuItem *newMarkdownItem = [[NSMenuItem alloc] initWithTitle:@"Markdown File" action:@selector(createNewMarkdownFile:) keyEquivalent:@""];
-        NSImage *markdownIcon = [NSImage imageNamed:@"document"];
-        markdownIcon.template = YES;
-        newMarkdownItem.image = markdownIcon;
-        [submenu addItem:newMarkdownItem];
-    }
+    // Add "New Markdown File" to submenu
+    NSMenuItem *newMarkdownItem = [[NSMenuItem alloc] initWithTitle:@"Markdown File" action:@selector(createNewMarkdownFile:) keyEquivalent:@""];
+    NSImage *markdownIcon = [NSImage imageNamed:@"document"];
+    markdownIcon.template = YES;
+    newMarkdownItem.image = markdownIcon;
+    [submenu addItem:newMarkdownItem];
 
-    // Add "New Microsoft Word Document" to submenu (if enabled)
-    if ([self isFeatureEnabled:kFeatureWordDocument]) {
-        NSMenuItem *newWordItem = [[NSMenuItem alloc] initWithTitle:@"Microsoft Word Document" action:@selector(createNewWordDocument:) keyEquivalent:@""];
-        NSImage *wordIcon = [NSImage imageNamed:@"word"];
-        wordIcon.template = YES;
-        newWordItem.image = wordIcon;
-        [submenu addItem:newWordItem];
-    }
+    // Add "New Microsoft Word Document" to submenu
+    NSMenuItem *newWordItem = [[NSMenuItem alloc] initWithTitle:@"Microsoft Word Document" action:@selector(createNewWordDocument:) keyEquivalent:@""];
+    NSImage *wordIcon = [NSImage imageNamed:@"word"];
+    wordIcon.template = YES;
+    newWordItem.image = wordIcon;
+    [submenu addItem:newWordItem];
 
-    // Add "New Microsoft Excel Spreadsheet" to submenu (if enabled)
-    if ([self isFeatureEnabled:kFeatureExcelSpreadsheet]) {
-        NSMenuItem *newExcelItem = [[NSMenuItem alloc] initWithTitle:@"Microsoft Excel Spreadsheet" action:@selector(createNewExcelDocument:) keyEquivalent:@""];
-        NSImage *excelIcon = [NSImage imageNamed:@"excel"];
-        excelIcon.template = YES;
-        newExcelItem.image = excelIcon;
-        [submenu addItem:newExcelItem];
-    }
+    // Add "New Microsoft Excel Spreadsheet" to submenu
+    NSMenuItem *newExcelItem = [[NSMenuItem alloc] initWithTitle:@"Microsoft Excel Spreadsheet" action:@selector(createNewExcelDocument:) keyEquivalent:@""];
+    NSImage *excelIcon = [NSImage imageNamed:@"excel"];
+    excelIcon.template = YES;
+    newExcelItem.image = excelIcon;
+    [submenu addItem:newExcelItem];
 
-    // Add "New Microsoft PowerPoint Presentation" to submenu (if enabled)
-    if ([self isFeatureEnabled:kFeaturePowerPointPresentation]) {
-        NSMenuItem *newPowerPointItem = [[NSMenuItem alloc] initWithTitle:@"Microsoft PowerPoint Presentation" action:@selector(createNewPowerPointDocument:) keyEquivalent:@""];
-        NSImage *powerPointIcon = [NSImage imageNamed:@"powerpoint"];
-        powerPointIcon.template = YES;
-        newPowerPointItem.image = powerPointIcon;
-        [submenu addItem:newPowerPointItem];
-    }
+    // Add "New Microsoft PowerPoint Presentation" to submenu
+    NSMenuItem *newPowerPointItem = [[NSMenuItem alloc] initWithTitle:@"Microsoft PowerPoint Presentation" action:@selector(createNewPowerPointDocument:) keyEquivalent:@""];
+    NSImage *powerPointIcon = [NSImage imageNamed:@"powerpoint"];
+    powerPointIcon.template = YES;
+    newPowerPointItem.image = powerPointIcon;
+    [submenu addItem:newPowerPointItem];
 
-    // Add "New Pages Document" to submenu (if enabled)
-    if ([self isFeatureEnabled:kFeaturePagesDocument]) {
-        NSMenuItem *newPagesItem = [[NSMenuItem alloc] initWithTitle:@"Pages Document" action:@selector(createNewPagesDocument:) keyEquivalent:@""];
-        NSImage *pagesIcon = [NSImage imageNamed:@"pages"];
-        pagesIcon.template = YES;
-        newPagesItem.image = pagesIcon;
-        [submenu addItem:newPagesItem];
-    }
+    // Add "New Pages Document" to submenu
+    NSMenuItem *newPagesItem = [[NSMenuItem alloc] initWithTitle:@"Pages Document" action:@selector(createNewPagesDocument:) keyEquivalent:@""];
+    NSImage *pagesIcon = [NSImage imageNamed:@"pages"];
+    pagesIcon.template = YES;
+    newPagesItem.image = pagesIcon;
+    [submenu addItem:newPagesItem];
 
-    // Add "New Numbers Spreadsheet" to submenu (if enabled)
-    if ([self isFeatureEnabled:kFeatureNumbersSpreadsheet]) {
-        NSMenuItem *newNumbersItem = [[NSMenuItem alloc] initWithTitle:@"Numbers Spreadsheet" action:@selector(createNewNumbersDocument:) keyEquivalent:@""];
-        NSImage *numbersIcon = [NSImage imageNamed:@"numbers"];
-        numbersIcon.template = YES;
-        newNumbersItem.image = numbersIcon;
-        [submenu addItem:newNumbersItem];
-    }
+    // Add "New Numbers Spreadsheet" to submenu
+    NSMenuItem *newNumbersItem = [[NSMenuItem alloc] initWithTitle:@"Numbers Spreadsheet" action:@selector(createNewNumbersDocument:) keyEquivalent:@""];
+    NSImage *numbersIcon = [NSImage imageNamed:@"numbers"];
+    numbersIcon.template = YES;
+    newNumbersItem.image = numbersIcon;
+    [submenu addItem:newNumbersItem];
 
-    // Add "New Keynote Presentation" to submenu (if enabled)
-    if ([self isFeatureEnabled:kFeatureKeynotePresentation]) {
-        NSMenuItem *newKeynoteItem = [[NSMenuItem alloc] initWithTitle:@"Keynote Presentation" action:@selector(createNewKeynoteDocument:) keyEquivalent:@""];
-        NSImage *keynoteIcon = [NSImage imageNamed:@"keynote"];
-        keynoteIcon.template = YES;
-        newKeynoteItem.image = keynoteIcon;
-        [submenu addItem:newKeynoteItem];
-    }
+    // Add "New Keynote Presentation" to submenu
+    NSMenuItem *newKeynoteItem = [[NSMenuItem alloc] initWithTitle:@"Keynote Presentation" action:@selector(createNewKeynoteDocument:) keyEquivalent:@""];
+    NSImage *keynoteIcon = [NSImage imageNamed:@"keynote"];
+    keynoteIcon.template = YES;
+    newKeynoteItem.image = keynoteIcon;
+    [submenu addItem:newKeynoteItem];
 
-    // Only add "New File" menu if there are items in the submenu
-    if (submenu.numberOfItems > 0) {
-        NSMenuItem *mainItem = [[NSMenuItem alloc] initWithTitle:@"New File" action:nil keyEquivalent:@""];
-        NSImage *mainIcon = [NSImage imageNamed:@"add"];
-        mainItem.image = mainIcon;
-        mainItem.submenu = submenu;
-        [menu addItem:mainItem];
-    }
+    // Add "New File" submenu
+    NSMenuItem *mainItem = [[NSMenuItem alloc] initWithTitle:@"New File" action:nil keyEquivalent:@""];
+    NSImage *mainIcon = [NSImage imageNamed:@"add"];
+    mainItem.image = mainIcon;
+    mainItem.submenu = submenu;
+    [menu addItem:mainItem];
 
     return menu;
 }
