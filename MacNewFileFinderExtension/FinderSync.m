@@ -18,7 +18,8 @@
 #pragma mark - Menu and toolbar item support
 
 - (NSString *)toolbarItemName {
-    return NSLocalizedString(@"MacNewFileFinderExtension", nil);
+    // Better fallback value requested by Greptile
+    return NSLocalizedString(@"New File", nil);
 }
 
 - (NSString *)toolbarItemToolTip {
@@ -114,7 +115,7 @@
     return menu;
 }
 
-// --- Funzione Helper per eseguire AppleScript in sicurezza (Fix Greptile) ---
+// --- Helper method to execute AppleScript safely ---
 
 - (void)executeAppleScript:(NSString *)scriptSource revealFilePath:(NSString *)filePath {
     NSDictionary *errorDict = nil;
@@ -128,7 +129,7 @@
     }
 }
 
-// --- Funzioni di creazione Office ---
+// --- Office document creation methods ---
 
 - (void)createNewWordDocument:(id)sender {
     NSURL *targetURL = [[FIFinderSyncController defaultController] targetedURL];
@@ -175,7 +176,7 @@
     [self executeAppleScript:scriptSource revealFilePath:filePath];
 }
 
-// --- Altre funzioni helper ---
+// --- Other helper methods ---
 
 - (void)createTemplateFileWithExtension:(NSString *)extension {
     NSURL *targetURL = [[FIFinderSyncController defaultController] targetedURL];
@@ -191,7 +192,7 @@
     NSString *templatePath = [bundle pathForResource:@"Blank" ofType:extension];
     if (!templatePath) return;
     
-    // Fix Greptile: Escaping percorsi prima di usarli in shell
+    // Escape paths before using them in shell
     NSString *escapedTemplate = [templatePath stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"];
     NSString *escapedPath = [filePath stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"];
     NSString *scriptSource = [NSString stringWithFormat:@"do shell script \"cp -R '%@' '%@'\"", escapedTemplate, escapedPath];
@@ -233,7 +234,8 @@
     if (targetURL) {
         NSString *escapedPath = [targetURL.path stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"];
         NSString *scriptSource = [NSString stringWithFormat:@"do shell script \"open -a Terminal '%@'\"", escapedPath];
-        [self executeAppleScript:scriptSource revealFilePath:nil]; // Qui non riveliamo file, apriamo solo il terminale
+        // Do not reveal file here, just open the terminal
+        [self executeAppleScript:scriptSource revealFilePath:nil];
     }
 }
 
