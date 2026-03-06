@@ -28,14 +28,14 @@
         icon.template = YES;
         self.statusItem.button.image = icon;
     } else {
-        self.statusItem.button.title = @"NF";  // Fallback to text
+        self.statusItem.button.title = NSLocalizedString(@"NF", nil);  // Fallback to text
     }
 
     // Create dropdown menu on click
     NSMenu *menu = [[NSMenu alloc] init];
-    [menu addItemWithTitle:@"MacNewFile is running" action:nil keyEquivalent:@""];
+    [menu addItemWithTitle:NSLocalizedString(@"MacNewFile is running", nil) action:nil keyEquivalent:@""];
     [menu addItem:[NSMenuItem separatorItem]];
-    [menu addItemWithTitle:@"Quit" action:@selector(terminate:) keyEquivalent:@"q"];
+    [menu addItemWithTitle:NSLocalizedString(@"Quit", nil) action:@selector(terminate:) keyEquivalent:@"q"];
 
     self.statusItem.menu = menu;
 

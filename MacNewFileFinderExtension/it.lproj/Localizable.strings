@@ -1,0 +1,34 @@
+/* 
+  Localizable.strings
+  MacNewFile
+
+  Created by Andrea Lombardo on 06/03/26.
+  
+*/
+
+
+/* Toolbar */
+"MacNewFileFinderExtension" = "Nuovo file";
+"MacNewFileFinderExtension: Click the toolbar item for a menu." = "Nuovo file: clicca qui per aprire il menu.";
+
+/* Menu Items */
+"Copy Path" = "Copia percorso";
+"Open New Terminal" = "Apri nel Terminale";
+"New File" = "Nuovo file";
+"Text File" = "File di testo";
+"Markdown File" = "File Markdown";
+"Microsoft Word Document" = "Documento Microsoft Word";
+"Microsoft Excel Spreadsheet" = "Foglio di calcolo Microsoft Excel";
+"Microsoft PowerPoint Presentation" = "Presentazione Microsoft PowerPoint";
+"Pages Document" = "Documento Pages";
+"Numbers Spreadsheet" = "Foglio di calcolo Numbers";
+"Keynote Presentation" = "Presentazione Keynote";
+
+/* File Names */
+"Untitled" = "Senza titolo";
+
+
+/* Menu Bar App */
+"NF" = "NF";
+"MacNewFile is running" = "MacNewFile è in esecuzione";
+"Quit" = "Esci";
