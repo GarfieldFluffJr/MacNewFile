@@ -32,3 +32,5 @@
 "NF" = "NF";
 "MacNewFile is running" = "MacNewFile è in esecuzione";
 "Quit" = "Esci";
+
+"Failed to open Terminal" = "Impossibile aprire il Terminale";
