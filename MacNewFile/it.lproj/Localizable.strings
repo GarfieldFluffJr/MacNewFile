@@ -1,0 +1,9 @@
+/*
+  Localizable.strings
+  MacNewFile (Main App)
+*/
+
+/* Menu Bar App */
+"NF" = "NF";
+"MacNewFile is running" = "MacNewFile è in esecuzione";
+"Quit" = "Esci";
