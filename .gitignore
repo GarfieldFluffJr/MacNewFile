@@ -9,7 +9,7 @@ xcuserdata/
                                                                                                                          
 # Documents                                                                                                            
 *.docx
-!MacNewFileFinderExtension/Blank.docx                                                                                                             
+!MacNewFileFinderExtension/Blank.docx
 *.pdf         
 
 .claude
