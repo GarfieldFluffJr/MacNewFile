@@ -224,7 +224,7 @@
                               configuration:config
                           completionHandler:^(NSRunningApplication *app, NSError *error) {
         if (error) {
-            // Usiamo NSLocalizedString con la base in inglese
+            // Use localized error message
             NSString *errorMessage = NSLocalizedString(@"Failed to open Terminal", nil);
             NSLog(@"%@: %@", errorMessage, error.localizedDescription);
         }
