@@ -43,10 +43,14 @@ MacNewFile is lightweight and simple. You right click anywhere in Finder (or on 
 - To disable the app (fully stop running in the background), click the MacNewFile app icon in the top menu bar (plus sign) and click "Quit"
     - Or you can go to `System Settings -> General -> Login & Extensions -> File Providers / File System Extensions` and find MacNewFile and turn it off
 
+### Added
+
+- Italian Localization
+
 # Installation
 
-- **[Homebrew (Recommended) [v3.0.0]](#homebrew)**
-- **[Manual Download [v3.0.0]](#manual-download)**
+- **[Homebrew (Recommended) [v3.1.0]](#homebrew)**
+- **[Manual Download [v3.1.0]](#manual-download)**
 - **[Manual Download [All Features]](#manual-download-all-features)**
 
 v3.0.0 contains all functionality except for the settings modal which allows you to customize your right-click menu and which features you would like to enable/disable. This is because Apple Security requires notarization so it blocks certain API features (settings modal) unless I pay them. This is also why manual installation prompts so many privacy and security flags.
