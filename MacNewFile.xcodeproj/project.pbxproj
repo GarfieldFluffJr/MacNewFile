@@ -40,13 +40,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5F9FB1EA2F5AE55F008F9E2D /* Exceptions for "MacNewFileFinderExtension" folder in "MacNewFile" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"/Localized: Localizable.strings",
-			);
-			target = DE67E26B2F26C1FD00BFE7DF /* MacNewFile */;
-		};
 		DE50822B2F2FBFBB00B05CE3 /* Exceptions for "dist" folder in "MacNewFile" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -72,7 +65,6 @@
 		DE67E2862F26C23200BFE7DF /* MacNewFileFinderExtension */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				5F9FB1EA2F5AE55F008F9E2D /* Exceptions for "MacNewFileFinderExtension" folder in "MacNewFile" target */,
 				DE67E28E2F26C23200BFE7DF /* Exceptions for "MacNewFileFinderExtension" folder in "MacNewFileFinderExtension" target */,
 			);
 			path = MacNewFileFinderExtension;
@@ -385,7 +377,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 10;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 57G5Y8C4XX;
 				ENABLE_APP_SANDBOX = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSUIElement = YES;
@@ -419,7 +411,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 10;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 57G5Y8C4XX;
 				ENABLE_APP_SANDBOX = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSUIElement = YES;
@@ -449,7 +441,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 10;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 57G5Y8C4XX;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = NO;
@@ -490,7 +482,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 10;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 57G5Y8C4XX;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = NO;
