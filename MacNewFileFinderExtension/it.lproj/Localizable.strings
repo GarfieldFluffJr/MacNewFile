@@ -27,9 +27,5 @@
 "Untitled" = "Senza titolo";
 
 
-/* Menu Bar App */
-"NF" = "NF";
-"MacNewFile is running" = "MacNewFile è in esecuzione";
-"Quit" = "Esci";
-
+/* Errors */
 "Failed to open Terminal" = "Impossibile aprire il Terminale";
