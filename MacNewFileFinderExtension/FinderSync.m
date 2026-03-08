@@ -37,29 +37,29 @@
 #pragma mark - Menu and toolbar item support
 
 - (NSString *)toolbarItemName {
-    return @"MacNewFileFinderExtension";
+    return NSLocalizedString(@"New File", nil);
 }
 
 - (NSString *)toolbarItemToolTip {
-    return @"MacNewFileFinderExtension: Click the toolbar item for a menu.";
+    return NSLocalizedString(@"MacNewFileFinderExtension: Click the toolbar item for a menu.", nil);
 }
 
 - (NSImage *)toolbarItemImage {
-    return [NSImage imageNamed:NSImageNameCaution];
+    return [NSImage imageNamed:NSImageNameAddTemplate];
 }
 
 - (NSMenu *)menuForMenuKind:(FIMenuKind)whichMenu {
     NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
 
     // Add "Copy Path" menu item
-    NSMenuItem *copyPathItem = [[NSMenuItem alloc] initWithTitle:@"Copy Path" action:@selector(copyPathToClipboard:) keyEquivalent:@""];
+    NSMenuItem *copyPathItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Copy Path", nil) action:@selector(copyPathToClipboard:) keyEquivalent:@""];
     NSImage *copyIcon = [NSImage imageNamed:@"copy"];
     copyIcon.template = YES;
     copyPathItem.image = copyIcon;
     [menu addItem:copyPathItem];
 
     // Add "Open Terminal" menu item
-    NSMenuItem *openTerminalItem = [[NSMenuItem alloc] initWithTitle:@"Open New Terminal" action:@selector(openTerminalAtPath:) keyEquivalent:@""];
+    NSMenuItem *openTerminalItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open New Terminal", nil) action:@selector(openTerminalAtPath:) keyEquivalent:@""];
     NSImage *terminalIcon = [NSImage imageNamed:@"terminal"];
     terminalIcon.template = YES;
     openTerminalItem.image = terminalIcon;
@@ -69,63 +69,63 @@
     NSMenu *submenu = [[NSMenu alloc] initWithTitle:@""];
 
     // Add "New Text File" to submenu
-    NSMenuItem *newTextItem = [[NSMenuItem alloc] initWithTitle:@"Text File" action:@selector(createNewTextFile:) keyEquivalent:@""];
+    NSMenuItem *newTextItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Text File", nil) action:@selector(createNewTextFile:) keyEquivalent:@""];
     NSImage *textIcon = [NSImage imageNamed:@"edit"];
     textIcon.template = YES;
     newTextItem.image = textIcon;
     [submenu addItem:newTextItem];
 
     // Add "New Markdown File" to submenu
-    NSMenuItem *newMarkdownItem = [[NSMenuItem alloc] initWithTitle:@"Markdown File" action:@selector(createNewMarkdownFile:) keyEquivalent:@""];
+    NSMenuItem *newMarkdownItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Markdown File", nil) action:@selector(createNewMarkdownFile:) keyEquivalent:@""];
     NSImage *markdownIcon = [NSImage imageNamed:@"document"];
     markdownIcon.template = YES;
     newMarkdownItem.image = markdownIcon;
     [submenu addItem:newMarkdownItem];
 
     // Add "New Microsoft Word Document" to submenu
-    NSMenuItem *newWordItem = [[NSMenuItem alloc] initWithTitle:@"Microsoft Word Document" action:@selector(createNewWordDocument:) keyEquivalent:@""];
+    NSMenuItem *newWordItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Microsoft Word Document", nil) action:@selector(createNewWordDocument:) keyEquivalent:@""];
     NSImage *wordIcon = [NSImage imageNamed:@"word"];
     wordIcon.template = YES;
     newWordItem.image = wordIcon;
     [submenu addItem:newWordItem];
 
     // Add "New Microsoft Excel Spreadsheet" to submenu
-    NSMenuItem *newExcelItem = [[NSMenuItem alloc] initWithTitle:@"Microsoft Excel Spreadsheet" action:@selector(createNewExcelDocument:) keyEquivalent:@""];
+    NSMenuItem *newExcelItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Microsoft Excel Spreadsheet", nil) action:@selector(createNewExcelDocument:) keyEquivalent:@""];
     NSImage *excelIcon = [NSImage imageNamed:@"excel"];
     excelIcon.template = YES;
     newExcelItem.image = excelIcon;
     [submenu addItem:newExcelItem];
 
     // Add "New Microsoft PowerPoint Presentation" to submenu
-    NSMenuItem *newPowerPointItem = [[NSMenuItem alloc] initWithTitle:@"Microsoft PowerPoint Presentation" action:@selector(createNewPowerPointDocument:) keyEquivalent:@""];
+    NSMenuItem *newPowerPointItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Microsoft PowerPoint Presentation", nil) action:@selector(createNewPowerPointDocument:) keyEquivalent:@""];
     NSImage *powerPointIcon = [NSImage imageNamed:@"powerpoint"];
     powerPointIcon.template = YES;
     newPowerPointItem.image = powerPointIcon;
     [submenu addItem:newPowerPointItem];
 
     // Add "New Pages Document" to submenu
-    NSMenuItem *newPagesItem = [[NSMenuItem alloc] initWithTitle:@"Pages Document" action:@selector(createNewPagesDocument:) keyEquivalent:@""];
+    NSMenuItem *newPagesItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Pages Document", nil) action:@selector(createNewPagesDocument:) keyEquivalent:@""];
     NSImage *pagesIcon = [NSImage imageNamed:@"pages"];
     pagesIcon.template = YES;
     newPagesItem.image = pagesIcon;
     [submenu addItem:newPagesItem];
 
     // Add "New Numbers Spreadsheet" to submenu
-    NSMenuItem *newNumbersItem = [[NSMenuItem alloc] initWithTitle:@"Numbers Spreadsheet" action:@selector(createNewNumbersDocument:) keyEquivalent:@""];
+    NSMenuItem *newNumbersItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Numbers Spreadsheet", nil) action:@selector(createNewNumbersDocument:) keyEquivalent:@""];
     NSImage *numbersIcon = [NSImage imageNamed:@"numbers"];
     numbersIcon.template = YES;
     newNumbersItem.image = numbersIcon;
     [submenu addItem:newNumbersItem];
 
     // Add "New Keynote Presentation" to submenu
-    NSMenuItem *newKeynoteItem = [[NSMenuItem alloc] initWithTitle:@"Keynote Presentation" action:@selector(createNewKeynoteDocument:) keyEquivalent:@""];
+    NSMenuItem *newKeynoteItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Keynote Presentation", nil) action:@selector(createNewKeynoteDocument:) keyEquivalent:@""];
     NSImage *keynoteIcon = [NSImage imageNamed:@"keynote"];
     keynoteIcon.template = YES;
     newKeynoteItem.image = keynoteIcon;
     [submenu addItem:newKeynoteItem];
 
     // Add "New File" submenu
-    NSMenuItem *mainItem = [[NSMenuItem alloc] initWithTitle:@"New File" action:nil keyEquivalent:@""];
+    NSMenuItem *mainItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"New File", nil) action:nil keyEquivalent:@""];
     NSImage *mainIcon = [NSImage imageNamed:@"add"];
     mainItem.image = mainIcon;
     mainItem.submenu = submenu;
@@ -187,7 +187,7 @@
     }
 
     // Build unique filename
-    NSString *baseName = @"Untitled";
+    NSString *baseName = NSLocalizedString(@"Untitled", nil);
     NSString *extension = @"docx";
     NSString *filePath = [targetURL.path stringByAppendingPathComponent:
                           [NSString stringWithFormat:@"%@.%@", baseName, extension]];
@@ -241,7 +241,7 @@
     }
 
     // Build unique filename
-    NSString *baseName = @"Untitled";
+    NSString *baseName = NSLocalizedString(@"Untitled", nil);
     NSString *extension = @"xlsx";
     NSString *filePath = [targetURL.path stringByAppendingPathComponent:
                           [NSString stringWithFormat:@"%@.%@", baseName, extension]];
@@ -296,7 +296,7 @@
     }
 
     // Build unique filename
-    NSString *baseName = @"Untitled";
+    NSString *baseName = NSLocalizedString(@"Untitled", nil);
     NSString *extension = @"pptx";
     NSString *filePath = [targetURL.path stringByAppendingPathComponent:
                           [NSString stringWithFormat:@"%@.%@", baseName, extension]];
@@ -349,7 +349,7 @@
     }
 
     // Build unique filename
-    NSString *baseName = @"Untitled";
+    NSString *baseName = NSLocalizedString(@"Untitled", nil);
     NSString *extension = @"pages";
     NSString *filePath = [targetURL.path stringByAppendingPathComponent:
                           [NSString stringWithFormat:@"%@.%@", baseName, extension]];
@@ -401,7 +401,7 @@
     }
 
     // Build unique filename
-    NSString *baseName = @"Untitled";
+    NSString *baseName = NSLocalizedString(@"Untitled", nil);
     NSString *extension = @"numbers";
     NSString *filePath = [targetURL.path stringByAppendingPathComponent:
                           [NSString stringWithFormat:@"%@.%@", baseName, extension]];
@@ -453,7 +453,7 @@
     }
 
     // Build unique filename
-    NSString *baseName = @"Untitled";
+    NSString *baseName = NSLocalizedString(@"Untitled", nil);
     NSString *extension = @"key";
     NSString *filePath = [targetURL.path stringByAppendingPathComponent:
                           [NSString stringWithFormat:@"%@.%@", baseName, extension]];
@@ -515,7 +515,7 @@
     }
 
     // Create filename
-    NSString *baseName = @"Untitled";
+    NSString *baseName = NSLocalizedString(@"Untitled", nil);
     NSString *filePath = [targetURL.path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", baseName, extension]];
 
     // If "Untitled" already exists, add a number to it
@@ -544,16 +544,6 @@
         NSURL *fileURL = [NSURL fileURLWithPath:filePath];
         [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[fileURL]];
     }
-}
-
-- (IBAction)sampleAction:(id)sender {
-    NSURL* target = [[FIFinderSyncController defaultController] targetedURL];
-    NSArray* items = [[FIFinderSyncController defaultController] selectedItemURLs];
-
-    NSLog(@"sampleAction: menu item: %@, target = %@, items = ", [sender title], [target filePathURL]);
-    [items enumerateObjectsUsingBlock: ^(id obj, NSUInteger idx, BOOL *stop) {
-        NSLog(@"    %@", [obj filePathURL]);
-    }];
 }
 
 @end
