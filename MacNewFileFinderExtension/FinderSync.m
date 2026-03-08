@@ -171,7 +171,7 @@
     [script executeAndReturnError:&errorDict];
 
     if (errorDict) {
-        NSLog(@"%@: %@", NSLocalizedString(@"Failed to open Terminal", nil), errorDict);
+        NSLog(@"Failed to open Terminal: %@", errorDict);
     } else {
         NSLog(@"Opened Terminal at: %@", path);
     }
