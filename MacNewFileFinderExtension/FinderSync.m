@@ -12,11 +12,47 @@
 - (instancetype)init {
     self = [super init];
 
-    // Monitor root filesystem - covers all local directories
+    // Monitor root filesystem and all mounted volumes (including USB drives)
+    // Finder Sync extensions don't cross volume mount points, so we need to
+    // explicitly add each mounted volume to directoryURLs
     // Note: iCloud Drive is not supported due to macOS Sonoma+ limitations
-    [FIFinderSyncController defaultController].directoryURLs = [NSSet setWithObject:[NSURL fileURLWithPath:@"/"]];
+    [self updateDirectoryURLs];
+
+    // Listen for volume mount/unmount to keep directoryURLs up to date
+    [[[NSWorkspace sharedWorkspace] notificationCenter]
+        addObserver:self
+           selector:@selector(volumeDidMount:)
+               name:NSWorkspaceDidMountNotification
+             object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter]
+        addObserver:self
+           selector:@selector(volumeDidUnmount:)
+               name:NSWorkspaceDidUnmountNotification
+             object:nil];
 
     return self;
+}
+
+- (void)updateDirectoryURLs {
+    NSMutableSet *urls = [NSMutableSet setWithObject:[NSURL fileURLWithPath:@"/"]];
+
+    // Add all mounted volumes (covers USB drives, external drives, etc.)
+    NSArray *volumeURLs = [[NSFileManager defaultManager]
+        mountedVolumeURLsIncludingResourceValuesForKeys:nil
+                                                options:NSVolumeEnumerationSkipHiddenVolumes];
+    for (NSURL *volumeURL in volumeURLs) {
+        [urls addObject:volumeURL];
+    }
+
+    [FIFinderSyncController defaultController].directoryURLs = urls;
+}
+
+- (void)volumeDidMount:(NSNotification *)notification {
+    [self updateDirectoryURLs];
+}
+
+- (void)volumeDidUnmount:(NSNotification *)notification {
+    [self updateDirectoryURLs];
 }
 
 #pragma mark - Primary Finder Sync protocol methods
