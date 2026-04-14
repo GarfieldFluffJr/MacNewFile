@@ -8,6 +8,8 @@
 #import <Cocoa/Cocoa.h>
 #import <FinderSync/FinderSync.h>
 
-@interface FinderSync : FIFinderSync
+@interface FinderSync : FIFinderSync {
+    dispatch_source_t _volumeMonitorSource;
+}
 
 @end

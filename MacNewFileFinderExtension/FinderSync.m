@@ -18,17 +18,24 @@
     // Note: iCloud Drive is not supported due to macOS Sonoma+ limitations
     [self updateDirectoryURLs];
 
-    // Listen for volume mount/unmount to keep directoryURLs up to date
-    [[[NSWorkspace sharedWorkspace] notificationCenter]
-        addObserver:self
-           selector:@selector(volumeDidMount:)
-               name:NSWorkspaceDidMountNotification
-             object:nil];
-    [[[NSWorkspace sharedWorkspace] notificationCenter]
-        addObserver:self
-           selector:@selector(volumeDidUnmount:)
-               name:NSWorkspaceDidUnmountNotification
-             object:nil];
+    // Watch /Volumes for changes (USB plug/eject) using GCD
+    // NSWorkspace notifications aren't reliable in Finder Sync extensions
+    int fd = open("/Volumes", O_EVTONLY);
+    if (fd >= 0) {
+        _volumeMonitorSource = dispatch_source_create(
+            DISPATCH_SOURCE_TYPE_VNODE, fd,
+            DISPATCH_VNODE_WRITE | DISPATCH_VNODE_LINK,
+            dispatch_get_main_queue());
+
+        __weak typeof(self) weakSelf = self;
+        dispatch_source_set_event_handler(_volumeMonitorSource, ^{
+            [weakSelf updateDirectoryURLs];
+        });
+        dispatch_source_set_cancel_handler(_volumeMonitorSource, ^{
+            close(fd);
+        });
+        dispatch_resume(_volumeMonitorSource);
+    }
 
     return self;
 }
@@ -45,14 +52,6 @@
     }
 
     [FIFinderSyncController defaultController].directoryURLs = urls;
-}
-
-- (void)volumeDidMount:(NSNotification *)notification {
-    [self updateDirectoryURLs];
-}
-
-- (void)volumeDidUnmount:(NSNotification *)notification {
-    [self updateDirectoryURLs];
 }
 
 #pragma mark - Primary Finder Sync protocol methods
