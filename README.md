@@ -49,11 +49,11 @@ MacNewFile is lightweight and simple. You right click anywhere in Finder (or on 
 
 # Installation
 
-- **[Homebrew (Recommended) [v3.1.0]](#homebrew)**
-- **[Manual Download [v3.1.0]](#manual-download)**
+- **[Homebrew (Recommended) [v3.1.1]](#homebrew)**
+- **[Manual Download [v3.1.1]](#manual-download)**
 - **[Manual Download [All Features]](#manual-download-all-features)**
 
-v3.0.0 contains all functionality except for the settings modal which allows you to customize your right-click menu and which features you would like to enable/disable. This is because Apple Security requires notarization so it blocks certain API features (settings modal) unless I pay them. This is also why manual installation prompts so many privacy and security flags.
+v3.1.1 contains all functionality except for the settings modal which allows you to customize your right-click menu and which features you would like to enable/disable. This is because Apple Security requires notarization so it blocks certain API features (settings modal) unless I pay them. This is also why manual installation prompts so many privacy and security flags.
 
 If you would like the full version of this app, then click the link to manually download all features, which requires a few extra steps but are not difficult and is the only workaround I can think of.
 
