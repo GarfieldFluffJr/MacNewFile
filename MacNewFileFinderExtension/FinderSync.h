@@ -9,7 +9,7 @@
 #import <FinderSync/FinderSync.h>
 
 @interface FinderSync : FIFinderSync {
-    dispatch_source_t _volumeMonitorSource;
+    dispatch_source_t _volumeTimerSource;
 }
 
 @end

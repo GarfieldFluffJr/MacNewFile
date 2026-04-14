@@ -18,26 +18,32 @@
     // Note: iCloud Drive is not supported due to macOS Sonoma+ limitations
     [self updateDirectoryURLs];
 
-    // Watch /Volumes for changes (USB plug/eject) using GCD
-    // NSWorkspace notifications aren't reliable in Finder Sync extensions
-    int fd = open("/Volumes", O_EVTONLY);
-    if (fd >= 0) {
-        _volumeMonitorSource = dispatch_source_create(
-            DISPATCH_SOURCE_TYPE_VNODE, fd,
-            DISPATCH_VNODE_WRITE | DISPATCH_VNODE_LINK,
-            dispatch_get_main_queue());
+    // Poll for volume changes every 3 seconds
+    // Neither NSWorkspace notifications nor GCD vnode watchers reliably
+    // detect volume mounts in Finder Sync extensions
+    _volumeTimerSource = dispatch_source_create(
+        DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
+
+    if (_volumeTimerSource) {
+        dispatch_source_set_timer(_volumeTimerSource,
+            dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC),
+            3 * NSEC_PER_SEC, 1 * NSEC_PER_SEC);
 
         __weak typeof(self) weakSelf = self;
-        dispatch_source_set_event_handler(_volumeMonitorSource, ^{
+        dispatch_source_set_event_handler(_volumeTimerSource, ^{
             [weakSelf updateDirectoryURLs];
         });
-        dispatch_source_set_cancel_handler(_volumeMonitorSource, ^{
-            close(fd);
-        });
-        dispatch_resume(_volumeMonitorSource);
+        dispatch_resume(_volumeTimerSource);
     }
 
     return self;
+}
+
+- (void)dealloc {
+    if (_volumeTimerSource) {
+        dispatch_source_cancel(_volumeTimerSource);
+        _volumeTimerSource = nil;
+    }
 }
 
 - (void)updateDirectoryURLs {
@@ -247,7 +253,7 @@
         "echo '<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><Types xmlns=\\\"http://schemas.openxmlformats.org/package/2006/content-types\\\"><Default Extension=\\\"rels\\\" ContentType=\\\"application/vnd.openxmlformats-package.relationships+xml\\\"/><Default Extension=\\\"xml\\\" ContentType=\\\"application/xml\\\"/><Override PartName=\\\"/word/document.xml\\\" ContentType=\\\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\\\"/><Override PartName=\\\"/word/styles.xml\\\" ContentType=\\\"application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml\\\"/></Types>' > \\\"$TMPDIR/[Content_Types].xml\\\" && "
         "echo '<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><Relationships xmlns=\\\"http://schemas.openxmlformats.org/package/2006/relationships\\\"><Relationship Id=\\\"rId1\\\" Type=\\\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\\\" Target=\\\"word/document.xml\\\"/></Relationships>' > \\\"$TMPDIR/_rels/.rels\\\" && "
         "echo '<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><Relationships xmlns=\\\"http://schemas.openxmlformats.org/package/2006/relationships\\\"><Relationship Id=\\\"rId1\\\" Type=\\\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles\\\" Target=\\\"styles.xml\\\"/></Relationships>' > \\\"$TMPDIR/word/_rels/document.xml.rels\\\" && "
-        "echo '<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><w:styles xmlns:w=\\\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\\\"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii=\\\"Calibri\\\" w:hAnsi=\\\"Calibri\\\" w:cs=\\\"Calibri\\\"/><w:sz w:val=\\\"22\\\"/><w:szCs w:val=\\\"22\\\"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after=\\\"0\\\" w:line=\\\"240\\\" w:lineRule=\\\"auto\\\"/></w:pPr></w:pPrDefault></w:docDefaults><w:style w:type=\\\"paragraph\\\" w:default=\\\"1\\\" w:styleId=\\\"Normal\\\"><w:name w:val=\\\"Normal\\\"/><w:rPr><w:rFonts w:ascii=\\\"Calibri\\\" w:hAnsi=\\\"Calibri\\\" w:cs=\\\"Calibri\\\"/><w:sz w:val=\\\"22\\\"/><w:szCs w:val=\\\"22\\\"/></w:rPr></w:style></w:styles>' > \\\"$TMPDIR/word/styles.xml\\\" && "
+        "echo '<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><w:styles xmlns:w=\\\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\\\"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii=\\\"Calibri\\\" w:hAnsi=\\\"Calibri\\\" w:cs=\\\"Calibri\\\"/><w:sz w:val=\\\"22\\\"/><w:szCs w:val=\\\"22\\\"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after=\\\"0\\\" w:line=\\\"276\\\" w:lineRule=\\\"auto\\\"/></w:pPr></w:pPrDefault></w:docDefaults><w:style w:type=\\\"paragraph\\\" w:default=\\\"1\\\" w:styleId=\\\"Normal\\\"><w:name w:val=\\\"Normal\\\"/><w:rPr><w:rFonts w:ascii=\\\"Calibri\\\" w:hAnsi=\\\"Calibri\\\" w:cs=\\\"Calibri\\\"/><w:sz w:val=\\\"22\\\"/><w:szCs w:val=\\\"22\\\"/></w:rPr></w:style></w:styles>' > \\\"$TMPDIR/word/styles.xml\\\" && "
         "echo '<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><w:document xmlns:w=\\\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\\\"><w:body><w:p><w:r><w:t></w:t></w:r></w:p></w:body></w:document>' > \\\"$TMPDIR/word/document.xml\\\" && "
         "cd \\\"$TMPDIR\\\" && zip -r '%@' . && "
         "rm -rf \\\"$TMPDIR\\\""
