@@ -57,6 +57,12 @@
         [urls addObject:volumeURL];
     }
 
+    // Add CloudStorage directory for cloud providers (OneDrive, etc.)
+    NSString *cloudStoragePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/CloudStorage"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:cloudStoragePath]) {
+        [urls addObject:[NSURL fileURLWithPath:cloudStoragePath]];
+    }
+
     [FIFinderSyncController defaultController].directoryURLs = urls;
 }
 
