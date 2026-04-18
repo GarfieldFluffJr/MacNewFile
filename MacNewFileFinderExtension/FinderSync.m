@@ -27,6 +27,109 @@ static NSString * const kFeatureOpenTerminal = @"feature_open_terminal";
 
 @implementation FinderSync
 
+/// Finder draws menu icons in its own process; multi-appearance `NSImage`s from the asset catalog
+/// can resolve incorrectly. Draw the catalog image under the target system appearance and keep a
+/// single bitmap representation so light/dark assets always match Settings ▸ Appearance.
++ (NSImage *)singleLayerMenuImageFromCatalogImage:(NSImage *)image {
+    if (!image) {
+        return nil;
+    }
+    NSSize size = image.size;
+    if (size.width <= 0 || size.height <= 0) {
+        return image;
+    }
+
+    CGFloat scale = 2.0;
+    NSScreen *screen = [NSScreen mainScreen];
+    if (screen) {
+        scale = screen.backingScaleFactor;
+    }
+
+    NSInteger pixelW = (NSInteger)ceil(size.width * scale);
+    NSInteger pixelH = (NSInteger)ceil(size.height * scale);
+    if (pixelW < 1) {
+        pixelW = 1;
+    }
+    if (pixelH < 1) {
+        pixelH = 1;
+    }
+
+    NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
+                                                                    pixelsWide:pixelW
+                                                                    pixelsHigh:pixelH
+                                                                 bitsPerSample:8
+                                                               samplesPerPixel:4
+                                                                      hasAlpha:YES
+                                                                      isPlanar:NO
+                                                                colorSpaceName:NSCalibratedRGBColorSpace
+                                                                   bytesPerRow:pixelW * 4
+                                                                  bitsPerPixel:32];
+    rep.size = size;
+
+    NSGraphicsContext *ctx = [NSGraphicsContext graphicsContextWithBitmapImageRep:rep];
+    ctx.imageInterpolation = NSImageInterpolationHigh;
+    [NSGraphicsContext saveGraphicsState];
+    [NSGraphicsContext setCurrentContext:ctx];
+    CGContextRef cg = ctx.CGContext;
+    if (cg) {
+        CGContextClearRect(cg, CGRectMake(0, 0, pixelW, pixelH));
+    }
+    [image drawInRect:NSMakeRect(0, 0, size.width, size.height)
+             fromRect:NSZeroRect
+            operation:NSCompositingOperationSourceOver
+             fraction:1.0
+       respectFlipped:NO
+                hints:nil];
+    [NSGraphicsContext restoreGraphicsState];
+
+    NSImage *flat = [[NSImage alloc] initWithSize:size];
+    [flat addRepresentation:rep];
+    return flat;
+}
+
+/// Finder Sync runs in an XPC process; `NSAppearance` here often does not match the Finder window.
+/// Menu images are handed to Finder and may be flattened, so asset-catalog dark/light must be
+/// resolved explicitly using the user's system appearance.
+- (BOOL)systemAppearanceIsDark {
+    id style = [[[NSUserDefaults standardUserDefaults] persistentDomainForName:NSGlobalDomain] objectForKey:@"AppleInterfaceStyle"];
+    if ([style isKindOfClass:[NSString class]] && [(NSString *)style length] > 0) {
+        return [(NSString *)style caseInsensitiveCompare:@"Dark"] == NSOrderedSame;
+    }
+    if (@available(macOS 10.14, *)) {
+        NSAppearance *app = NSApp.effectiveAppearance;
+        if (app) {
+            NSAppearanceName match = [app bestMatchFromAppearancesWithNames:@[NSAppearanceNameAqua, NSAppearanceNameDarkAqua]];
+            return [match isEqualToString:NSAppearanceNameDarkAqua];
+        }
+    }
+    return NO;
+}
+
+- (NSImage *)contextMenuImageNamed:(NSString *)name {
+    NSBundle *bundle = [NSBundle bundleForClass:[FinderSync class]];
+    NSImage *catalog = [bundle imageForResource:name];
+    if (!catalog) {
+        catalog = [NSImage imageNamed:name];
+    }
+    if (!catalog) {
+        return nil;
+    }
+
+    BOOL dark = [self systemAppearanceIsDark];
+    if (@available(macOS 10.14, *)) {
+        NSAppearanceName appearanceName = dark ? NSAppearanceNameDarkAqua : NSAppearanceNameAqua;
+        NSAppearance *appearance = [NSAppearance appearanceNamed:appearanceName];
+        if (appearance) {
+            __block NSImage *flat = nil;
+            [appearance performAsCurrentDrawingAppearance:^{
+                flat = [FinderSync singleLayerMenuImageFromCatalogImage:catalog];
+            }];
+            return flat ?: catalog;
+        }
+    }
+    return catalog;
+}
+
 - (instancetype)init {
     self = [super init];
 
@@ -84,18 +187,14 @@ static NSString * const kFeatureOpenTerminal = @"feature_open_terminal";
     // Add "Copy Path" menu item (if enabled)
     if ([self isFeatureEnabled:kFeatureCopyPath]) {
         NSMenuItem *copyPathItem = [[NSMenuItem alloc] initWithTitle:@"Copy Path" action:@selector(copyPathToClipboard:) keyEquivalent:@""];
-        NSImage *copyIcon = [NSImage imageNamed:@"copy"];
-        copyIcon.template = YES;
-        copyPathItem.image = copyIcon;
+        copyPathItem.image = [self contextMenuImageNamed:@"copy"];
         [menu addItem:copyPathItem];
     }
 
     // Add "Open Terminal" menu item (if enabled)
     if ([self isFeatureEnabled:kFeatureOpenTerminal]) {
         NSMenuItem *openTerminalItem = [[NSMenuItem alloc] initWithTitle:@"Open New Terminal" action:@selector(openTerminalAtPath:) keyEquivalent:@""];
-        NSImage *terminalIcon = [NSImage imageNamed:@"terminal"];
-        terminalIcon.template = YES;
-        openTerminalItem.image = terminalIcon;
+        openTerminalItem.image = [self contextMenuImageNamed:@"terminal"];
         [menu addItem:openTerminalItem];
     }
 
@@ -105,72 +204,56 @@ static NSString * const kFeatureOpenTerminal = @"feature_open_terminal";
     // Add "New Text File" to submenu (if enabled)
     if ([self isFeatureEnabled:kFeatureTextFile]) {
         NSMenuItem *newTextItem = [[NSMenuItem alloc] initWithTitle:@"Text File" action:@selector(createNewTextFile:) keyEquivalent:@""];
-        NSImage *textIcon = [NSImage imageNamed:@"edit"];
-        textIcon.template = YES;
-        newTextItem.image = textIcon;
+        newTextItem.image = [self contextMenuImageNamed:@"edit"];
         [submenu addItem:newTextItem];
     }
 
     // Add "New Markdown File" to submenu (if enabled)
     if ([self isFeatureEnabled:kFeatureMarkdownFile]) {
         NSMenuItem *newMarkdownItem = [[NSMenuItem alloc] initWithTitle:@"Markdown File" action:@selector(createNewMarkdownFile:) keyEquivalent:@""];
-        NSImage *markdownIcon = [NSImage imageNamed:@"document"];
-        markdownIcon.template = YES;
-        newMarkdownItem.image = markdownIcon;
+        newMarkdownItem.image = [self contextMenuImageNamed:@"document"];
         [submenu addItem:newMarkdownItem];
     }
 
     // Add "New Microsoft Word Document" to submenu (if enabled)
     if ([self isFeatureEnabled:kFeatureWordDocument]) {
         NSMenuItem *newWordItem = [[NSMenuItem alloc] initWithTitle:@"Microsoft Word Document" action:@selector(createNewWordDocument:) keyEquivalent:@""];
-        NSImage *wordIcon = [NSImage imageNamed:@"word"];
-        wordIcon.template = YES;
-        newWordItem.image = wordIcon;
+        newWordItem.image = [self contextMenuImageNamed:@"word"];
         [submenu addItem:newWordItem];
     }
 
     // Add "New Microsoft Excel Spreadsheet" to submenu (if enabled)
     if ([self isFeatureEnabled:kFeatureExcelSpreadsheet]) {
         NSMenuItem *newExcelItem = [[NSMenuItem alloc] initWithTitle:@"Microsoft Excel Spreadsheet" action:@selector(createNewExcelDocument:) keyEquivalent:@""];
-        NSImage *excelIcon = [NSImage imageNamed:@"excel"];
-        excelIcon.template = YES;
-        newExcelItem.image = excelIcon;
+        newExcelItem.image = [self contextMenuImageNamed:@"excel"];
         [submenu addItem:newExcelItem];
     }
 
     // Add "New Microsoft PowerPoint Presentation" to submenu (if enabled)
     if ([self isFeatureEnabled:kFeaturePowerPointPresentation]) {
         NSMenuItem *newPowerPointItem = [[NSMenuItem alloc] initWithTitle:@"Microsoft PowerPoint Presentation" action:@selector(createNewPowerPointDocument:) keyEquivalent:@""];
-        NSImage *powerPointIcon = [NSImage imageNamed:@"powerpoint"];
-        powerPointIcon.template = YES;
-        newPowerPointItem.image = powerPointIcon;
+        newPowerPointItem.image = [self contextMenuImageNamed:@"powerpoint"];
         [submenu addItem:newPowerPointItem];
     }
 
     // Add "New Pages Document" to submenu (if enabled)
     if ([self isFeatureEnabled:kFeaturePagesDocument]) {
         NSMenuItem *newPagesItem = [[NSMenuItem alloc] initWithTitle:@"Pages Document" action:@selector(createNewPagesDocument:) keyEquivalent:@""];
-        NSImage *pagesIcon = [NSImage imageNamed:@"pages"];
-        pagesIcon.template = YES;
-        newPagesItem.image = pagesIcon;
+        newPagesItem.image = [self contextMenuImageNamed:@"pages"];
         [submenu addItem:newPagesItem];
     }
 
     // Add "New Numbers Spreadsheet" to submenu (if enabled)
     if ([self isFeatureEnabled:kFeatureNumbersSpreadsheet]) {
         NSMenuItem *newNumbersItem = [[NSMenuItem alloc] initWithTitle:@"Numbers Spreadsheet" action:@selector(createNewNumbersDocument:) keyEquivalent:@""];
-        NSImage *numbersIcon = [NSImage imageNamed:@"numbers"];
-        numbersIcon.template = YES;
-        newNumbersItem.image = numbersIcon;
+        newNumbersItem.image = [self contextMenuImageNamed:@"numbers"];
         [submenu addItem:newNumbersItem];
     }
 
     // Add "New Keynote Presentation" to submenu (if enabled)
     if ([self isFeatureEnabled:kFeatureKeynotePresentation]) {
         NSMenuItem *newKeynoteItem = [[NSMenuItem alloc] initWithTitle:@"Keynote Presentation" action:@selector(createNewKeynoteDocument:) keyEquivalent:@""];
-        NSImage *keynoteIcon = [NSImage imageNamed:@"keynote"];
-        keynoteIcon.template = YES;
-        newKeynoteItem.image = keynoteIcon;
+        newKeynoteItem.image = [self contextMenuImageNamed:@"keynote"];
         [submenu addItem:newKeynoteItem];
     }
 
@@ -183,8 +266,7 @@ static NSString * const kFeatureOpenTerminal = @"feature_open_terminal";
         [menu addItem:newItem];
     } else if (submenu.numberOfItems > 1) {
         NSMenuItem *mainItem = [[NSMenuItem alloc] initWithTitle:@"New File" action:nil keyEquivalent:@""];
-        NSImage *mainIcon = [NSImage imageNamed:@"add"];
-        mainItem.image = mainIcon;
+        mainItem.image = [self contextMenuImageNamed:@"add"];
         mainItem.submenu = submenu;
         [menu addItem:mainItem];
     }
