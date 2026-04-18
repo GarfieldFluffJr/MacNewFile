@@ -8,7 +8,7 @@
 #import "AppDelegate.h"
 #import <ServiceManagement/ServiceManagement.h>
 
-static NSString * const kAppGroupIdentifier = @"group.com.louieyin.MacNewFile";
+static NSString * const kAppGroupIdentifier = @"group.com.johli.MacNewFile";
 
 // Feature keys for UserDefaults
 static NSString * const kFeatureCopyPath = @"feature_copy_path";
@@ -237,7 +237,7 @@ static NSString * const kFeatureOpenTerminal = @"feature_open_terminal";
         @"-e",
         enabled ? @"use" : @"ignore",
         @"-i",
-        @"com.louieyin.MacNewFile.MacNewFileFinderExtension"
+        @"com.johli.MacNewFile.MacNewFileFinderExtension"
     ];
     [task launch];
     [task waitUntilExit];
