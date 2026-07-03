@@ -1,0 +1,30 @@
+/* 
+  Localizable.strings
+  MacNewFile
+
+  Created by Andrea Lombardo on 06/03/26.
+  
+*/
+
+
+/* Toolbar */
+"MacNewFileFinderExtension: Click the toolbar item for a menu." = "Новый файл: Нажмите на пункт панели инструментов, чтобы открыть меню.";
+
+/* Menu Items */
+"Copy Path" = "Скопировать путь";
+"Open New Terminal" = "Открыть в Терминале";
+"New File" = "Новый файл";
+"Text File" = "Текстовый файл";
+"Markdown File" = "Markdown файл";
+"Microsoft Word Document" = "Документ Microsoft Word";
+"Microsoft Excel Spreadsheet" = "Таблица Microsoft Excel";
+"Microsoft PowerPoint Presentation" = "Презентация Microsoft PowerPoint";
+"Pages Document" = "Документ Pages";
+"Numbers Spreadsheet" = "Таблица Numbers";
+"Keynote Presentation" = "Презентация Keynote";
+
+/* File Names */
+"Untitled" = "Без названия";
+
+/* Errors */
+"Failed to open Terminal" = "Не удалось открыть терминал";
