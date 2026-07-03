@@ -21,6 +21,9 @@ static NSString * const kFeaturePagesDocument = @"feature_pages_document";
 static NSString * const kFeatureNumbersSpreadsheet = @"feature_numbers_spreadsheet";
 static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presentation";
 static NSString * const kFeatureOpenTerminal = @"feature_open_terminal";
+static NSString * const kFeatureJsonFile = @"feature_json_file";
+static NSString * const kFeatureCSharpFile = @"feature_csharp_file";
+static NSString * const kFeatureTypeScriptFile = @"feature_typescript_file";
 
 @interface AppDelegate ()
 @property (strong) NSStatusItem *statusItem;
@@ -170,6 +173,9 @@ static NSString * const kFeatureOpenTerminal = @"feature_open_terminal";
         @{@"name": @"Numbers Spreadsheet", @"key": kFeatureNumbersSpreadsheet},
         @{@"name": @"Microsoft PowerPoint Presentation", @"key": kFeaturePowerPointPresentation},
         @{@"name": @"Keynote Presentation", @"key": kFeatureKeynotePresentation},
+        @{@"name": @"JSON File", @"key": kFeatureJsonFile},
+        @{@"name": @"C# File", @"key": kFeatureCSharpFile},
+        @{@"name": @"TypeScript File", @"key": kFeatureTypeScriptFile},
     ];
 
     currentY -= 15;
