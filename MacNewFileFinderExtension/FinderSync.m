@@ -20,6 +20,9 @@ static NSString * const kFeaturePagesDocument = @"feature_pages_document";
 static NSString * const kFeatureNumbersSpreadsheet = @"feature_numbers_spreadsheet";
 static NSString * const kFeatureKeynotePresentation = @"feature_keynote_presentation";
 static NSString * const kFeatureOpenTerminal = @"feature_open_terminal";
+static NSString * const kFeatureJsonFile = @"feature_json_file";
+static NSString * const kFeatureCSharpFile = @"feature_csharp_file";
+static NSString * const kFeatureTypeScriptFile = @"feature_typescript_file";
 
 @interface FinderSync ()
 @property (strong) NSUserDefaults *sharedDefaults;
@@ -172,6 +175,33 @@ static NSString * const kFeatureOpenTerminal = @"feature_open_terminal";
         keynoteIcon.template = YES;
         newKeynoteItem.image = keynoteIcon;
         [submenu addItem:newKeynoteItem];
+    }
+
+    // Add "New JSON File" to submenu (if enabled)
+    if ([self isFeatureEnabled:kFeatureJsonFile]) {
+        NSMenuItem *newJsonItem = [[NSMenuItem alloc] initWithTitle:@"JSON File" action:@selector(createNewJsonFile:) keyEquivalent:@""];
+        NSImage *jsonIcon = [NSImage imageNamed:@"document"];
+        jsonIcon.template = YES;
+        newJsonItem.image = jsonIcon;
+        [submenu addItem:newJsonItem];
+    }
+
+    // Add "New C# File" to submenu (if enabled)
+    if ([self isFeatureEnabled:kFeatureCSharpFile]) {
+        NSMenuItem *newCSharpItem = [[NSMenuItem alloc] initWithTitle:@"C# File" action:@selector(createNewCSharpFile:) keyEquivalent:@""];
+        NSImage *cSharpIcon = [NSImage imageNamed:@"document"];
+        cSharpIcon.template = YES;
+        newCSharpItem.image = cSharpIcon;
+        [submenu addItem:newCSharpItem];
+    }
+
+    // Add "New TypeScript File" to submenu (if enabled)
+    if ([self isFeatureEnabled:kFeatureTypeScriptFile]) {
+        NSMenuItem *newTypeScriptItem = [[NSMenuItem alloc] initWithTitle:@"TypeScript File" action:@selector(createNewTypeScriptFile:) keyEquivalent:@""];
+        NSImage *typeScriptIcon = [NSImage imageNamed:@"document"];
+        typeScriptIcon.template = YES;
+        newTypeScriptItem.image = typeScriptIcon;
+        [submenu addItem:newTypeScriptItem];
     }
 
     // If only 1 file type enabled, show it directly instead of a submenu
@@ -561,6 +591,21 @@ static NSString * const kFeatureOpenTerminal = @"feature_open_terminal";
 // Function to create new Markdown file
 - (void)createNewMarkdownFile:(id)sender {
     [self createFileWithExtension:@"md"];
+}
+
+// Function to create new JSON file
+- (void)createNewJsonFile:(id)sender {
+    [self createFileWithExtension:@"json"];
+}
+
+// Function to create new C# file
+- (void)createNewCSharpFile:(id)sender {
+    [self createFileWithExtension:@"cs"];
+}
+
+// Function to create new TypeScript file
+- (void)createNewTypeScriptFile:(id)sender {
+    [self createFileWithExtension:@"ts"];
 }
 
 // Helper function to create empty files
