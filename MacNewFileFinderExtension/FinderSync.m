@@ -204,8 +204,14 @@ static NSString * const kFeatureTypeScriptFile = @"feature_typescript_file";
         [submenu addItem:newTypeScriptItem];
     }
 
-    // Only add "New File" menu if there are items in the submenu
-    if (submenu.numberOfItems > 0) {
+    // If only 1 file type enabled, show it directly instead of a submenu
+    if (submenu.numberOfItems == 1) {
+        NSMenuItem *original = submenu.itemArray[0];
+        NSString *title = [@"New " stringByAppendingString:original.title];
+        NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:title action:original.action keyEquivalent:@""];
+        newItem.image = original.image;
+        [menu addItem:newItem];
+    } else if (submenu.numberOfItems > 1) {
         NSMenuItem *mainItem = [[NSMenuItem alloc] initWithTitle:@"New File" action:nil keyEquivalent:@""];
         NSImage *mainIcon = [NSImage imageNamed:@"add"];
         mainItem.image = mainIcon;
