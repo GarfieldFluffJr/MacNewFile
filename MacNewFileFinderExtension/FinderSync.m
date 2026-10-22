@@ -7,6 +7,12 @@
 
 #import "FinderSync.h"
 
+@interface FinderSync ()
+- (FIMenuKind)menuKindForSender:(id)sender;
+- (BOOL)menuKindRepresentsSelection:(FIMenuKind)kind;
+- (NSArray<NSString *> *)pathsForMenuKind:(FIMenuKind)kind;
+@end
+
 @implementation FinderSync
 
 - (instancetype)init {
@@ -92,8 +98,16 @@
 - (NSMenu *)menuForMenuKind:(FIMenuKind)whichMenu {
     NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
 
+    // The menu kind is stashed on each item so the actions can tell whether
+    // they were invoked on selected items or on the container background.
+    // tag is biased by one because 0 is NSMenuItem's default tag.
+    NSNumber *menuKind = @(whichMenu);
+    NSInteger menuKindTag = (NSInteger)whichMenu + 1;
+
     // Add "Copy Path" menu item
     NSMenuItem *copyPathItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Copy Path", nil) action:@selector(copyPathToClipboard:) keyEquivalent:@""];
+    copyPathItem.representedObject = menuKind;
+    copyPathItem.tag = menuKindTag;
     NSImage *copyIcon = [NSImage imageNamed:@"copy"];
     copyIcon.template = YES;
     copyPathItem.image = copyIcon;
@@ -101,6 +115,8 @@
 
     // Add "Open Terminal" menu item
     NSMenuItem *openTerminalItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open New Terminal", nil) action:@selector(openTerminalAtPath:) keyEquivalent:@""];
+    openTerminalItem.representedObject = menuKind;
+    openTerminalItem.tag = menuKindTag;
     NSImage *terminalIcon = [NSImage imageNamed:@"terminal"];
     terminalIcon.template = YES;
     openTerminalItem.image = terminalIcon;
@@ -175,26 +191,74 @@
     return menu;
 }
 
-// Function to copy current directory path to clipboard
-- (void)copyPathToClipboard:(id)sender {
-    NSURL *targetURL = [[FIFinderSyncController defaultController] targetedURL];
-
-    if (!targetURL) {
-        NSLog(@"No target URL");
-        return;
+- (FIMenuKind)menuKindForSender:(id)sender {
+    if ([sender isKindOfClass:[NSMenuItem class]]) {
+        NSMenuItem *item = (NSMenuItem *)sender;
+        id represented = item.representedObject;
+        if ([represented isKindOfClass:[NSNumber class]]) {
+            return (FIMenuKind)[represented unsignedIntegerValue];
+        }
+        // representedObject is not always preserved by the Finder host
+        if (item.tag > 0) {
+            return (FIMenuKind)(item.tag - 1);
+        }
     }
-
-    NSString *path = targetURL.path;
-    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
-    [pasteboard clearContents];
-    [pasteboard setString:path forType:NSPasteboardTypeString];
-
-    NSLog(@"Copied path to clipboard: %@", path);
+    return FIMenuKindContextualMenuForContainer;
 }
 
-// Function to open Terminal at current directory
+// Whether the menu was opened on something the user selected, as opposed to
+// the folder background or the toolbar button
+- (BOOL)menuKindRepresentsSelection:(FIMenuKind)kind {
+    return kind == FIMenuKindContextualMenuForItems ||
+           kind == FIMenuKindContextualMenuForSidebar;
+}
+
+// Paths to copy: the selected items when the menu was opened on a selection,
+// otherwise the folder the menu was opened in. Empty selection arrays are
+// ignored so a stale selection never leaks into a container-level menu.
+- (NSArray<NSString *> *)pathsForMenuKind:(FIMenuKind)kind {
+    FIFinderSyncController *controller = [FIFinderSyncController defaultController];
+
+    if ([self menuKindRepresentsSelection:kind]) {
+        NSArray<NSURL *> *selectedURLs = [controller selectedItemURLs];
+        NSMutableArray<NSString *> *paths = [NSMutableArray array];
+        for (NSURL *url in selectedURLs) {
+            if (url.path.length > 0) {
+                [paths addObject:url.path];
+            }
+        }
+        if (paths.count > 0) {
+            return paths;
+        }
+    }
+
+    NSString *targetPath = [controller targetedURL].path;
+    return targetPath.length > 0 ? @[targetPath] : @[];
+}
+
+// Function to copy selected item paths, or the current directory when
+// the menu was opened on the folder background
+- (void)copyPathToClipboard:(id)sender {
+    NSArray<NSString *> *paths = [self pathsForMenuKind:[self menuKindForSender:sender]];
+
+    if (paths.count == 0) {
+        NSLog(@"Copy Path: no target path available");
+        return;
+    }
+
+    NSString *clipboardText = [paths componentsJoinedByString:@"\n"];
+    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+    [pasteboard clearContents];
+    [pasteboard setString:clipboardText forType:NSPasteboardTypeString];
+
+    NSLog(@"Copied path to clipboard: %@", clipboardText);
+}
+
+// Function to open Terminal at the selected folder, or at the folder the menu
+// was opened in. For a selection of files this is their parent directory.
 - (void)openTerminalAtPath:(id)sender {
-    NSURL *targetURL = [[FIFinderSyncController defaultController] targetedURL];
+    FIFinderSyncController *controller = [FIFinderSyncController defaultController];
+    NSURL *targetURL = [controller targetedURL];
 
     if (!targetURL) {
         NSLog(@"No target URL");
@@ -202,6 +266,24 @@
     }
 
     NSString *path = targetURL.path;
+
+    // A single selected folder should open in that folder, not its parent
+    if ([self menuKindRepresentsSelection:[self menuKindForSender:sender]]) {
+        NSArray<NSURL *> *selectedURLs = [controller selectedItemURLs];
+        if (selectedURLs.count == 1) {
+            NSURL *selectedURL = selectedURLs.firstObject;
+            NSNumber *isDirectory = nil;
+            if ([selectedURL getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:NULL] &&
+                isDirectory.boolValue) {
+                path = selectedURL.path;
+            }
+        }
+    }
+
+    if (path.length == 0) {
+        NSLog(@"No target URL");
+        return;
+    }
     NSString *escapedPath = [path stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"];
 
     NSString *scriptSource = [NSString stringWithFormat:

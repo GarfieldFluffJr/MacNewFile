@@ -1,0 +1,26 @@
+/*
+  Localizable.strings
+  MacNewFileFinderExtension (Simplified Chinese)
+*/
+
+/* Toolbar */
+"MacNewFileFinderExtension: Click the toolbar item for a menu." = "新建文件：点击工具栏按钮打开菜单。";
+
+/* Menu Items */
+"Copy Path" = "复制路径";
+"Open New Terminal" = "在终端中打开";
+"New File" = "新建文件";
+"Text File" = "文本文件";
+"Markdown File" = "Markdown 文件";
+"Microsoft Word Document" = "Microsoft Word 文档";
+"Microsoft Excel Spreadsheet" = "Microsoft Excel 表格";
+"Microsoft PowerPoint Presentation" = "Microsoft PowerPoint 演示文稿";
+"Pages Document" = "Pages 文档";
+"Numbers Spreadsheet" = "Numbers 表格";
+"Keynote Presentation" = "Keynote 演示文稿";
+
+/* File Names */
+"Untitled" = "未命名";
+
+/* Errors */
+"Failed to open Terminal" = "无法打开终端";

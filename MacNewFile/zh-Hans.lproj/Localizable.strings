@@ -1,0 +1,9 @@
+/*
+  Localizable.strings
+  MacNewFile (Main App, Simplified Chinese)
+*/
+
+/* Menu Bar App */
+"NF" = "NF";
+"MacNewFile is running" = "MacNewFile 正在运行";
+"Quit" = "退出";
